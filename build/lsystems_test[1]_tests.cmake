@@ -1,0 +1,7 @@
+add_test([=[RewriteTest.TestEmptyInput]=]  /home/nil/Projects/lsystems/build/lsystems_test [==[--gtest_filter=RewriteTest.TestEmptyInput]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[RewriteTest.TestEmptyInput]=]  PROPERTIES DEF_SOURCE_LINE /home/nil/Projects/lsystems/test/rewrite_test.cpp:4 WORKING_DIRECTORY /home/nil/Projects/lsystems/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[RewriteTest.TestEmptyOutput]=]  /home/nil/Projects/lsystems/build/lsystems_test [==[--gtest_filter=RewriteTest.TestEmptyOutput]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[RewriteTest.TestEmptyOutput]=]  PROPERTIES DEF_SOURCE_LINE /home/nil/Projects/lsystems/test/rewrite_test.cpp:20 WORKING_DIRECTORY /home/nil/Projects/lsystems/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+add_test([=[RewriteTest.TestNormalFunctioning]=]  /home/nil/Projects/lsystems/build/lsystems_test [==[--gtest_filter=RewriteTest.TestNormalFunctioning]==] --gtest_also_run_disabled_tests)
+set_tests_properties([=[RewriteTest.TestNormalFunctioning]=]  PROPERTIES DEF_SOURCE_LINE /home/nil/Projects/lsystems/test/rewrite_test.cpp:27 WORKING_DIRECTORY /home/nil/Projects/lsystems/build SKIP_REGULAR_EXPRESSION [==[\[  SKIPPED \]]==])
+set(  lsystems_test_TESTS RewriteTest.TestEmptyInput RewriteTest.TestEmptyOutput RewriteTest.TestNormalFunctioning)

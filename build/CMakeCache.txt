@@ -19,6 +19,9 @@ BUILD_EXAMPLES:BOOL=FALSE
 
 BUILD_GAMES:BOOL=FALSE
 
+//Builds the googlemock subproject
+BUILD_GMOCK:BOOL=ON
+
 //Build shared libraries
 BUILD_SHARED_LIBS:BOOL=OFF
 
@@ -370,8 +373,16 @@ GLFW_LIBRARY_TYPE:STRING=OBJECT
 //Value Computed by CMake
 GLFW_SOURCE_DIR:STATIC=/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw
 
+//Use Abseil and RE2. Requires Abseil and RE2 to be separately
+// added to the build.
+GTEST_HAS_ABSL:BOOL=OFF
+
 //Include everything disabled by default (for CI usage)
 INCLUDE_EVERYTHING:BOOL=OFF
+
+//Enable installation of googletest. (Projects embedding googletest
+// may want to turn this OFF.)
+INSTALL_GTEST:BOOL=ON
 
 //Path to a library.
 MATH_LIBRARY:FILEPATH=/usr/lib64/libm.so
@@ -848,6 +859,52 @@ X11_xkbfile_INCLUDE_PATH:PATH=X11_xkbfile_INCLUDE_PATH-NOTFOUND
 X11_xkbfile_LIB:FILEPATH=X11_xkbfile_LIB-NOTFOUND
 
 //Value Computed by CMake
+gmock_BINARY_DIR:STATIC=/home/nil/Projects/lsystems/build/thirdparty/googletest-1.17.0/googlemock
+
+//Value Computed by CMake
+gmock_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+gmock_SOURCE_DIR:STATIC=/home/nil/Projects/lsystems/thirdparty/googletest-1.17.0/googlemock
+
+//Build all of Google Mock's own tests.
+gmock_build_tests:BOOL=OFF
+
+//Value Computed by CMake
+googletest-distribution_BINARY_DIR:STATIC=/home/nil/Projects/lsystems/build/thirdparty/googletest-1.17.0
+
+//Value Computed by CMake
+googletest-distribution_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+googletest-distribution_SOURCE_DIR:STATIC=/home/nil/Projects/lsystems/thirdparty/googletest-1.17.0
+
+//Value Computed by CMake
+gtest_BINARY_DIR:STATIC=/home/nil/Projects/lsystems/build/thirdparty/googletest-1.17.0/googletest
+
+//Value Computed by CMake
+gtest_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+gtest_SOURCE_DIR:STATIC=/home/nil/Projects/lsystems/thirdparty/googletest-1.17.0/googletest
+
+//Build gtest's sample programs.
+gtest_build_samples:BOOL=OFF
+
+//Build all of gtest's own tests.
+gtest_build_tests:BOOL=OFF
+
+//Disable uses of pthreads in gtest.
+gtest_disable_pthreads:BOOL=OFF
+
+//Use shared (DLL) run-time lib even when Google Test is built
+// as static lib.
+gtest_force_shared_crt:BOOL=ON
+
+//Build gtest with internal symbols hidden in shared libraries.
+gtest_hide_internal_symbols:BOOL=OFF
+
+//Value Computed by CMake
 lsystems_BINARY_DIR:STATIC=/home/nil/Projects/lsystems/build
 
 //Value Computed by CMake
@@ -1024,7 +1081,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=5
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=8
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -1459,7 +1516,22 @@ X11_xkbfile_LIB-ADVANCED:INTERNAL=1
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr/local
 __pkg_config_arguments_PKG_FONTCONFIG:INTERNAL=QUIET;fontconfig
 __pkg_config_checked_PKG_FONTCONFIG:INTERNAL=1
+cmake_package_name:INTERNAL=GTest
+generated_dir:INTERNAL=/home/nil/Projects/lsystems/build/thirdparty/googletest-1.17.0/googletest/generated
+//ADVANCED property for variable: gmock_build_tests
+gmock_build_tests-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: gtest_build_samples
+gtest_build_samples-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: gtest_build_tests
+gtest_build_tests-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: gtest_disable_pthreads
+gtest_disable_pthreads-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: gtest_force_shared_crt
+gtest_force_shared_crt-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: gtest_hide_internal_symbols
+gtest_hide_internal_symbols-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib_PKG_FONTCONFIG_fontconfig
 pkgcfg_lib_PKG_FONTCONFIG_fontconfig-ADVANCED:INTERNAL=1
 prefix_result:INTERNAL=/usr/lib64
+targets_export_name:INTERNAL=GTestTargets
 

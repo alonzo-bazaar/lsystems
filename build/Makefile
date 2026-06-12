@@ -85,6 +85,16 @@ package_source:
 package_source/fast: package_source
 .PHONY : package_source/fast
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
+	/usr/bin/ctest $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
@@ -107,7 +117,7 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target list_install_components
 list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\""
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"Unspecified\" \"gmock\" \"gtest\""
 .PHONY : list_install_components
 
 # Special rule for the target list_install_components
@@ -190,17 +200,30 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named lsystems
+# Target rules for targets named lsystems_main
 
 # Build rule for target.
-lsystems: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lsystems
-.PHONY : lsystems
+lsystems_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lsystems_main
+.PHONY : lsystems_main
 
 # fast build rule for target.
-lsystems/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems.dir/build.make CMakeFiles/lsystems.dir/build
-.PHONY : lsystems/fast
+lsystems_main/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/build
+.PHONY : lsystems_main/fast
+
+#=============================================================================
+# Target rules for targets named lsystems_test
+
+# Build rule for target.
+lsystems_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lsystems_test
+.PHONY : lsystems_test
+
+# fast build rule for target.
+lsystems_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/build
+.PHONY : lsystems_test/fast
 
 #=============================================================================
 # Target rules for targets named raylib
@@ -241,12 +264,64 @@ update_mappings/fast:
 	$(MAKE) $(MAKESILENT) -f thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build.make thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/update_mappings.dir/build
 .PHONY : update_mappings/fast
 
+#=============================================================================
+# Target rules for targets named gmock
+
+# Build rule for target.
+gmock: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock
+.PHONY : gmock
+
+# fast build rule for target.
+gmock/fast:
+	$(MAKE) $(MAKESILENT) -f thirdparty/googletest-1.17.0/googlemock/CMakeFiles/gmock.dir/build.make thirdparty/googletest-1.17.0/googlemock/CMakeFiles/gmock.dir/build
+.PHONY : gmock/fast
+
+#=============================================================================
+# Target rules for targets named gmock_main
+
+# Build rule for target.
+gmock_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gmock_main
+.PHONY : gmock_main
+
+# fast build rule for target.
+gmock_main/fast:
+	$(MAKE) $(MAKESILENT) -f thirdparty/googletest-1.17.0/googlemock/CMakeFiles/gmock_main.dir/build.make thirdparty/googletest-1.17.0/googlemock/CMakeFiles/gmock_main.dir/build
+.PHONY : gmock_main/fast
+
+#=============================================================================
+# Target rules for targets named gtest
+
+# Build rule for target.
+gtest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest
+.PHONY : gtest
+
+# fast build rule for target.
+gtest/fast:
+	$(MAKE) $(MAKESILENT) -f thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest.dir/build.make thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest.dir/build
+.PHONY : gtest/fast
+
+#=============================================================================
+# Target rules for targets named gtest_main
+
+# Build rule for target.
+gtest_main: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 gtest_main
+.PHONY : gtest_main
+
+# fast build rule for target.
+gtest_main/fast:
+	$(MAKE) $(MAKESILENT) -f thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest_main.dir/build.make thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest_main.dir/build
+.PHONY : gtest_main/fast
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems.dir/build.make CMakeFiles/lsystems.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -254,7 +329,7 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems.dir/build.make CMakeFiles/lsystems.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -262,8 +337,59 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems.dir/build.make CMakeFiles/lsystems.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/rewrite.o: src/rewrite.cpp.o
+.PHONY : src/rewrite.o
+
+# target to build an object file
+src/rewrite.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/rewrite.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/rewrite.cpp.o
+.PHONY : src/rewrite.cpp.o
+
+src/rewrite.i: src/rewrite.cpp.i
+.PHONY : src/rewrite.i
+
+# target to preprocess a source file
+src/rewrite.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/rewrite.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/rewrite.cpp.i
+.PHONY : src/rewrite.cpp.i
+
+src/rewrite.s: src/rewrite.cpp.s
+.PHONY : src/rewrite.s
+
+# target to generate assembly for a file
+src/rewrite.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/rewrite.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/rewrite.cpp.s
+.PHONY : src/rewrite.cpp.s
+
+test/rewrite_test.o: test/rewrite_test.cpp.o
+.PHONY : test/rewrite_test.o
+
+# target to build an object file
+test/rewrite_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/test/rewrite_test.cpp.o
+.PHONY : test/rewrite_test.cpp.o
+
+test/rewrite_test.i: test/rewrite_test.cpp.i
+.PHONY : test/rewrite_test.i
+
+# target to preprocess a source file
+test/rewrite_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/test/rewrite_test.cpp.i
+.PHONY : test/rewrite_test.cpp.i
+
+test/rewrite_test.s: test/rewrite_test.cpp.s
+.PHONY : test/rewrite_test.s
+
+# target to generate assembly for a file
+test/rewrite_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/test/rewrite_test.cpp.s
+.PHONY : test/rewrite_test.cpp.s
 
 # Help Target
 help:
@@ -280,13 +406,25 @@ help:
 	@echo "... package"
 	@echo "... package_source"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... update_mappings"
 	@echo "... glfw"
-	@echo "... lsystems"
+	@echo "... gmock"
+	@echo "... gmock_main"
+	@echo "... gtest"
+	@echo "... gtest_main"
+	@echo "... lsystems_main"
+	@echo "... lsystems_test"
 	@echo "... raylib"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/rewrite.o"
+	@echo "... src/rewrite.i"
+	@echo "... src/rewrite.s"
+	@echo "... test/rewrite_test.o"
+	@echo "... test/rewrite_test.i"
+	@echo "... test/rewrite_test.s"
 .PHONY : help
 
 

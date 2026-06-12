@@ -1,0 +1,27 @@
+{
+  "tests": 3,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "RewriteTest",
+      "tests": 3,
+      "testsuite": [
+        {
+          "name": "TestEmptyInput",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/rewrite_test.cpp",
+          "line": 4
+        },
+        {
+          "name": "TestEmptyOutput",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/rewrite_test.cpp",
+          "line": 20
+        },
+        {
+          "name": "TestNormalFunctioning",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/rewrite_test.cpp",
+          "line": 27
+        }
+      ]
+    }
+  ]
+}

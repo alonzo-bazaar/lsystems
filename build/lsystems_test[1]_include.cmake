@@ -1,0 +1,5 @@
+if(EXISTS "/home/nil/Projects/lsystems/build/lsystems_test[1]_tests.cmake")
+  include("/home/nil/Projects/lsystems/build/lsystems_test[1]_tests.cmake")
+else()
+  add_test(lsystems_test_NOT_BUILT lsystems_test_NOT_BUILT)
+endif()

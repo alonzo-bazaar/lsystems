@@ -3,9 +3,11 @@
 #include<stack>
 #include<cmath>
 #include<initializer_list>
+#include <iostream>
 
 #include "rewrite.hpp"
 #include "raylib.h"
+#include "raymath.h"
 
 class Matrix3 {
 public:
@@ -30,131 +32,130 @@ private:
 // per adesso disegnamo un affare 3d a merda sullo
 class Turtle {
 public:
-	Turtle(float angle, float stride, float thickness)
-		:angle(angle),stride(stride),thickness(thickness){}
-	void follow_string(const std::string& s) {
-		for(const char c : s) follow_char(c);
-	}
-	void reset() {
-		state_stack.clear();
-		current_state = (state){
-			.position = (Vector3){0, 0, 0},
-			.direction = (Vector3){0, 1, 0},
-		};
-	}
+    Turtle(float angle, float stride, float thickness)
+       : angle(angle), stride(stride), thickness(thickness) {
+        reset();
+    }
 
-	void log_state() {
-		float x = current_state.position.x;
-		float y = current_state.position.y;
-		float z = current_state.position.z;
+    void follow_string(const std::string& s) {
+       for(const char c : s) follow_char(c);
+    }
 
-		// h l u = heading, left, up
-		// h = x
-		// l = z
-		// u = y
-		// ho sminchiato l'interpretazione del sistema di
-		// coordinate dato nel paper
-		// per dindirindina (diocane)
-		float h = current_state.position.x;
-		float l = current_state.position.y;
-		float u = current_state.position.z;
-
-		std::cout<<
-			"Position :" << 
-	}
+    void reset() {
+       state_stack.clear();
+       // Stato iniziale standard per ABOP:
+       // H guarda verso l'alto (0, 1, 0), L guarda a sinistra (-1, 0, 0), U guarda in avanti (0, 0, 1)
+       // Oppure puoi usare la configurazione classica di Raylib:
+       current_state = (state){
+          .position = (Vector3){0, 0, 0},
+          .H = (Vector3){0, 1, 0},  // Heading (direzione di movimento)
+          .L = (Vector3){-1, 0, 0}, // Left
+          .U = (Vector3){0, 0, 1}   // Up
+       };
+    }
 
 private:
-	float angle;
-	float stride;
-	float thickness;
+    float angle;
+    float stride;
+    float thickness;
 
-	struct state {
-		Vector3 position;
-		Vector3 direction;
-	};
+    struct state {
+       Vector3 position;
+       Vector3 H; // Heading
+       Vector3 L; // Left
+       Vector3 U; // Up
+    };
 
-	state current_state = (state){
-		.position = (Vector3){0, 0, 0},
-		.direction = (Vector3){0, 1, 0},
-	};
+    state current_state;
+    std::vector<state> state_stack;
 
-	// vedi pagina 19 del pdf docs/book/abop-ch1.pdf
-	Vector3 rotate_u(Vector3 vec, float alpha) {
-		return Matrix3(+cos(alpha), +sin(alpha), 0,
-					   -sin(alpha), +cos(alpha), 0,
-					   0, 0, 1) * vec;
-	}
-	Vector3 rotate_l(Vector3 vec, float alpha) {
-		return Matrix3(+cos(alpha), 0, -sin(alpha),
-					   0, 1, 0,
-					   +sin(alpha), 0, +cos(alpha)) * vec;
-	}
-	Vector3 rotate_h(Vector3 vec, float alpha) {
-		return Matrix3(1, 0, 0,
-					   0, +cos(alpha), -sin(alpha),
-					   0, +sin(alpha), +cos(alpha)) * vec;
-	}
+    // Ruota i vettori attorno all'asse U (imbardata / yaw) di un angolo alpha
+    void rotate_u(float alpha) {
+        current_state.H = Vector3RotateByAxisAngle(current_state.H, current_state.U, alpha);
+        current_state.L = Vector3RotateByAxisAngle(current_state.L, current_state.U, alpha);
+    }
 
-	std::vector<state> state_stack;
-	void follow_char(const char c) {
-		switch(c) {
-		case '[':
-			state_stack.push_back(current_state);
-			break;
-		case ']':
-			current_state = state_stack.back();
-			state_stack.pop_back();
-			break;
-		case 'F':
-			DrawCube(current_state.position,
-					 thickness, thickness, thickness,
-					 RED);
-			current_state.position.x += current_state.direction.x;
-			current_state.position.y += current_state.direction.y;
-			current_state.position.z += current_state.direction.z;
-			(void)0;
-			break;
-		case 'f':
-			current_state.position.x += current_state.direction.x;
-			current_state.position.y += current_state.direction.y;
-			current_state.position.z += current_state.direction.z;
-			(void)0;
-			break;
+    // Ruota i vettori attorno all'asse L (beccheggio / pitch) di un angolo alpha
+    void rotate_l(float alpha) {
+        current_state.H = Vector3RotateByAxisAngle(current_state.H, current_state.L, alpha);
+        current_state.U = Vector3RotateByAxisAngle(current_state.U, current_state.L, alpha);
+    }
 
-		case '+':
-			current_state.direction = rotate_u(current_state.direction,
-											   angle);
-			break;
-		case '-':
-			current_state.direction = rotate_u(current_state.direction,
-											   -angle);
-			break;
-		case '&':
-			current_state.direction = rotate_l(current_state.direction,
-											   angle);
-			break;
-		case '^':
-			current_state.direction = rotate_l(current_state.direction,
-											   -angle);
-			break;
-		case '\\':
-			current_state.direction = rotate_h(current_state.direction,
-											   angle);
-			break;
-		case '/':
-			current_state.direction = rotate_h(current_state.direction,
-											   -angle);
-			break;
+    // Ruota i vettori attorno all'asse H (rollio / roll) di un angolo alpha
+    void rotate_h(float alpha) {
+        current_state.L = Vector3RotateByAxisAngle(current_state.L, current_state.H, alpha);
+        current_state.U = Vector3RotateByAxisAngle(current_state.U, current_state.H, alpha);
+    }
 
-		case '|':
-			current_state.direction = rotate_u(current_state.direction,
-											   PI);
-			break;
+    void follow_char(const char c) {
+       switch(c) {
+       case '[':
+          state_stack.push_back(current_state);
+          break;
+       case ']':
+          if (!state_stack.empty()) {
+              current_state = state_stack.back();
+              state_stack.pop_back();
+          }
+          break;
+       	case 'F': {
+       		// 1. Calcoliamo dove finirà la tartaruga dopo questo passo
+       		Vector3 next_position = Vector3Add(current_state.position, Vector3Scale(current_state.H, stride));
 
-		default:
-			break;
-		}
-	}
+       		// 2. Disegniamo un cilindro che unisce la posizione attuale a quella successiva
+       		float radius = thickness / 2.0f;
+       		DrawCylinderEx(
+				   current_state.position, // Inizio del ramo
+				   next_position,          // Fine del ramo
+				   radius,                 // Raggio alla base
+				   radius * 0.5f,                 // Raggio in cima (usa un valore minore se vuoi un ramo che si rimpicciolisce)
+				   8,                      // Lati del cilindro (più è alto, più è l'effetto è liscio)
+				   GREEN                   // Colore
+			   );
+
+       		// 3. Aggiorniamo la posizione della tartaruga facendola avanzare
+       		current_state.position = next_position;
+       		break;
+       	}
+
+       case 'f':
+          // Spostamento senza disegnare
+          current_state.position = Vector3Add(current_state.position, Vector3Scale(current_state.H, stride));
+          break;
+
+       // Rotazioni attorno all'asse U (Turn Left / Right)
+       case '+':
+          rotate_u(angle);
+          break;
+       case '-':
+          rotate_u(-angle);
+          break;
+
+       // Rotazioni attorno all'asse L (Pitch Down / Up)
+       case '&':
+          rotate_l(angle);
+          break;
+       case '^':
+          rotate_l(-angle);
+          break;
+
+       // Rotazioni attorno all'asse H (Roll Left / Right)
+       case '\\':
+          rotate_h(angle);
+          break;
+       case '/':
+          rotate_h(-angle);
+          break;
+
+       // Ruota di 180 gradi (indietro)
+       case '|':
+          rotate_u(PI);
+          break;
+
+       default:
+          break;
+       }
+    }
 };
 
 int main() {
@@ -167,9 +168,9 @@ int main() {
 	//  trovi gli esempi 3d)
 	// https://www.raylib.com/examples.html
 
-	InitWindow(640, 480, "Hello World");
+	InitWindow(640*2, 480*2, "Hello World");
 	Camera camera = { 0 };
-    camera.position = (Vector3){ 10.0f, 10.0f, 10.0f };
+    camera.position = (Vector3){ 10.0f, 0.0f, 0.0f };
     camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
     camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
@@ -179,7 +180,7 @@ int main() {
 
 	// Model cube = LoadModelFromMesh(GenMeshCube(2.0f, 2.0f, 2.0f));
 
-	Turtle t(PI/2, 0.1f, 0.1f);
+	Turtle t(PI/2, 0.1f, 0.05f);
 
 	// n=2, δ=90◦
 	std::string axiom = "A";
@@ -189,7 +190,7 @@ int main() {
 		{'C' ,"|D∧|F∧B-F+C∧F∧A&&FA&F∧C+F+B∧F∧D//"},
 		{'D' ,"|CFB-F+B|FA&F∧A&&FB-F+B|FC//"},
 	};
-	std::string tree = rewrite_times(2, axiom, transformations);
+	std::string tree = rewrite_times(3, axiom, transformations);
 
 	while(!WindowShouldClose()) {
 		UpdateCamera(&camera, CAMERA_FREE);

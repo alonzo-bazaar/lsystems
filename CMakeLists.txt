@@ -2,6 +2,7 @@
 # https://github.com/SasLuca/raylib-cmake-template
 cmake_minimum_required(VERSION 4.0)
 project(lsystems)
+
 set(CMAKE_BUILD_TYPE DEBUG)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -23,7 +24,6 @@ set(BUILD_GAMES    FALSE CACHE BOOL "" FORCE)
 set(RAYLIB_DIR "${CMAKE_CURRENT_LIST_DIR}/thirdparty/raylib-6.0")
 add_subdirectory(${RAYLIB_DIR})
 
-
 ### crea l'eseguibile lsystems
 #
 # sources = tutti i file che finiscono in .cpp presenti in in ./src
@@ -31,15 +31,12 @@ add_subdirectory(${RAYLIB_DIR})
 # tranne main.cpp
 # 
 # nella stringa alla fine della chiamata a file
-# "...src/[!main]*.cpp" vuol dire matcha tutti i file .cpp in src/
-# che non iniziano con main, è un po' un azzigogolo
-# lo fo per adesso, poi aggiungo una libreria lsystem a parte
-# per la parte di test visto che non voglio linkare
-# i test con raylib quindi mi serve che la variable LSYSTEMS_SOURCES
-# includa tutto *tranne* i file in src che dipendono da raylib
-# che per adesso è solo il main
-# lascia fa' è un macello solo per farlo girare mo', poi lo sistemo
-
+# "... src/[!main]*.cpp" vuol dire matcha tutti i file .cpp in src/
+# che non iniziano con "main", è un po' un azzigogolo.
+# escludiamo il main dalla variabile LSYSTEMS_SOURCES
+# così possiamo usarla anche per il target di test
+# (penso che s'incazzi se proviamo a dargli un main tra i test
+#  ma non ho controllato)
 file(GLOB
   LSYSTEMS_SOURCES       # nome della variabile dove mettere i file
   CONFIGURE_DEPENDS      # ricrea il file make quando vengono aggiunti file
@@ -91,11 +88,15 @@ target_sources(
 )
 target_include_directories(
   "${PROJECT_NAME}_test"
-  PUBLIC "${CMAKE_CURRENT_LIST_DIR}/include"
+  PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
 )
+# link test target againt raylib since we're probably gonna use
+# raylib math stuff within tests as well
 target_link_libraries(
   "${PROJECT_NAME}_test"
-  GTest::gtest_main
+  PUBLIC raylib
+  PUBLIC GTest::gtest_main
 )
+
 include(GoogleTest)
 gtest_discover_tests("${PROJECT_NAME}_test")

@@ -316,6 +316,33 @@ gtest_main/fast:
 	$(MAKE) $(MAKESILENT) -f thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest_main.dir/build.make thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
+src/geom.o: src/geom.cpp.o
+.PHONY : src/geom.o
+
+# target to build an object file
+src/geom.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/geom.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/geom.cpp.o
+.PHONY : src/geom.cpp.o
+
+src/geom.i: src/geom.cpp.i
+.PHONY : src/geom.i
+
+# target to preprocess a source file
+src/geom.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/geom.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/geom.cpp.i
+.PHONY : src/geom.cpp.i
+
+src/geom.s: src/geom.cpp.s
+.PHONY : src/geom.s
+
+# target to generate assembly for a file
+src/geom.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/geom.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/geom.cpp.s
+.PHONY : src/geom.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -416,6 +443,9 @@ help:
 	@echo "... lsystems_main"
 	@echo "... lsystems_test"
 	@echo "... raylib"
+	@echo "... src/geom.o"
+	@echo "... src/geom.i"
+	@echo "... src/geom.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

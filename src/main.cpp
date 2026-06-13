@@ -38,10 +38,10 @@ int main() {
 	// n=2, δ=90◦
 	std::string axiom = "A";
 	std::map<char, std::string> transformations {
-		{'A' ,"B-F+CFC+F-D&F∧D-F+&&CFC+F+B//"},
-		{'B' ,"A&F∧CFB∧F∧D∧∧-F-D∧|F∧B|FC∧F∧A//"},
-		{'C' ,"|D∧|F∧B-F+C∧F∧A&&FA&F∧C+F+B∧F∧D//"},
-		{'D' ,"|CFB-F+B|FA&F∧A&&FB-F+B|FC//"},
+		{'A' ,"B-F+CFC+F-D&F^D-F+&&CFC+F+B//"},
+		{'B' ,"A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"},
+		{'C' ,"|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"},
+		{'D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"},
 	};
 	std::string tree = rewrite_times(2, axiom, transformations);
 

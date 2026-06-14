@@ -316,33 +316,6 @@ gtest_main/fast:
 	$(MAKE) $(MAKESILENT) -f thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest_main.dir/build.make thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
-src/geom.o: src/geom.cpp.o
-.PHONY : src/geom.o
-
-# target to build an object file
-src/geom.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/geom.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/geom.cpp.o
-.PHONY : src/geom.cpp.o
-
-src/geom.i: src/geom.cpp.i
-.PHONY : src/geom.i
-
-# target to preprocess a source file
-src/geom.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/geom.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/geom.cpp.i
-.PHONY : src/geom.cpp.i
-
-src/geom.s: src/geom.cpp.s
-.PHONY : src/geom.s
-
-# target to generate assembly for a file
-src/geom.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/geom.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/geom.cpp.s
-.PHONY : src/geom.cpp.s
-
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -394,6 +367,57 @@ src/rewrite.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/rewrite.cpp.s
 .PHONY : src/rewrite.cpp.s
 
+src/turtle.o: src/turtle.cpp.o
+.PHONY : src/turtle.o
+
+# target to build an object file
+src/turtle.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/turtle.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/turtle.cpp.o
+.PHONY : src/turtle.cpp.o
+
+src/turtle.i: src/turtle.cpp.i
+.PHONY : src/turtle.i
+
+# target to preprocess a source file
+src/turtle.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/turtle.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/turtle.cpp.i
+.PHONY : src/turtle.cpp.i
+
+src/turtle.s: src/turtle.cpp.s
+.PHONY : src/turtle.s
+
+# target to generate assembly for a file
+src/turtle.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/turtle.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/turtle.cpp.s
+.PHONY : src/turtle.cpp.s
+
+test/matrix_test.o: test/matrix_test.cpp.o
+.PHONY : test/matrix_test.o
+
+# target to build an object file
+test/matrix_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/test/matrix_test.cpp.o
+.PHONY : test/matrix_test.cpp.o
+
+test/matrix_test.i: test/matrix_test.cpp.i
+.PHONY : test/matrix_test.i
+
+# target to preprocess a source file
+test/matrix_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/test/matrix_test.cpp.i
+.PHONY : test/matrix_test.cpp.i
+
+test/matrix_test.s: test/matrix_test.cpp.s
+.PHONY : test/matrix_test.s
+
+# target to generate assembly for a file
+test/matrix_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/test/matrix_test.cpp.s
+.PHONY : test/matrix_test.cpp.s
+
 test/rewrite_test.o: test/rewrite_test.cpp.o
 .PHONY : test/rewrite_test.o
 
@@ -443,15 +467,18 @@ help:
 	@echo "... lsystems_main"
 	@echo "... lsystems_test"
 	@echo "... raylib"
-	@echo "... src/geom.o"
-	@echo "... src/geom.i"
-	@echo "... src/geom.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
 	@echo "... src/rewrite.o"
 	@echo "... src/rewrite.i"
 	@echo "... src/rewrite.s"
+	@echo "... src/turtle.o"
+	@echo "... src/turtle.i"
+	@echo "... src/turtle.s"
+	@echo "... test/matrix_test.o"
+	@echo "... test/matrix_test.i"
+	@echo "... test/matrix_test.s"
 	@echo "... test/rewrite_test.o"
 	@echo "... test/rewrite_test.i"
 	@echo "... test/rewrite_test.s"

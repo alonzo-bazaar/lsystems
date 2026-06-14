@@ -1,7 +1,68 @@
 {
-  "tests": 3,
+  "tests": 14,
   "name": "AllTests",
   "testsuites": [
+    {
+      "name": "MatrixTest",
+      "tests": 11,
+      "testsuite": [
+        {
+          "name": "MultiplySymmetric",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 52
+        },
+        {
+          "name": "MultiplyAsymmetric",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 104
+        },
+        {
+          "name": "AccessRows",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 136
+        },
+        {
+          "name": "AccessCols",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 149
+        },
+        {
+          "name": "AccessElt",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 163
+        },
+        {
+          "name": "MatMulSymmetric",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 196
+        },
+        {
+          "name": "MatMulExtract",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 222
+        },
+        {
+          "name": "MatMulASymmetric",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 270
+        },
+        {
+          "name": "CopyConstructor",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 323
+        },
+        {
+          "name": "ElementAssignment",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 333
+        },
+        {
+          "name": "WholeAssignment",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/matrix_test.cpp",
+          "line": 343
+        }
+      ]
+    },
     {
       "name": "RewriteTest",
       "tests": 3,

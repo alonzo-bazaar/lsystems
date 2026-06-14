@@ -4,8 +4,8 @@
 # LSYSTEMS_SOURCES at CMakeLists.txt:40 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES false "/home/nil/Projects/lsystems/src/[!main]*.cpp")
 set(OLD_GLOB
-  "/home/nil/Projects/lsystems/src/geom.cpp"
   "/home/nil/Projects/lsystems/src/rewrite.cpp"
+  "/home/nil/Projects/lsystems/src/turtle.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   message("-- GLOB mismatch!")
@@ -31,6 +31,7 @@ endif()
 # TEST_SOURCES at CMakeLists.txt:75 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES false "/home/nil/Projects/lsystems/test/*.cpp")
 set(OLD_GLOB
+  "/home/nil/Projects/lsystems/test/matrix_test.cpp"
   "/home/nil/Projects/lsystems/test/rewrite_test.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")

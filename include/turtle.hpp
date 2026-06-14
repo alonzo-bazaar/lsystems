@@ -7,6 +7,9 @@
 #include <cmath>
 
 #include "raylib.h"
+#include "rlgl.h" // to draw triangle fan
+
+void DrawTriangleFan3D(const Vector3* points, int point_count, Color color);
 
 class Matrix3 {
 public:
@@ -44,7 +47,11 @@ private:
 
 class Turtle {
 public:
-	Turtle(float angle, float stride, float thickness);
+	Turtle(float angle,
+           float stride,
+           const std::vector<float>& thickness_table,
+           const std::vector<Color>& color_table);
+
 	void follow_string(const std::string& s);
 	void reset();
 	void log_state();
@@ -52,9 +59,21 @@ public:
 private:
 	float angle;
 	float stride;
-	float thickness;
+    std::vector<float> thickness_table;
+    std::vector<Color> color_table;
+
+    std::vector<Vector3> current_polygon = {};
+    bool polygon_mode = false;
 
 	struct state {
+		// un'istanza di Turtle::state non è necessariamente
+		// legata a un'istanza di Turtle
+		// quindi se vogliamo che un Turtle::state abbia accesso ai campi
+		// della Turtle di cui è state dobbiamo dargli un puntatore o
+		// qualcosa al Turtle di afferenza
+		Turtle* owner;
+		int thickness_table_index;
+		int color_table_index;
 		Vector3 pos;
         Matrix3 hlu;
 
@@ -65,12 +84,20 @@ private:
 		void rotate_h_by(const float angle);
 	};
 	state curr = (state) {
+		this,
+		0,
+		0,
 		{0, 0, 0},
-
-		{1, 0, 0,
-         0, 1, 0,
-         0, 0, 1},
+		{0, 0, 1,
+         1, 0, 0,
+         0, 1, 0},
 	};
 	std::vector<state> state_stack { curr };
 	void follow_char(const char c);
+
+	static int clamp(int a, int from, int to);
+	Color curr_color;
+	float curr_thickness;
+	void update_curr_color();
+	void update_curr_thickness();
 };

@@ -1,5 +1,27 @@
 #include "turtle.hpp"
 
+// utility function to draw leaves
+// should probably put it somewhere other than here
+void DrawTriangleFan3D(const Vector3* points, int point_count, Color color) {
+	rlBegin(RL_TRIANGLES); {
+		rlColor4ub(color.r, color.g, color.b, color.a);
+		int i = 1;
+		while(i) {
+			int j = (i+1)%point_count;
+
+			rlVertex3f(points[0].x, points[0].y, points[0].z);
+			rlVertex3f(points[i].x, points[i].y, points[i].z);
+			rlVertex3f(points[j].x, points[j].y, points[j].z);
+			// both sides
+			rlVertex3f(points[0].x, points[0].y, points[0].z);
+			rlVertex3f(points[j].x, points[j].y, points[j].z);
+			rlVertex3f(points[i].x, points[i].y, points[i].z);
+
+			i=j;
+		}
+	} rlEnd();
+}
+
 Matrix3::Matrix3(float f00, float f01, float f02,
 				 float f10, float f11, float f12,
 				 float f20, float f21, float f22)
@@ -81,19 +103,33 @@ Matrix3 Matrix3::operator*(const Matrix3& rhs) const {
 }
 
 
-Turtle::Turtle(float angle, float stride, float thickness)
-	:angle(angle),stride(stride),thickness(thickness){}
+Turtle::Turtle(float angle,
+               float stride,
+			   const std::vector<float>& thickness_table,
+               const std::vector<Color>& color_table)
+	:angle(angle),
+     stride(stride),
+     thickness_table(thickness_table),
+     color_table(color_table) {}
+
 void Turtle::follow_string(const std::string& s) {
 	for(const char c : s) follow_char(c);
 }
+
 void Turtle::reset() {
 	state_stack.clear();
 	curr = (state) {
+		this,
+		0,
+		0,
 		{0, 0, 0},
-
-		{1, 0, 0,
-         0, 1, 0,
-         0, 0, 1},
+		// in coordinate xyz
+		// l'heading iniziale (prima colonna) vogliamo sia verso l'alto
+		// quindi y
+		// l'up e il left iniziale... boh, vanno bene entrambi penso
+		{0, 0, 1,
+         1, 0, 0,
+         0, 1, 0},
 	};
 }
 
@@ -117,12 +153,17 @@ void Turtle::log_state() {
 
 Turtle::state Turtle::state::step() {
     // vai in direzione heading di un tot
+    // forse dovrei separare posizione e metadati, sta funzione mi pare
+    // un po' stronza mo'
     auto h = hlu.col(0);
 	return (Turtle::state) {
+		owner,
+		thickness_table_index,
+		color_table_index,
 		{
-			pos.x + h[0],
-			pos.y + h[1],
-			pos.z + h[2],
+			pos.x + (h[0] * owner->stride),
+			pos.y + (h[1] * owner->stride),
+			pos.z + (h[2] * owner->stride),
 		},
 		hlu,
 	};
@@ -146,6 +187,7 @@ void Turtle::state::rotate_u_by(const float alpha) {
                         0, 0, 1);
 }
 
+
 void Turtle::follow_char(const char c) {
 	switch(c) {
 	case '[':
@@ -153,32 +195,60 @@ void Turtle::follow_char(const char c) {
 		break;
 	case ']':
 		curr = state_stack.back();
+		update_curr_color();
+		update_curr_thickness();
 		state_stack.pop_back();
 		break;
+
+	case '{':
+		polygon_mode = true;
+        current_polygon.push_back(curr.pos);
+		break;
+	case '}':
+		polygon_mode = false;
+        // disegna poligono
+        // per farlo disengamo i triangloli
+        // 0 1 2
+        // 0 2 3
+        // 0 3 4
+        // ...
+        // 0 n 1
+        // visto che le foglie sono 3d vogliamo che siano visibili da entrambi
+        // i lato, disegnamo i triangoli da entrambe le direzioni
+        // (poi si vede dallo shader come fare che la direzione su sia più
+        //  chiara e quella giù più scura)
+		DrawTriangleFan3D(current_polygon.data(), current_polygon.size(),
+						 curr_color);
+		current_polygon.clear();
+		break;
+
 	case 'F': {
         auto old_pos = curr.pos;
         curr = curr.step();
 		DrawCylinderEx(old_pos, curr.pos,
-				 thickness, thickness, 4, LIGHTGRAY);
-		DrawCylinderWiresEx(old_pos, curr.pos,
-				 thickness, thickness, 4, BLACK);
+					   curr_thickness, curr_thickness, 4, curr_color);
 		break;
     }
 	case 'f':
 		curr = curr.step();
+        if(polygon_mode)
+            current_polygon.push_back(curr.pos);
 		break;
+
 	case '\\':
 		curr.rotate_h_by(angle);
 		break;
 	case '/':
 		curr.rotate_h_by(-angle);
 		break;
+
 	case '&':
 		curr.rotate_l_by(angle);
 		break;
 	case '^':
 		curr.rotate_l_by(-angle);
 		break;
+
 	case '+':
 		curr.rotate_u_by(angle);
 		break;
@@ -188,8 +258,36 @@ void Turtle::follow_char(const char c) {
 	case '|':
 		curr.rotate_u_by(PI);
 		break;
+
+	case '!':
+		curr.thickness_table_index++;
+		update_curr_thickness();
+		break;
+	case '\'':
+		curr.color_table_index++;
+		update_curr_color();
+		break;
 	default:
+		// std::cout<<"ignoring: '"<<c<<'\''<<std::endl;
 		(void)c;
 		break;
 	}
+}
+
+int Turtle::clamp(int n, int from, int to) {
+	if(n <= from) return from;
+	if(n >= to) return to;
+	return n;
+}
+
+void Turtle::update_curr_color() {
+	curr_color = color_table[clamp(curr.color_table_index,
+								   0,
+								   color_table.size()-1)];
+}
+
+void Turtle::update_curr_thickness() {
+	curr_thickness = thickness_table[clamp(curr.thickness_table_index,
+										   0,
+										   thickness_table.size()-1)];
 }

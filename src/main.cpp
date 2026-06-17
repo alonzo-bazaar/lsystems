@@ -69,14 +69,13 @@ int main() {
     camera.projection = CAMERA_PERSPECTIVE;
 
 
-
 	// n=2, δ=90◦
 	std::string hilbert_axiom = "A";
-	std::map<char, std::string> hilbert_trans {
-		{'A' ,"B-F+CFC+F-D&F^D-F+&&CFC+F+B//"},
-		{'B' ,"A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"},
-		{'C' ,"|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"},
-		{'D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"},
+	std::map<char, RewriteTarget> hilbert_trans {
+		RWP('A' ,"B-F+CFC+F-D&F^D-F+&&CFC+F+B//"),
+		RWP('B' ,"A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"),
+		RWP('C' ,"|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"),
+		RWP('D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"),
 	};
 	std::string hilbert = rewrite_times(2, hilbert_axiom, hilbert_trans);
 	// Turtle t(PI/2, 1.0f, {0.1f}, {LIGHTGRAY});
@@ -84,12 +83,14 @@ int main() {
 
 	// n=7, δ=22.5◦
 	std::string tree_axiom = "A";
-	std::map<char, std::string> tree_trans = {
-		{'A', "[&FL!A]/////'[&FL!A]///////'[&FL!A]"},
-		{'F', "S ///// F"},
-		{'S', "F L"},
-		{'L', "['''^^{-f+f+f-|-f+f+f}]"},
+	std::map<char, RewriteTarget> tree_trans = {
+		RWP('A', "[&FL!A]/////'[&FL!A]///////'[&FL!A]"),
+		RWP('F', {{0.1, "S ///// FF"},
+				  {0.9, "S ///// F"}}),
+		RWP('S', "F L"),
+		RWP('L', "['''^^{-f+f+f-|-f+f+f}]"),
 	};
+	srand(time(0));
 	std::string tree = rewrite_times(7, tree_axiom, tree_trans);
 	Turtle t(deg_to_rad(22.5), 0.30f,
 			 map_range<float>(0.06f, 0.015f, 7),

@@ -22,12 +22,12 @@
 // applica la trasformazione a tutti i caratteri della stringa, mettili insieme
 // e ritorna la stringa che ne risulta
 std::string rewrite (const std::string& axiom,
-					 const std::map<char, std::string>& transformations) {
+					 const std::map<char, RewriteTarget>& transformations) {
 	std::stringstream ss;
 	for(char c : axiom) {
 		auto f = transformations.find(c);
 		if(f != transformations.end())
-			ss << f->second;
+			ss << f->second.expand();
 		else
 			ss << c;
 	}
@@ -37,10 +37,11 @@ std::string rewrite (const std::string& axiom,
 // idem di sopra ma fa il rewrite tot volte invece che una sola
 std::string rewrite_times (unsigned int times,
 						   const std::string& axiom,
-						   const std::map<char, std::string>& transformations) {
+						   const std::map<char, RewriteTarget>& transformations) {
 	if(times == 0)
 		return axiom;
 	return rewrite_times(times-1,
 						 rewrite(axiom, transformations),
 						 transformations);
 }
+

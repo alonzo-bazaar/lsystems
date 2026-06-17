@@ -3,6 +3,7 @@
 cmake_minimum_required(VERSION 4.0)
 project(lsystems)
 
+#set(CMAKE_BUILD_TYPE RELEASE)
 set(CMAKE_BUILD_TYPE DEBUG)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

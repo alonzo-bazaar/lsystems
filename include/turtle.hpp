@@ -53,7 +53,7 @@ public:
            const std::vector<Color>& color_table);
 
 	void follow_string(const std::string& s);
-	void reset();
+	void reset(Vector3 pos);
 	void log_state();
 
 private:

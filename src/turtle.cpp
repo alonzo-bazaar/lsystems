@@ -116,13 +116,13 @@ void Turtle::follow_string(const std::string& s) {
 	for(const char c : s) follow_char(c);
 }
 
-void Turtle::reset() {
+void Turtle::reset(Vector3 pos) {
 	state_stack.clear();
 	curr = (state) {
 		this,
 		0,
 		0,
-		{0, 0, 0},
+		pos,
 		// in coordinate xyz
 		// l'heading iniziale (prima colonna) vogliamo sia verso l'alto
 		// quindi y

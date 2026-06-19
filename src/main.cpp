@@ -59,16 +59,17 @@ int main() {
 	// https://www.raylib.com/examples.html
 	SetConfigFlags(FLAG_MSAA_4X_HINT);
 	InitWindow(1280, 960, "Hello World");
+	DisableCursor();
 
 	int target_fps = 60;
 	SetTargetFPS(target_fps);
 
 	Camera camera;
-    camera.position = (Vector3){ 10.0f, 2.0f, 10.0f };
-    camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
-    camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-    camera.fovy = 45.0f;
-    camera.projection = CAMERA_PERSPECTIVE;
+	camera.position = (Vector3){ 10.0f, 2.0f, 10.0f };
+	camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
+	camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
+	camera.fovy = 45.0f;
+	camera.projection = CAMERA_PERSPECTIVE;
 
 	// Load depth shader and get depth texture shader location
 	Shader shader = LoadShader(TextFormat("resources/shaders/pbr.vs"), TextFormat("resources/shaders/pbr.fs"));
@@ -77,8 +78,8 @@ int main() {
 	shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
 	shader.locs[SHADER_LOC_MAP_OCCLUSION] = GetShaderLocation(shader, "mraMap");
 
-	Image imgRoughness = LoadImage("resources/textures/Grass001_2K-PNG_Roughness.png");
-	Image imgAO = LoadImage("resources/textures/Grass001_2K-PNG_AmbientOcclusion.png");
+	Image imgRoughness = LoadImage("resources/textures/Grass007_2K-PNG_Roughness.png");
+	Image imgAO = LoadImage("resources/textures/Grass007_2K-PNG_AmbientOcclusion.png");
 
 	ImageFormat(&imgRoughness, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
 	ImageFormat(&imgAO, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
@@ -122,12 +123,12 @@ int main() {
 	GenTextureMipmaps(&floor.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture);
 	SetTextureFilter(floor.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture, TEXTURE_FILTER_TRILINEAR);
 
-	Texture2D albedoTexture = LoadTexture("resources/textures/Grass001_2K-PNG_Color.png");
+	Texture2D albedoTexture = LoadTexture("resources/textures/Grass007_2K-PNG_Color.png");
 	floor.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = albedoTexture;
 	GenTextureMipmaps(&floor.materials[0].maps[MATERIAL_MAP_ALBEDO].texture);
 	SetTextureFilter(floor.materials[0].maps[MATERIAL_MAP_ALBEDO].texture, TEXTURE_FILTER_TRILINEAR);
 
-	Texture2D normalTexture = LoadTexture("resources/textures/Grass001_2K-PNG_NormalGL.png");
+	Texture2D normalTexture = LoadTexture("resources/textures/Grass007_2K-PNG_NormalGL.png");
 	floor.materials[0].maps[MATERIAL_MAP_NORMAL].texture = normalTexture;
 	GenTextureMipmaps(&floor.materials[0].maps[MATERIAL_MAP_NORMAL].texture);
 	SetTextureFilter(floor.materials[0].maps[MATERIAL_MAP_NORMAL].texture, TEXTURE_FILTER_TRILINEAR);
@@ -151,9 +152,9 @@ int main() {
 	SetShaderValue(shader, GetShaderLocation(shader, "useTexAlbedo"), &useTexAlbedo, SHADER_UNIFORM_INT);
 	SetShaderValue(shader, GetShaderLocation(shader, "useTexNormal"), &useTexNormal, SHADER_UNIFORM_INT);
 	SetShaderValue(shader, GetShaderLocation(shader, "useTexMRA"),    &useTexMRA,    SHADER_UNIFORM_INT);
-	SetShaderValue(shader, GetShaderLocation(shader, "metallicValue"), &floorMetallic, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "roughnessValue"), &floorRoughness, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "aoValue"), &floorAo, SHADER_UNIFORM_FLOAT);
+	//SetShaderValue(shader, GetShaderLocation(shader, "metallicValue"), &floorMetallic, SHADER_UNIFORM_FLOAT);
+	//SetShaderValue(shader, GetShaderLocation(shader, "roughnessValue"), &floorRoughness, SHADER_UNIFORM_FLOAT);
+	//SetShaderValue(shader, GetShaderLocation(shader, "aoValue"), &floorAo, SHADER_UNIFORM_FLOAT);
 	SetShaderValue(shader, GetShaderLocation(shader, "emissivePower"), &floorEmissivePower, SHADER_UNIFORM_FLOAT);
 	SetShaderValue(shader, GetShaderLocation(shader, "ambient"), &ambientIntensity, SHADER_UNIFORM_FLOAT);
 	SetShaderValue(shader, GetShaderLocation(shader, "ambientColor"), &ambientColorNormalized, SHADER_UNIFORM_VEC3);
@@ -163,17 +164,17 @@ int main() {
 	// Create light
 	Light sunLight;
 	Color sunColor = { 255, 244, 214, 255 };
-	sunLight = CreateLight(LIGHT_DIRECTIONAL, { 0.0f, 200.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, sunColor, 5.0f, shader);
+	sunLight = CreateLight(LIGHT_DIRECTIONAL, { 0.0f, 20.0f, 50.0f }, { 0.0f, 0.0f, 0.0f }, sunColor, 5.0f, shader);
 	UpdateLight(shader, sunLight);
 
 	// n=2, δ=90◦
 	std::string hilbert_axiom = "A";
 	std::map<char, std::string> hilbert_trans {
-		{'A' ,"B-F+CFC+F-D&F^D-F+&&CFC+F+B//"},
-		{'B' ,"A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"},
-		{'C' ,"|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"},
-		{'D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"},
-	};
+			{'A' ,"B-F+CFC+F-D&F^D-F+&&CFC+F+B//"},
+			{'B' ,"A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"},
+			{'C' ,"|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"},
+			{'D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"},
+		};
 	std::string hilbert = rewrite_times(2, hilbert_axiom, hilbert_trans);
 	// Turtle t(PI/2, 1.0f, {0.1f}, {LIGHTGRAY});
 	// std::string& target = hilbert;
@@ -192,6 +193,11 @@ int main() {
 			 map_range<Color>(BROWN, GREEN, 7));
 	std::string& target = tree;
 
+	Vector3 spherePosition = { 0.0f, 0.0f, 0.0f };
+	bool drawSphere = false;
+	int centerX = GetScreenWidth()/2;
+	int centerY = GetScreenHeight()/2;
+
 	while(!WindowShouldClose()) {
 		UpdateCamera(&camera, CAMERA_FIRST_PERSON);
 
@@ -208,20 +214,37 @@ int main() {
 			UpdateLight(shader, sunLight);
 		}
 
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+			Vector2 screenCenter = { (float)centerX, (float)centerY };
+			Ray crosshairRay = GetMouseRay(screenCenter, camera);
+			RayCollision collision = GetRayCollisionMesh(crosshairRay, floorMesh, floor.transform);
+
+			if (collision.hit) {
+				spherePosition = collision.point;
+				drawSphere = true;
+			}
+		}
+
 		BeginDrawing(); {
-			ClearBackground(BLACK);
+			ClearBackground(SKYBLUE);
 
 			BeginMode3D(camera); {
-				DrawModel(floor, (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, WHITE);
+				DrawModel(floor, {0.0f, 0.0f, 0.0f}, 1.0f, WHITE);
 				// Draw sphere to show the sun position
 				if (sunLight.enabled) DrawSphereEx(sunLight.position, 0.2f, 8, 8, sunColor);
-
-				//t.reset();
-				//t.follow_string(target);
+				if (drawSphere) {
+					//DrawSphereWires(spherePosition, 0.5, 8, 8, RED);
+					t.reset(spherePosition);
+					t.follow_string(target);
+				}
 			}
 			EndMode3D();
+
+			DrawLine(centerX - 20, centerY, centerX + 20, centerY, BLACK);
+			DrawLine(centerX, centerY - 20, centerX, centerY + 20, BLACK);
 			DrawText(TextFormat("FPS: %i (target %i)", GetFPS(), target_fps),
 					 10, 10, 20, DARKGRAY);
+
 		} EndDrawing();
 	}
 	UnloadTexture(mraTexture);

@@ -216,10 +216,11 @@ int main() {
 			BeginMode3D(camera); {
 				DrawModel(floor, (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, WHITE);
 				// Draw sphere to show the sun position
-				if (sunLight.enabled) DrawSphereEx(sunLight.position, 0.2f, 8, 8, sunColor);
+				if (sunLight.enabled)
+					DrawSphereEx(sunLight.position, 0.2f, 8, 8, sunColor);
 
-				//t.reset();
-				//t.follow_string(target);
+				t.reset();
+				t.follow_string(target);
 			}
 			EndMode3D();
 			DrawText(TextFormat("FPS: %i (target %i)", GetFPS(), target_fps),

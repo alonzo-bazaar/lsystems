@@ -4,6 +4,7 @@
 # LSYSTEMS_SOURCES at CMakeLists.txt:41 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES false "/home/nil/Projects/lsystems/src/[!main]*.cpp")
 set(OLD_GLOB
+  "/home/nil/Projects/lsystems/src/light.cpp"
   "/home/nil/Projects/lsystems/src/rewrite.cpp"
   "/home/nil/Projects/lsystems/src/turtle.cpp"
   )

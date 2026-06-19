@@ -48,7 +48,9 @@ set(LSYSTEMS_INCLUDES "${CMAKE_CURRENT_LIST_DIR}/include")
 set(RAYLIB_INCLUDES "${RAYLIB_DIR}/src")
 
 # crea target eseguibile con quanto descritto sopra
-add_executable("${PROJECT_NAME}_main")
+add_executable("${PROJECT_NAME}_main"
+        include/light.hpp
+        src/light.cpp)
 target_sources(
   "${PROJECT_NAME}_main"
   PUBLIC ${LSYSTEMS_MAIN} ${LSYSTEMS_SOURCES}

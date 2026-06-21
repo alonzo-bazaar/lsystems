@@ -72,36 +72,41 @@ std::vector<Color> map_range<Color>(Color start, Color end, size_t n) {
     return res;
 }
 
-/*
-// per test
-// ogni tanto mi crasha la tartaruga e basta ma fare il debug con tutto
-// il pappone di raylib che ci s'ha mo' diventa un po' controrto
-// quindi scommento questo, e cambio int main() sotto a int main2() o che so
-// così di main mi runna questo e amen, e si fa prima a testare
-int main() {
-    InitWindow(100, 100, "Hello World");
-    std::string hilbert_axiom = "A";
-    std::map<char, RewriteTarget> hilbert_trans {
-		RWP('A' ,"B-F+CFC+F-D&F^D-F+&&CFC+F+B//"),
-		RWP('B' ,"A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"),
-		RWP('C' ,"|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"),
-		RWP('D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"),
-    };
-    std::string hilbert = rewrite_times(2, hilbert_axiom, hilbert_trans);
+Model gen_tree_model(unsigned int seed) {
+	srand(seed);
+	// crea tartaruga
+	// per fare una tartaruga ci vuole una texture
 	Image tree_tex_im = GenImageGradientLinear(1, 10, 0, DARKBROWN, GREEN);
 	Texture tree_tex = LoadTextureFromImage(tree_tex_im);
 	UnloadImage(tree_tex_im);
 
-    Turtle t(deg_to_rad(22.5), 0.30f,
-			 map_range<float>(0.06f, 0.015f, 7),
-			 tree_tex,
-			 map_range(std::array{0.0f, 0.0f}, std::array{0.95f, 0.95f}, 7));
-    std::string& target = hilbert;
-
-	Model tree_model = t.follow_string(target);
-	return 0;
+	// ok ecco la tartaruga
+    Turtle turtle
+		(deg_to_rad(22.5),						// angle
+		 0.30f,									// stride
+		 map_range<float>(0.06f, 0.015f, 7),	// tickess table
+		 tree_tex,								// texture
+		 map_range(std::array{0.0f, 0.0f},		// texcoord table
+				   std::array{0.95f, 0.95f},
+				   7));	
+	
+	// genera le istruzioni da far seguire alla tartaruga 
+	// (qui è dove si fa la parte di l-system come sistemi di riscrittura)
+	std::string turtle_instructions =
+		(rewrite_times(7,   // how many times to rewrite
+					   "A", //axiom
+					   {    // rewrite rules
+						   RWP('A', "[&FL!A]/////'[&FL!A]///////'[&FL!A]"),
+						   RWP('F', {{0.1, "S ///// FF"},
+									 {0.3, "S //// F"},
+									 {0.6, "S ///// F"}}),
+						   RWP('S', "F L"),
+						   RWP('L', "['''^^{-f+f+f-|-f+f+f}]"),
+					   }));
+	
+	return turtle.follow_string(turtle_instructions);
 }
-*/
+		
 
 int main() {
     // questa prima versione è un mix dell'esempio che ti ho mandato su
@@ -221,47 +226,8 @@ int main() {
 	sunLight = CreateLight(LIGHT_DIRECTIONAL, { 0.0f, 20.0f, 50.0f }, { 0.0f, 0.0f, 0.0f }, sunColor, 5.0f, shader);
 	UpdateLight(shader, sunLight);
 
-	// n=2, δ=90◦
-	std::string hilbert_axiom = "A";
-	std::map<char, std::string> hilbert_trans {
-			{'A' ,"B-F+CFC+F-D&F^D-F+&&CFC+F+B//"},
-			{'B' ,"A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"},
-			{'C' ,"|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"},
-			{'D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"},
-		};
-	std::string hilbert = rewrite_times(2, hilbert_axiom, hilbert_trans);
-	// Turtle t(PI/2, 1.0f, {0.1f}, {LIGHTGRAY});
-	// std::string& target = hilbert;
-
-    std::string tree_axiom = "A";
-
-    std::map<char, RewriteTarget> tree_trans = {
-		RWP('A', "[&FL!A]/////'[&FL!A]///////'[&FL!A]"),
-		RWP('F', {{0.1, "S ///// FF"},
-				  {0.3, "S //// F"},
-				  {0.6, "S ///// F"}}),
-		RWP('S', "F L"),
-		RWP('L', "['''^^{-f+f+f-|-f+f+f}]"),
-    };
-    srand(time(0));
-    std::string tree = rewrite_times(7, tree_axiom, tree_trans);
-
-	Image tree_tex_im = GenImageGradientLinear(1, 10, 0, DARKBROWN, GREEN);
-	Texture tree_tex = LoadTextureFromImage(tree_tex_im);
-	UnloadImage(tree_tex_im);
-
-    Turtle t(deg_to_rad(22.5), 0.30f,
-			 map_range<float>(0.06f, 0.015f, 7),
-			 tree_tex,
-			 map_range(std::array{0.0f, 0.0f}, std::array{0.95f, 0.95f}, 7));
-
-    std::string& target = tree;
-
-	Model tree_model = t.follow_string(target);
-
+	std::vector<std::pair<Vector3, Model>> tree_positions;
     while(!WindowShouldClose()) {
-		Vector3 spherePosition = { 0.0f, 0.0f, 0.0f };
-		bool drawSphere = false;
 		int centerX = GetScreenWidth()/2;
 		int centerY = GetScreenHeight()/2;
 
@@ -289,11 +255,12 @@ int main() {
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 			Vector2 screenCenter = { (float)centerX, (float)centerY };
 			Ray crosshairRay = GetMouseRay(screenCenter, camera);
-			RayCollision collision = GetRayCollisionMesh(crosshairRay, floorMesh, floor.transform);
-
+			RayCollision collision = GetRayCollisionMesh(crosshairRay,
+														 floorMesh,
+														 floor.transform);
 			if (collision.hit) {
-				spherePosition = collision.point;
-				drawSphere = true;
+				tree_positions.push_back({collision.point,
+										  gen_tree_model(time(0))});
 			}
 		}
 
@@ -305,7 +272,10 @@ int main() {
 				// Draw sphere to show the sun position
 				if (sunLight.enabled)
 					DrawSphereEx(sunLight.position, 0.2f, 8, 8, sunColor);
-				DrawModel(tree_model, {0.0f, 0.0f, 0.0f}, 1.0f, WHITE);
+				// if(drawSphere)
+
+				for(const auto& p:tree_positions)
+					DrawModel(p.second, p.first, 1.0f, WHITE);
 			}
 			EndMode3D();
 
@@ -324,3 +294,34 @@ int main() {
     CloseWindow();
     return 0;
 }
+
+/*
+// per test
+// ogni tanto mi crasha la tartaruga e basta ma fare il debug con tutto
+// il pappone di raylib che ci s'ha mo' diventa un po' controrto
+// quindi scommento questo, e cambio int main() sotto a int main2() o che so
+// così di main mi runna questo e amen, e si fa prima a testare
+int main() {
+    InitWindow(100, 100, "Hello World");
+    std::string hilbert_axiom = "A";
+    std::map<char, RewriteTarget> hilbert_trans {
+		RWP('A' ,"B-F+CFC+F-D&F^D-F+&&CFC+F+B//"),
+		RWP('B' ,"A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"),
+		RWP('C' ,"|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"),
+		RWP('D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"),
+    };
+    std::string hilbert = rewrite_times(2, hilbert_axiom, hilbert_trans);
+	Image tree_tex_im = GenImageGradientLinear(1, 10, 0, DARKBROWN, GREEN);
+	Texture tree_tex = LoadTextureFromImage(tree_tex_im);
+	UnloadImage(tree_tex_im);
+
+    Turtle t(deg_to_rad(22.5), 0.30f,
+			 map_range<float>(0.06f, 0.015f, 7),
+			 tree_tex,
+			 map_range(std::array{0.0f, 0.0f}, std::array{0.95f, 0.95f}, 7));
+    std::string& target = hilbert;
+
+	Model tree_model = t.follow_string(target);
+	return 0;
+}
+*/

@@ -127,23 +127,6 @@ Model Turtle::follow_string(const std::string& s) {
 	return tree;
 }
 
-void Turtle::reset(Vector3 pos) {
-	state_stack.clear();
-	curr = (state) {
-		this,
-		0,
-		0,
-		pos,
-		// in coordinate xyz
-		// l'heading iniziale (prima colonna) vogliamo sia verso l'alto
-		// quindi y
-		// l'up e il left iniziale... boh, vanno bene entrambi penso
-		{0, 0, 1,
-         1, 0, 0,
-         0, 1, 0},
-	};
-}
-
 void Turtle::log_state() {
     auto x = current_state.pos.x;
     auto y = current_state.pos.y;

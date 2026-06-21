@@ -59,7 +59,12 @@ public:
            const Texture& texture,
 		   const std::vector<std::array<float, 2>>& texcoords_table);
 
+<<<<<<< HEAD
 	Model follow_string(const std::string& s);
+=======
+	void follow_string(const std::string& s);
+	void reset(Vector3 pos);
+>>>>>>> Shaders
 	void log_state();
 
 private:

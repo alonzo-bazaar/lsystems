@@ -31,24 +31,53 @@ std::vector<T> map_range(T start, T end, size_t n) {
     return res;
 }
 
+// vorrei scusarmi col professor bertini per quello che sto per fa mo
+// ma c++ non c'ha partial template specialization per template di funzioni
+// e me serviva farne due che prendevano entrambe array, e così era più comodo
+#define def_range_mat(T, N)									\
+	template<>												\
+	std::vector<std::array<T, N>>							\
+	map_range<std::array<T, N>> (std::array<T, N> start,	\
+								 std::array<T, N> end,		\
+								 size_t n) {				\
+		std::array<std::vector<T>, N> arrs;					\
+															\
+		for(size_t i = 0; i<N; ++i)							\
+			arrs[i] = map_range<T>(start[i], end[i], n);	\
+															\
+		std::vector<std::array<T, N>> res(n);				\
+		for(size_t i = 0; i<n; ++i)							\
+			for(size_t j = 0; j<N; ++j)						\
+				res[i][j] = arrs[j][i];						\
+															\
+		return res;											\
+	}
+
+def_range_mat(float, 2)
+def_range_mat(unsigned char, 4)
+
 template<>
 std::vector<Color> map_range<Color>(Color start, Color end, size_t n) {
-    std::vector<int> r = map_range<int>(start.r, end.r, n);
-    std::vector<int> g = map_range<int>(start.g, end.g, n);
-    std::vector<int> b = map_range<int>(start.b, end.b, n);
-    std::vector<int> a = map_range<int>(start.a, end.a, n);
-    std::vector<Color> res(n);
+	auto floats = map_range(std::array{start.r, start.g, start.b, start.a},
+							std::array{end.r, end.g, end.b, end.a},
+							n);
 
+	std::vector<Color> res(n);
     for(size_t i = 0; i<n; ++i) {
-		res[i].r = r[i];
-		res[i].g = g[i];
-		res[i].b = b[i];
-		res[i].a = a[i];
+		res[i].r = floats[i][0];
+		res[i].g = floats[i][1];
+		res[i].b = floats[i][2];
+		res[i].a = floats[i][3];
     }
     return res;
 }
 
 /*
+// per test
+// ogni tanto mi crasha la tartaruga e basta ma fare il debug con tutto
+// il pappone di raylib che ci s'ha mo' diventa un po' controrto
+// quindi scommento questo, e cambio int main() sotto a int main2() o che so
+// così di main mi runna questo e amen, e si fa prima a testare
 int main() {
     InitWindow(100, 100, "Hello World");
     std::string hilbert_axiom = "A";
@@ -59,7 +88,14 @@ int main() {
 		RWP('D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"),
     };
     std::string hilbert = rewrite_times(2, hilbert_axiom, hilbert_trans);
-    Turtle t(PI/2, 1.0f, {0.1f}, {LIGHTGRAY});
+	Image tree_tex_im = GenImageGradientLinear(1, 10, 0, DARKBROWN, GREEN);
+	Texture tree_tex = LoadTextureFromImage(tree_tex_im);
+	UnloadImage(tree_tex_im);
+
+    Turtle t(deg_to_rad(22.5), 0.30f,
+			 map_range<float>(0.06f, 0.015f, 7),
+			 tree_tex,
+			 map_range(std::array{0.0f, 0.0f}, std::array{0.95f, 0.95f}, 7));
     std::string& target = hilbert;
 
 	Model tree_model = t.follow_string(target);
@@ -194,7 +230,6 @@ int main() {
 		RWP('D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"),
     };
     std::string hilbert = rewrite_times(1, hilbert_axiom, hilbert_trans);
-    Turtle t(PI/2, 1.0f, {0.2f}, {LIGHTGRAY});
     std::string& target = hilbert;
 	*/
 
@@ -210,9 +245,16 @@ int main() {
     };
     srand(time(0));
     std::string tree = rewrite_times(7, tree_axiom, tree_trans);
+
+	Image tree_tex_im = GenImageGradientLinear(1, 10, 0, DARKBROWN, GREEN);
+	Texture tree_tex = LoadTextureFromImage(tree_tex_im);
+	UnloadImage(tree_tex_im);
+
     Turtle t(deg_to_rad(22.5), 0.30f,
 			 map_range<float>(0.06f, 0.015f, 7),
-			 map_range<Color>(BROWN, GREEN, 7));
+			 tree_tex,
+			 map_range(std::array{0.0f, 0.0f}, std::array{0.95f, 0.95f}, 7));
+
     std::string& target = tree;
 
 	Model tree_model = t.follow_string(target);

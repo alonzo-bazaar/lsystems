@@ -106,11 +106,13 @@ Matrix3 Matrix3::operator*(const Matrix3& rhs) const {
 Turtle::Turtle(float angle,
                float stride,
 			   const std::vector<float>& thickness_table,
-               const std::vector<Color>& color_table)
+               const Texture& texture,
+			   const std::vector<std::array<float, 2>>& texcoords_table)
     :angle(angle),
      stride(stride),
      thickness_table(thickness_table),
-     color_table(color_table) {}
+     texture(texture),
+     texcoords_table(texcoords_table) {}
 
 Model Turtle::follow_string(const std::string& s) {
     for(const char c : s)
@@ -121,13 +123,7 @@ Model Turtle::follow_string(const std::string& s) {
 
 	// una volta finito di creare la mesh la usiamo per creare l'albero
 	Model tree = LoadModelFromMesh(mesh_builder.get());
-	// TODO:
-	// per adesso hardcodeato, vediamo poi parametrizzarlo
-	Image tex_im = GenImageGradientLinear(1, 10, 0, DARKBROWN, GREEN);
-	Texture tex_tex = LoadTextureFromImage(tex_im);
-	tree.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = tex_tex;
-	UnloadImage(tex_im);
-	// FIXME: tex_tex leaks (we don't free it when deleting the tree)
+	tree.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 	return tree;
 }
 
@@ -157,7 +153,7 @@ Turtle::State Turtle::State::step() {
     return (Turtle::State) {
 		owner,
 		thickness_table_index,
-		color_table_index,
+		texcoords_table_index,
 		{
 			pos.x + (h[0] * owner->stride),
 			pos.y + (h[1] * owner->stride),
@@ -247,8 +243,8 @@ void Turtle::follow_char(const char c) {
 			current_state.thickness_table_index++;
 		break;
     case '\'':
-		if(current_state.color_table_index+1 < color_table.size())
-			current_state.color_table_index++;
+		if(current_state.texcoords_table_index+1 < texcoords_table.size())
+			current_state.texcoords_table_index++;
 		break;
     default:
 		// std::cout<<"ignoring: '"<<c<<'\''<<std::endl;
@@ -257,8 +253,8 @@ void Turtle::follow_char(const char c) {
     }
 }
 
-const inline Color Turtle::current_color() const {
-	return color_table[current_state.color_table_index];
+const inline std::array<float, 2> Turtle::current_texcoords() const {
+	return texcoords_table[current_state.texcoords_table_index];
 }
 
 const inline float Turtle::current_thickness() const {
@@ -408,15 +404,12 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 				(cylinder->normals[cylinder->triangles[i]*3 + j]);
 
 		// push vertex texture coordiantes into mesh builder vertex texcoords
+		// TODO(?): per adesso tutti i vertici di uno stesso cilindro/poligono
+		// hanno le stesse texcoords, sarebbe a dire
+		// un cilindro/foglia di per se è... piatto, un c'ha texture interna
+		// uv mapping proprio nada
 		for(size_t j = 0; j<2; ++j)
-			texcoords.push_back(0.0f);
-				// (cylinder->tcoords[cylinder->triangles[i]*2 + j]);
-
-		// finally, the vertex color
-		colors.push_back(owner->current_color().r);
-		colors.push_back(owner->current_color().g);
-		colors.push_back(owner->current_color().b);
-		colors.push_back(owner->current_color().a);
+			texcoords.push_back(owner->current_texcoords()[j]);
 	}
 	par_shapes_free_mesh(cylinder);
 }
@@ -483,15 +476,8 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 			normals.push_back(norm.y);
 			normals.push_back(norm.z);
 
-			// non abbiamo texture coordinate del poligono
-			// quindi ce le inventiamo
-			texcoords.push_back(0.95f);
-			texcoords.push_back(0.95f);
-
-			colors.push_back(owner->current_color().r);
-			colors.push_back(owner->current_color().g);
-			colors.push_back(owner->current_color().b);
-			colors.push_back(owner->current_color().a);
+			texcoords.push_back(owner->current_texcoords()[0]);
+			texcoords.push_back(owner->current_texcoords()[1]);
 		}
 	}
 }

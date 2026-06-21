@@ -56,7 +56,8 @@ public:
 	Turtle(float angle,
            float stride,
            const std::vector<float>& thickness_table,
-           const std::vector<Color>& color_table);
+           const Texture& texture,
+		   const std::vector<std::array<float, 2>>& texcoords_table);
 
 	Model follow_string(const std::string& s);
 	void log_state();
@@ -64,8 +65,9 @@ public:
 private:
 	float angle;
 	float stride;
-    std::vector<float> thickness_table;
-    std::vector<Color> color_table;
+    const std::vector<float> thickness_table;
+	const Texture texture;
+	const std::vector<std::array<float, 2>> texcoords_table;
 
     std::vector<Vector3> current_polygon = {};
     bool polygon_mode = false;
@@ -84,8 +86,8 @@ private:
 		// o thickness successivi come famo?
 		// non famo
 		// quindi lo stato c'ha gli indici
-		int thickness_table_index;
-		int color_table_index;
+		size_t thickness_table_index;
+		size_t texcoords_table_index;
 		Vector3 pos;
         Matrix3 hlu;
 
@@ -97,8 +99,7 @@ private:
 	};
 	State current_state = (State) {
 		this,
-		0,
-		0,
+		0, 0,
 		{0, 0, 0},
 		// matrice dove la prima colonna è H / heading
 		// la seconda è L / left
@@ -123,27 +124,25 @@ private:
 		std::vector<float> normals;
 		// coordinate texture rappresntate come uvuvuvuv... attaccati
 		std::vector<float> texcoords;
-		// colori rappresentati come rgbargbargba... attaccati
-		std::vector<unsigned char> colors;
 
 		// i vettori li rappresentiamo così piatti invece di fare un vettore 
 		// di struct per poterli passare più facilmente all'api poi di raylib
-		// che si aspetta degli array piatti di xyzxyzxyz... o rgbargbargba...
+		// che si aspetta degli array piatti di xyzxyzxyz... o uvuvuvuv...
 		// o via dicendo
 
-		// queste funzioni prendono thickness, color, et al da owner
-		// (owner->current_color() / owner->current_thickness())
+		// queste funzioni prendono thickness, texcoords, et al da owner
+		// (owner->current_texcoords() / owner->current_thickness(), et al.)
 		void add_cylinder(Vector3 start, Vector3 end);
 		void add_polygon(std::vector<Vector3> points);
 		Mesh get();
 	};
-	MeshBuilder mesh_builder{this, {}, {}, {}, {}};
+	MeshBuilder mesh_builder{this, {}, {}, {}};
 
 	void follow_char(const char c);
 
 	// funzioni di convenience visto che scrivere
 	// color_table[current_state.color_table_index]
 	// ogni volta è un po' una rottura
-	const Color current_color() const;
+	const std::array<float, 2> current_texcoords() const;
 	const float current_thickness() const;
 };

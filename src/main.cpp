@@ -31,8 +31,8 @@ std::vector<T> map_range(T start, T end, size_t n) {
     return res;
 }
 
-// vorrei scusarmi col professor bertini per quello che sto per fa mo
-// ma c++ non c'ha partial template specialization per template di funzioni
+// vorrei scusarmi col professor bertini per quello che sto per fare
+// c++ non c'ha partial template specialization per template di funzioni
 // e me serviva farne due che prendevano entrambe array, e così era più comodo
 #define def_range_mat(T, N)									\
 	template<>												\
@@ -72,21 +72,15 @@ std::vector<Color> map_range<Color>(Color start, Color end, size_t n) {
     return res;
 }
 
-Model gen_tree_model(unsigned int seed) {
+Model gen_tree_model(unsigned int seed, Shader shader) {
 	srand(seed);
 	// crea tartaruga
-	// per fare una tartaruga ci vuole una texture
-	Image tree_tex_im = GenImageGradientLinear(1, 10, 0, DARKBROWN, GREEN);
-	Texture tree_tex = LoadTextureFromImage(tree_tex_im);
-	UnloadImage(tree_tex_im);
-
 	// ok ecco la tartaruga
     Turtle turtle
 		(deg_to_rad(22.5),						// angle
 		 0.30f,									// stride
 		 map_range<float>(0.06f, 0.015f, 7),	// tickess table
-		 tree_tex,								// texture
-		 map_range(std::array{0.0f, 0.0f},		// texcoord table
+		 map_range(std::array{0.05f, 0.05f},	// texcoord table
 				   std::array{0.95f, 0.95f},
 				   7));	
 	
@@ -103,22 +97,67 @@ Model gen_tree_model(unsigned int seed) {
 						   RWP('S', "F L"),
 						   RWP('L', "['''^^{-f+f+f-|-f+f+f}]"),
 					   }));
+
+	Model tree_model = turtle.follow_string(turtle_instructions);
+
+	// ottenuto il modello dell'albero, la tartaruga lo rende senza texture
+	// alcuna, abbiamo solo le texcoord sul modello
+	// questo ci consente di fare un po' gli sgargiulli con le texture una
+	// volta che la tartaruga ci rende questo albero
+
+	// intanto un po' di colore
+
+	Image tree_col_im = GenImageGradientLinear(10, 10, 0,
+											   BLUE, // lower end (trunk)
+											   RED); // higher end (leaves)
+	Texture tree_col_tex = LoadTextureFromImage(tree_col_im);
+	UnloadImage(tree_col_im);
+	tree_model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = tree_col_tex;
+	GenTextureMipmaps(&tree_model
+					  .materials[0]
+					  .maps[MATERIAL_MAP_ALBEDO]
+					  .texture);
+	SetTextureFilter(tree_model.materials[0]
+					 .maps[MATERIAL_MAP_ALBEDO]
+					 .texture,
+					 TEXTURE_FILTER_TRILINEAR);
+
+	// poi creiamo pure le texture mra per l'albero
+	// la faremo un po' "a mano" (con mano = C++), come fatto per tree_col_tex
+	// per come l'abbiamo mappata noi nello shader
+	// mra.r = metallic
+	// mra.g = roughness
+	// mra.b = ambient occlusion
+	// mra.a = (non utilizzato
+	Image tree_mra_im = GenImageGradientLinear(10, 10, 0,
+											   {0, 255, 0, 255},
+											   {0, 255, 0, 255}
+											  );
+	Texture tree_mra_tex = LoadTextureFromImage(tree_mra_im);
+	UnloadImage(tree_mra_im);
+	// mra è posizionata a MATERIAL_MAP_OCCLUSION ma è tutt'altro
+	// un po' un azzigogolo da parte nostra
+    tree_model.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture =
+		tree_mra_tex;
+	GenTextureMipmaps(&tree_model
+					  .materials[0]
+					  .maps[MATERIAL_MAP_OCCLUSION]
+					  .texture);
+	SetTextureFilter(tree_model.materials[0]
+					 .maps[MATERIAL_MAP_OCCLUSION]
+					 .texture,
+					 TEXTURE_FILTER_TRILINEAR);
+
+
+    tree_model.materials[0].shader = shader;
 	
-	return turtle.follow_string(turtle_instructions);
+	return tree_model;
 }
 		
 
 int main() {
-    // questa prima versione è un mix dell'esempio che ti ho mandato su
-    // discord e di questo esempio di raylib
-    // https://github.com/raysan5/raylib/blob/master/examples/core/core_3d_camera_free.c
-    // e sotto ti ho lasciato il link dove trovi la versione eseguibile da web
-    // dell'esempio
-    // (è la pagina esempi che ho fatto vedere al berretti, se vai un po' sotto
-    //  trovi gli esempi 3d)
-    // https://www.raylib.com/examples.html
     SetConfigFlags(FLAG_MSAA_4X_HINT);
-    InitWindow(1280, 960, "Hello World");
+    InitWindow(1280, 960, "L Systems");
 
     int target_fps = 60;
     SetTargetFPS(target_fps);
@@ -151,13 +190,12 @@ int main() {
     Color *pixelsAO    = (Color *)imgAO.data;
 
     int totalPixels = imgMRA.width * imgMRA.height;
-    for (int i = 0; i < totalPixels; i++)
-		{
-			pixelsMRA[i].r = 0;               // R (Metalness)
-			pixelsMRA[i].g = pixelsRough[i].r; // G (Roughness)
-			pixelsMRA[i].b = pixelsAO[i].r;    // B (Ambient Occlusion)
-			pixelsMRA[i].a = 255;             // A (Alpha)
-		}
+    for (int i = 0; i < totalPixels; i++) {
+		pixelsMRA[i].r = 0;                // R (Metalness)
+		pixelsMRA[i].g = pixelsRough[i].r; // G (Roughness)
+		pixelsMRA[i].b = pixelsAO[i].r;    // B (Ambient Occlusion)
+		pixelsMRA[i].a = 255;              // A (Alpha)
+	}
 
     Texture2D mraTexture = LoadTextureFromImage(imgMRA);
     GenTextureMipmaps(&mraTexture);
@@ -194,36 +232,56 @@ int main() {
 
     int maxLightCount = 1;
     int useTexAlbedo = 1;
-    int useTexNormal = 0;
+    int useTexNormal = 1;
     int useTexMRA    = 1;
-    float floorMetallic = 0.0f;
-    float floorRoughness = 0.0f;
-    float floorAo = 0.0f;
+
+    float floorMetallic = 0.2f;
+    float floorRoughness = 0.8f;
+    float floorAo = 0.5f;
     float floorEmissivePower = 0.0f;
+
     float ambientIntensity = 0.1f;
     Color ambientColor = { 26, 32, 135, 255 };
-    Vector3 ambientColorNormalized = { ambientColor.r/255.0f, ambientColor.g/255.0f, ambientColor.b/255.0f };
-    Vector4 floorEmissiveColor = ColorNormalize(floor.materials[0].maps[MATERIAL_MAP_EMISSION].color);
+    Vector3 ambientColorNormalized = { ambientColor.r/255.0f,
+									   ambientColor.g/255.0f,
+									   ambientColor.b/255.0f };
+
+    Vector4 floorEmissiveColor =
+		ColorNormalize(floor.materials[0].maps[MATERIAL_MAP_EMISSION].color);
     Vector2 floorTextureTiling = { 20.0f, 20.0f };
 
 
-	SetShaderValue(shader, GetShaderLocation(shader, "numOfLights"), &maxLightCount, SHADER_UNIFORM_INT);
-	SetShaderValue(shader, GetShaderLocation(shader, "useTexAlbedo"), &useTexAlbedo, SHADER_UNIFORM_INT);
-	SetShaderValue(shader, GetShaderLocation(shader, "useTexNormal"), &useTexNormal, SHADER_UNIFORM_INT);
-	SetShaderValue(shader, GetShaderLocation(shader, "useTexMRA"),    &useTexMRA,    SHADER_UNIFORM_INT);
-	//SetShaderValue(shader, GetShaderLocation(shader, "metallicValue"), &floorMetallic, SHADER_UNIFORM_FLOAT);
-	//SetShaderValue(shader, GetShaderLocation(shader, "roughnessValue"), &floorRoughness, SHADER_UNIFORM_FLOAT);
-	//SetShaderValue(shader, GetShaderLocation(shader, "aoValue"), &floorAo, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "emissivePower"), &floorEmissivePower, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "ambient"), &ambientIntensity, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "ambientColor"), &ambientColorNormalized, SHADER_UNIFORM_VEC3);
-	SetShaderValue(shader, GetShaderLocation(shader, "emissiveColor"), &floorEmissiveColor, SHADER_UNIFORM_VEC4);
-	SetShaderValue(shader, GetShaderLocation(shader, "tiling"), &floorTextureTiling, SHADER_UNIFORM_VEC2);
+	SetShaderValue(shader, GetShaderLocation(shader, "numOfLights"),
+				   &maxLightCount, SHADER_UNIFORM_INT);
+	SetShaderValue(shader, GetShaderLocation(shader, "useTexAlbedo"),
+				   &useTexAlbedo, SHADER_UNIFORM_INT);
+	SetShaderValue(shader, GetShaderLocation(shader, "useTexNormal"),
+				   &useTexNormal, SHADER_UNIFORM_INT);
+	SetShaderValue(shader, GetShaderLocation(shader, "useTexMRA"),
+				   &useTexMRA, SHADER_UNIFORM_INT);
+	SetShaderValue(shader, GetShaderLocation(shader, "metallicValue"),
+				   &floorMetallic, SHADER_UNIFORM_FLOAT);
+	SetShaderValue(shader, GetShaderLocation(shader, "roughnessValue"),
+				   &floorRoughness, SHADER_UNIFORM_FLOAT);
+	SetShaderValue(shader, GetShaderLocation(shader, "aoValue"),
+				   &floorAo, SHADER_UNIFORM_FLOAT);
+	SetShaderValue(shader, GetShaderLocation(shader, "emissivePower"),
+				   &floorEmissivePower, SHADER_UNIFORM_FLOAT);
+	SetShaderValue(shader, GetShaderLocation(shader, "ambient"),
+				   &ambientIntensity, SHADER_UNIFORM_FLOAT);
+	SetShaderValue(shader, GetShaderLocation(shader, "ambientColor"),
+				   &ambientColorNormalized, SHADER_UNIFORM_VEC3);
+	SetShaderValue(shader, GetShaderLocation(shader, "emissiveColor"),
+				   &floorEmissiveColor, SHADER_UNIFORM_VEC4);
+	SetShaderValue(shader, GetShaderLocation(shader, "tiling"),
+				   &floorTextureTiling, SHADER_UNIFORM_VEC2);
 
 	// Create light
 	Light sunLight;
 	Color sunColor = { 255, 244, 214, 255 };
-	sunLight = CreateLight(LIGHT_DIRECTIONAL, { 0.0f, 20.0f, 50.0f }, { 0.0f, 0.0f, 0.0f }, sunColor, 5.0f, shader);
+	sunLight = CreateLight(LIGHT_DIRECTIONAL,
+						   { 0.0f, 20.0f, 50.0f }, { 0.0f, 0.0f, 0.0f },
+						   sunColor, 5.0f, shader);
 	UpdateLight(shader, sunLight);
 
 	std::vector<std::pair<Vector3, Model>> tree_positions;
@@ -260,7 +318,7 @@ int main() {
 														 floor.transform);
 			if (collision.hit) {
 				tree_positions.push_back({collision.point,
-										  gen_tree_model(time(0))});
+										  gen_tree_model(time(0), shader)});
 			}
 		}
 
@@ -286,6 +344,7 @@ int main() {
 
 		} EndDrawing();
     }
+
     UnloadTexture(mraTexture);
     UnloadTexture(albedoTexture);
     UnloadTexture(normalTexture);

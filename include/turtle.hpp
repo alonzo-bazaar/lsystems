@@ -56,7 +56,6 @@ public:
 	Turtle(float angle,
            float stride,
            const std::vector<float>& thickness_table,
-           const Texture& texture,
 		   const std::vector<std::array<float, 2>>& texcoords_table);
 
 	Model follow_string(const std::string& s);
@@ -66,7 +65,6 @@ private:
 	float angle;
 	float stride;
     const std::vector<float> thickness_table;
-	const Texture texture;
 	const std::vector<std::array<float, 2>> texcoords_table;
 
     std::vector<Vector3> current_polygon = {};

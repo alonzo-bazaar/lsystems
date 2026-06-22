@@ -106,12 +106,10 @@ Matrix3 Matrix3::operator*(const Matrix3& rhs) const {
 Turtle::Turtle(float angle,
                float stride,
 			   const std::vector<float>& thickness_table,
-               const Texture& texture,
 			   const std::vector<std::array<float, 2>>& texcoords_table)
     :angle(angle),
      stride(stride),
      thickness_table(thickness_table),
-     texture(texture),
      texcoords_table(texcoords_table) {}
 
 Model Turtle::follow_string(const std::string& s) {
@@ -123,7 +121,6 @@ Model Turtle::follow_string(const std::string& s) {
 
 	// una volta finito di creare la mesh la usiamo per creare l'albero
 	Model tree = LoadModelFromMesh(mesh_builder.get());
-	tree.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = texture;
 	return tree;
 }
 
@@ -349,7 +346,7 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 	// non so per quale motivo il disco, anche se con la normale giusta a -1,
 	// lo crea comunque nel verso oppposto da quello che si aspetta raylib
 	// per ovviare a questa cosa se flippa il winding del disco
-	par_shapes_invert(cap_bot, 0, 0);
+	// par_shapes_invert(cap_bot, 0, 0);
 
 	par_shapes_merge_and_free(cylinder, cap_top);
 	par_shapes_merge_and_free(cylinder, cap_bot);
@@ -432,7 +429,7 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 	// https://en.wikipedia.org/wiki/Cross_product#Computing
 	// https://wikimedia.org/api/rest_v1/media/math/render/svg/a87d2b3b74e9790c36dab906d420b402a0c82230
 	const Vector3 cross_prod = {
-		AB.y * BC.z - AB.z - BC.y,
+		AB.y * BC.z - AB.z * BC.y,
 		AB.z * BC.x - AB.x * BC.z,
 		AB.x * BC.y - AB.y * BC.x
 	};
@@ -456,29 +453,51 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 	// 0 n-1 n
 	// visto che le foglie sono 3d vogliamo che siano visibili da entrambi
 	// i lato, disegnamo i triangoli da entrambe le direzioni
-	// (poi si vede dallo shader come fare che la direzione su sia più
-	//  chiara e quella giù più scura)
+	// ma, visto che il lato su e il lato giu avranno direzioni opposte,
+	// dobbiamo calcolare le normali di entrambi
+	// inoltre, onde evitare z fighting, disegnmo i due piani della fogli a un
+	// epsilon proprio piccolino piccolino di distanza
+	// (se potrebbe fare pure un poliedro, così è un attimo per test)
+
+	const float leaf_thickness = 0.0001f;
+
+	const auto tc = owner->current_texcoords();
 
 	for(size_t i = 1; i<poly.size()-1; i++) {
 		// pusha triangolo
 		// 0, i, i+1
 		// e, dato il 3d
 		// 0, i+1, i
-		for(const auto &v : std::vector<Vector3>{
-				poly[0], poly[i], poly[i+1], // triangolo su
-				poly[0], poly[i+1], poly[i]  // triangolo giu
-			}) {
-			points.push_back(v.x);
-			points.push_back(v.y);
-			points.push_back(v.z);
+
+		// triangolo su
+		for(const auto &v : std::vector<Vector3>{poly[0], poly[i], poly[i+1]}) {
+			points.push_back(v.x + (norm.x * leaf_thickness));
+			points.push_back(v.y + (norm.y * leaf_thickness));
+			points.push_back(v.z + (norm.z * leaf_thickness));
 
 			normals.push_back(norm.x);
 			normals.push_back(norm.y);
 			normals.push_back(norm.z);
 
-			texcoords.push_back(owner->current_texcoords()[0]);
-			texcoords.push_back(owner->current_texcoords()[1]);
+			texcoords.push_back(tc[0]);
+			texcoords.push_back(tc[1]);
 		}
+
+		// triangolo giu (con la normale dall'altra parte)
+		for(const auto &v : std::vector<Vector3>{poly[0], poly[i+1], poly[i]}) {
+			points.push_back(v.x - (norm.x * leaf_thickness));
+			points.push_back(v.y - (norm.y * leaf_thickness));
+			points.push_back(v.z - (norm.z * leaf_thickness));
+
+			normals.push_back(-norm.x);
+			normals.push_back(-norm.y);
+			normals.push_back(-norm.z);
+
+			texcoords.push_back(tc[0]);
+			texcoords.push_back(tc[1]);
+		}
+
+		// triangolo figaro
 	}
 }
 
@@ -491,6 +510,8 @@ Mesh Turtle::MeshBuilder::get() {
 	mesh.vertices = points.data();
 	mesh.normals = normals.data();
 	mesh.texcoords = texcoords.data();
+	mesh.texcoords2 = texcoords.data();
+
 	UploadMesh(&mesh, false); // false è per dire static mesh
 	return mesh;
 }

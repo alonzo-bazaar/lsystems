@@ -103,16 +103,11 @@ Matrix3 Matrix3::operator*(const Matrix3& rhs) const {
 }
 
 
-Turtle::Turtle(float angle,
-               float stride,
-			   const std::vector<float>& thickness_table,
+Turtle::Turtle(const std::vector<float>& thickness_table,
 			   const std::vector<std::array<float, 2>>& texcoords_table)
-    :angle(angle),
-     stride(stride),
-     thickness_table(thickness_table),
+    :thickness_table(thickness_table),
      texcoords_table(texcoords_table),
 	 current_state{
-		this,
 		0, 0,
 		{0, 0, 0},
 		// matrice dove la prima colonna è H / heading
@@ -129,14 +124,16 @@ Turtle::Turtle(float angle,
          0, 1, 0}},
 	 mesh_builder{this, {}, {}, {}} {}
 
-Model Turtle::follow_string(const std::string& s) {
-    for(const char c : s)
-		// follow_char() modifica mesh_builder
-		// (la tartaruga aggiunge poligoni a mesh_builder man mano che
-		//  esegue le istruzioni codificate dai vari caratteri)
-		follow_char(c);
+Model Turtle::follow_instruction_vector(const std::vector<instruction>& iv) {
+    for(const auto& i : iv)
+		// follow_instruction() modifica il mesh_builder della tartaruga
+		// aggiungendovi forme e poligoni man mano che
+		// esegue le istruzioni
+		follow_instruction(i);
 
-	// una volta finito di creare la mesh la usiamo per creare l'albero
+	// una volta seguite tutte le istruzioni il mesh builder interno
+	// avrà un modello completo dell'albero che volevamo andare a creare
+	// e lo otteniamo attraverso
 	Model tree = LoadModelFromMesh(mesh_builder.get());
 	return tree;
 }
@@ -159,19 +156,18 @@ void Turtle::log_state() {
              << std::endl;
 }
 
-Turtle::State Turtle::State::step() {
+Turtle::State Turtle::State::step_by(const float step_length) {
     // vai in direzione heading di un tot
     // forse dovrei separare posizione e metadati, sta funzione mi pare
     // un po' stronza mo'
     auto h = hlu.col(0);
     return (Turtle::State) {
-		owner,
 		thickness_table_index,
 		texcoords_table_index,
 		{
-			pos.x + (h[0] * owner->stride),
-			pos.y + (h[1] * owner->stride),
-			pos.z + (h[2] * owner->stride),
+			pos.x + (h[0] * step_length),
+			pos.y + (h[1] * step_length),
+			pos.z + (h[2] * step_length),
 		},
 		hlu,
     };
@@ -196,73 +192,110 @@ void Turtle::State::rotate_u_by(const float alpha) {
 }
 
 
-void Turtle::follow_char(const char c) {
-    switch(c) {
+void Turtle::follow_instruction(const instruction& i) {
+	// un c'abbiamo rust enum o robe simili quindi non posso assicurare
+	// che un dato carattere abbia un dato carattere sia accompagnato
+	// da un dato numero di float nel vettore
+	// quindi... famo la pythonata, ci fidiamo di com'è fatto i
+	// (e al massimo qualche assert)
+
+    switch(i.first) {
     case '[':
+		assert(i.second.size() == 0
+			   && "'[' instruction should not have accompanying parameters!");
 		state_stack.push_back(current_state);
 		break;
     case ']':
+		assert(i.second.size() == 0
+			   && "']' instruction should not have accompanying parameters!");
 		current_state = state_stack.back();
 		state_stack.pop_back();
 		break;
 
     case '{':
+		assert(i.second.size() == 0
+			   && "'{' instruction should not have accompanying parameters!");
 		polygon_mode = true;
         current_polygon.push_back(current_state.pos);
 		break;
     case '}':
+		assert(i.second.size() == 0
+			   && "'}' instruction should not have accompanying parameters!");
 		polygon_mode = false;
 		mesh_builder.add_polygon(current_polygon);
 		current_polygon.clear();
 		break;
 
     case 'F': {
+		assert(i.second.size() == 1
+			   && "'F' instruction should only have one parameter!");
         auto old_pos = current_state.pos;
-        current_state = current_state.step();
+        current_state = current_state.step_by(i.second[0]);
 		mesh_builder.add_cylinder(old_pos, current_state.pos);
 		break;
     }
     case 'f':
-		current_state = current_state.step();
+		assert(i.second.size() == 1
+			   && "'f' instruction should only have one parameter!");
+		current_state = current_state.step_by(i.second[0]);
 		if(polygon_mode)
 			current_polygon.push_back(current_state.pos);
 		break;
 
     case '\\':
-		current_state.rotate_h_by(angle);
+		assert(i.second.size() == 1
+			   && "'\\' instruction should only have one parameter!");
+		current_state.rotate_h_by(i.second[0]);
 		break;
     case '/':
-		current_state.rotate_h_by(-angle);
+		assert(i.second.size() == 1
+			   && "'/' instruction should only have one parameter!");
+		current_state.rotate_h_by(-i.second[0]);
 		break;
 
     case '&':
-		current_state.rotate_l_by(angle);
+		assert(i.second.size() == 1
+			   && "'&' instruction should only have one parameter!");
+		current_state.rotate_l_by(i.second[0]);
 		break;
     case '^':
-		current_state.rotate_l_by(-angle);
+		assert(i.second.size() == 1
+			   && "'^' instruction should only have one parameter!");
+		current_state.rotate_l_by(-i.second[0]);
 		break;
 
     case '+':
-		current_state.rotate_u_by(angle);
+		assert(i.second.size() == 1
+			   && "'+' instruction should only have one parameter!");
+		current_state.rotate_u_by(i.second[0]);
 		break;
     case '-':
-		current_state.rotate_u_by(-angle);
+		assert(i.second.size() == 1
+			   && "'-' instruction should only have one parameter!");
+		current_state.rotate_u_by(-i.second[0]);
 		break;
+
     case '|':
+		assert(i.second.size() == 0
+			   && "'|' instruction should not have accompanying parameters!");
 		current_state.rotate_u_by(PI);
 		break;
 
     case '!':
+		assert(i.second.size() == 0
+			   && "'!' instruction should not have accompanying parameters!");
 		if(current_state.thickness_table_index+1 < thickness_table.size())
 			current_state.thickness_table_index++;
 		break;
     case '\'':
+		assert(i.second.size() == 0
+			   && "'!' instruction should not have accompanying parameters!");
 		if(current_state.texcoords_table_index+1 < texcoords_table.size())
 			current_state.texcoords_table_index++;
 		break;
     default:
 		// std::cout<<"ignoring: '"<<c<<'\''<<std::endl;
-		(void)c;
+		(void)i;
 		break;
     }
 }

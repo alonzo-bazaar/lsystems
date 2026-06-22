@@ -14,6 +14,8 @@
 // usiamo direttamente la libreria interna sua per creare la mesh che poi
 // passeremo a raylib
 #include "external/par_shapes.h"
+// per instruction
+#include "rewrite.hpp"
 
 void DrawTriangleFan3D(const Vector3* points, int point_count, Color color);
 
@@ -53,17 +55,13 @@ private:
 
 class Turtle {
 public:
-	Turtle(float angle,
-           float stride,
-           const std::vector<float>& thickness_table,
+	Turtle(const std::vector<float>& thickness_table,
 		   const std::vector<std::array<float, 2>>& texcoords_table);
 
-	Model follow_string(const std::string& s);
+	Model follow_instruction_vector(const std::vector<instruction>& iv);
 	void log_state();
 
 private:
-	float angle;
-	float stride;
     const std::vector<float> thickness_table;
 	const std::vector<std::array<float, 2>> texcoords_table;
 
@@ -71,13 +69,6 @@ private:
     bool polygon_mode = false;
 
 	struct State {
-		// un'istanza di Turtle::state non è necessariamente
-		// legata a un'istanza di Turtle
-		// quindi se vogliamo che un Turtle::state abbia accesso ai campi
-		// della Turtle di cui è state dobbiamo dargli un puntatore o
-		// qualcosa al Turtle di afferenza
-		const Turtle* owner;
-
 		// nello stato ci mettiamo gli indici alla color/thickness table
 		// invece che metterci il colore o la thickness visto che
 		// se ce mettiamo colore o thickness poi avanzare lo stato al colore
@@ -89,7 +80,7 @@ private:
 		Vector3 pos;
         Matrix3 hlu;
 
-		State step();
+		State step_by(const float step_length);
         // vedi pagina 19 del pdf docs/book/abop-ch1.pdf
 		void rotate_u_by(const float angle);
 		void rotate_l_by(const float angle);
@@ -98,6 +89,11 @@ private:
 	State current_state;
 	std::vector<State> state_stack {};
 	struct MeshBuilder {
+		// un'istanza di Turtle::mesh_builder non è necessariamente
+		// legata a un'istanza "genitore" di Turtle
+		// quindi se vogliamo che un Turtle::mesh_builder abbia accesso ai
+		// campi della Turtle di cui è state, dobbiamo dargli un puntatore o
+		// qualcosa al Turtle di afferenza
 		const Turtle* owner;
 
 		// punti rappresentati come xyzxyzxyz... tutti attaccati
@@ -120,7 +116,7 @@ private:
 	};
 	MeshBuilder mesh_builder;
 
-	void follow_char(const char c);
+	void follow_instruction(const instruction& i);
 
 	// funzioni di convenience visto che scrivere
 	// color_table[current_state.color_table_index]

@@ -12,7 +12,7 @@
 #include "turtle.hpp"
 #include "light.hpp"
 
-float deg_to_rad(const float deg) {
+constexpr float deg_to_rad(const float deg) {
     return (deg * PI) / 180.0f;
 }
 
@@ -72,46 +72,131 @@ std::vector<Color> map_range<Color>(Color start, Color end, size_t n) {
     return res;
 }
 
-Model gen_tree_model(unsigned int seed, Shader shader) {
-	srand(seed);
+// vorrei scusarmi per questa piccola istanza di
+// "codice c++ che da grande voleva essere lisp"
+// è solo che gli l-system parametrici so' definiti così e io non saprei
+// come altro implementarli onestamente
+// https://stackoverflow.com/questions/35361408/why-i-can-not-return-initializer-list-from-lambda
+
+Model gen_tree_model(Shader shader) {
+	static unsigned int r_seed = 0;
+
+	constexpr float stride = 0.3f;
+	constexpr float angle = deg_to_rad(22.5);
+
+	const std::map<char, RewriteTarget> tree_rewrite_rules = {
+		RWP('A', [stride, angle](const std::vector<float>& ignored) {
+			(void)ignored;
+			return std::vector<instruction>
+				{{'[',{}},
+				 {'&',{angle}},
+				 {'F',{stride}},
+				 {'L',{}},
+				 {'!',{}},
+				 {'A',{}},
+				 {']',{}},
+
+				 {'/',{angle*5}},
+				 {'\'',{}},
+
+				 {'[',{}},
+				 {'&',{angle}},
+				 {'F',{stride}},
+				 {'L',{}},
+				 {'!',{}},
+				 {'A',{}},
+				 {']',{}},
+
+				 {'/',{7*angle}},
+				 {'\'',{}},
+
+				 {'[',{}},
+				 {'&',{angle}},
+				 {'F',{stride}},
+				 {'L',{}},
+				 {'!',{}},
+				 {'A',{}},
+				 {']',{}}};
+		}),
+		RWP('F',
+			{{0.9,
+			  [stride, angle](const std::vector<float>&ignored) {
+				  (void)ignored;
+				  return std::vector<instruction>
+					  {{'S', {}},
+					   {'/', {4*angle}},
+					   {'F', {2*stride}}};
+			  }},
+			 {0.1,
+			  [stride, angle](const std::vector<float>&ignored) {
+				  (void)ignored;
+				  return std::vector<instruction>
+					  {{'S', {}},
+					   {'/', {5*angle}},
+					   {'F', {stride}}};
+			  }}}),
+		RWP('S',
+			[stride, angle](const std::vector<float>&ignored) {
+				(void)ignored;
+				return std::vector<instruction>
+					{{'F', {stride}},
+					 {'L', {}}};
+			}),
+		RWP('L',
+			[stride, angle](const std::vector<float>&ignored) {
+				(void)ignored;
+				return std::vector<instruction>
+					{{'[',{}},
+					 {'\'',{}},
+					 {'\'',{}},
+					 {'\'',{}},
+					 {'^', {2*angle}},
+					 {'{',{}},
+					 {'-',{angle}},
+					 {'f',{stride}},
+					 {'+',{angle}},
+					 {'f',{stride}},
+					 {'+',{angle}},
+					 {'f',{stride}},
+					 {'-',{angle}},
+					 {'|',{}},
+					 {'-',{angle}},
+					 {'f',{stride}},
+					 {'+',{angle}},
+					 {'f',{stride}},
+					 {'+',{angle}},
+					 {'f',{stride}},
+					 {'}',{}},
+					 {']',{}}};
+			})};
+
+	// per essere sicuri che non ci siano due chiamate con lo stesso seed
+	r_seed++;
+	srand(r_seed);
+
+	std::vector<instruction> turtle_instructions =
+		rewrite_times(7,          // how many times to rewrite
+					  {{'A',{}}}, //axiom
+					  tree_rewrite_rules);
+
 	// crea tartaruga
-	// ok ecco la tartaruga
     Turtle turtle
-		(deg_to_rad(22.5),						// angle
-		 0.30f,									// stride
-		 map_range<float>(0.06f, 0.015f, 7),	// tickess table
+		(map_range<float>(0.06f, 0.015f, 7),	// tickess table
 		 map_range(std::array{0.05f, 0.05f},	// texcoord table
 				   std::array{0.95f, 0.95f},
 				   7));	
 	
-	// genera le istruzioni da far seguire alla tartaruga 
-	// (qui è dove si fa la parte di l-system come sistemi di riscrittura)
 
-	std::string turtle_instructions =
-		(rewrite_times(7,   // how many times to rewrite
-					   "A", //axiom
-					   {    // rewrite rules
-						   RWP('A', "[&FL!A]/////'[&FL!A]///////'[&FL!A]"),
-						   RWP('F', {{0.1, "S ///// FF"},
-									 {0.3, "S //// F"},
-									 {0.6, "S ///// F"}}),
-						   RWP('S', "F L"),
-						   RWP('L', "['''^^{-f+f+f-|-f+f+f}]"),
-					   }));
-	// std::string turtle_instructions = "FfF+FfF+FfF";
-
-	Model tree_model = turtle.follow_string(turtle_instructions);
-
+	Model tree_model = turtle.follow_instruction_vector(turtle_instructions);
 	// ottenuto il modello dell'albero, la tartaruga lo rende senza texture
 	// alcuna, abbiamo solo le texcoord sul modello
 	// questo ci consente di fare un po' gli sgargiulli con le texture una
 	// volta che la tartaruga ci rende questo albero
 
-	// intanto un po' di colore
-
+	// innanzitutto un po' di colore
 	Image tree_col_im = GenImageGradientLinear(10, 10, 0,
-											   BLUE, // lower end (trunk)
-											   RED); // higher end (leaves)
+											   BLUE, // in basso (troco/rami)
+											   RED); // in alto  (foglie)
 	Texture tree_col_tex = LoadTextureFromImage(tree_col_im);
 	UnloadImage(tree_col_im);
 	tree_model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = tree_col_tex;
@@ -125,7 +210,7 @@ Model gen_tree_model(unsigned int seed, Shader shader) {
 					 TEXTURE_FILTER_TRILINEAR);
 
 	// poi creiamo pure le texture mra per l'albero
-	// la faremo un po' "a mano" (con mano = C++), come fatto per tree_col_tex
+	// la faremo un po' "a mano", come fatto per tree_col_tex
 	// per come l'abbiamo mappata noi nello shader
 	// mra.r = metallic
 	// mra.g = roughness
@@ -137,8 +222,8 @@ Model gen_tree_model(unsigned int seed, Shader shader) {
 											  );
 	Texture tree_mra_tex = LoadTextureFromImage(tree_mra_im);
 	UnloadImage(tree_mra_im);
-	// mra è posizionata a MATERIAL_MAP_OCCLUSION ma è tutt'altro
-	// un po' un azzigogolo da parte nostra
+	// mra è posizionata a MATERIAL_MAP_OCCLUSION nello shader anche se non
+	// è propriamente una occlusion map, pardon il nome
     tree_model.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture =
 		tree_mra_tex;
 	GenTextureMipmaps(&tree_model
@@ -150,7 +235,9 @@ Model gen_tree_model(unsigned int seed, Shader shader) {
 					 .texture,
 					 TEXTURE_FILTER_TRILINEAR);
 
-	// tutto blu di prepotenza -> come se non ci fosse
+	// normal map tutta blu di prepotenza è come se non ci fosse
+	// messa solo così se lo shader proprio insiste nell'avere una normal map
+	// almeno qualcosa la trova
 	Image tree_norm_im = GenImageColor(10, 10, {0, 0, 255, 255});
 	Texture tree_norm_tex = LoadTextureFromImage(tree_norm_im);
 	UnloadImage(tree_norm_im);
@@ -379,7 +466,7 @@ int main() {
 														 floor.transform);
 			if (collision.hit) {
 				tree_positions.push_back({collision.point,
-										  gen_tree_model(time(0), shader)});
+										  gen_tree_model(shader)});
 			}
 		}
 

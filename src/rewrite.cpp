@@ -21,27 +21,34 @@
 // "dopo sta trasformazione il carattere tot diventa la stringa tot"
 // applica la trasformazione a tutti i caratteri della stringa, mettili insieme
 // e ritorna la stringa che ne risulta
-std::string rewrite (const std::string& axiom,
-		     const std::map<char, RewriteTarget>& transformations) {
-    std::stringstream ss;
-    for(char c : axiom) {
-	auto f = transformations.find(c);
-	if(f != transformations.end())
-	    ss << f->second.expand();
-	else
-	    ss << c;
+
+std::vector<instruction>
+rewrite(const std::vector<instruction>& axiom,
+		const std::map<char, RewriteTarget>& transformations) {
+	std::vector<instruction> acc;
+
+    for(const auto& i : axiom) {
+		auto f = transformations.find(i.first);
+		if(f != transformations.end()) {
+			auto ex = f->second.expand(i.second);
+			// https://stackoverflow.com/questions/2551775/appending-a-vector-to-a-vector
+			acc.insert(acc.end(), ex.begin(), ex.end());
+		}
+		else
+			acc.push_back(i);
     }
-    return ss.str();
+    return acc;
 }
 
 // idem di sopra ma fa il rewrite tot volte invece che una sola
-std::string rewrite_times (unsigned int times,
-			   const std::string& axiom,
+std::vector<instruction>
+rewrite_times (unsigned int times,
+			   const std::vector<instruction>& axiom,
 			   const std::map<char, RewriteTarget>& transformations) {
     if(times == 0)
-	return axiom;
+		return axiom;
     return rewrite_times(times-1,
-			 rewrite(axiom, transformations),
-			 transformations);
+						 rewrite(axiom, transformations),
+						 transformations);
 }
 

@@ -1,5 +1,5 @@
 {
-  "tests": 14,
+  "tests": 15,
   "name": "AllTests",
   "testsuites": [
     {
@@ -65,22 +65,27 @@
     },
     {
       "name": "RewriteTest",
-      "tests": 3,
+      "tests": 4,
       "testsuite": [
-        {
-          "name": "TestEmptyInput",
-          "file": "\/home\/nil\/Projects\/lsystems\/test\/rewrite_test.cpp",
-          "line": 4
-        },
         {
           "name": "TestEmptyOutput",
           "file": "\/home\/nil\/Projects\/lsystems\/test\/rewrite_test.cpp",
-          "line": 20
+          "line": 16
+        },
+        {
+          "name": "TestNoMatchingRule",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/rewrite_test.cpp",
+          "line": 35
         },
         {
           "name": "TestNormalFunctioning",
           "file": "\/home\/nil\/Projects\/lsystems\/test\/rewrite_test.cpp",
-          "line": 27
+          "line": 47
+        },
+        {
+          "name": "TestWaitHowDoValuesWork",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/rewrite_test.cpp",
+          "line": 75
         }
       ]
     }

@@ -76,85 +76,85 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.o: thirdparty/raylib
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raudio.c
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nil/Projects/lsystems/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.o"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.o -MF CMakeFiles/raylib.dir/raudio.c.o.d -o CMakeFiles/raylib.dir/raudio.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raudio.c
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.o -MF CMakeFiles/raylib.dir/raudio.c.o.d -o CMakeFiles/raylib.dir/raudio.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raudio.c
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib.dir/raudio.c.i"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raudio.c > CMakeFiles/raylib.dir/raudio.c.i
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raudio.c > CMakeFiles/raylib.dir/raudio.c.i
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/raudio.c.s"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raudio.c -o CMakeFiles/raylib.dir/raudio.c.s
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raudio.c -o CMakeFiles/raylib.dir/raudio.c.s
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/flags.make
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rcore.c
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nil/Projects/lsystems/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.o"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.o -MF CMakeFiles/raylib.dir/rcore.c.o.d -o CMakeFiles/raylib.dir/rcore.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rcore.c
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.o -MF CMakeFiles/raylib.dir/rcore.c.o.d -o CMakeFiles/raylib.dir/rcore.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rcore.c
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib.dir/rcore.c.i"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rcore.c > CMakeFiles/raylib.dir/rcore.c.i
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rcore.c > CMakeFiles/raylib.dir/rcore.c.i
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/rcore.c.s"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rcore.c -o CMakeFiles/raylib.dir/rcore.c.s
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rcore.c -o CMakeFiles/raylib.dir/rcore.c.s
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/flags.make
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rmodels.c
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nil/Projects/lsystems/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.o"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.o -MF CMakeFiles/raylib.dir/rmodels.c.o.d -o CMakeFiles/raylib.dir/rmodels.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rmodels.c
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.o -MF CMakeFiles/raylib.dir/rmodels.c.o.d -o CMakeFiles/raylib.dir/rmodels.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rmodels.c
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib.dir/rmodels.c.i"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rmodels.c > CMakeFiles/raylib.dir/rmodels.c.i
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rmodels.c > CMakeFiles/raylib.dir/rmodels.c.i
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/rmodels.c.s"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rmodels.c -o CMakeFiles/raylib.dir/rmodels.c.s
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rmodels.c -o CMakeFiles/raylib.dir/rmodels.c.s
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/flags.make
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rshapes.c
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nil/Projects/lsystems/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.o"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.o -MF CMakeFiles/raylib.dir/rshapes.c.o.d -o CMakeFiles/raylib.dir/rshapes.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rshapes.c
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.o -MF CMakeFiles/raylib.dir/rshapes.c.o.d -o CMakeFiles/raylib.dir/rshapes.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rshapes.c
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib.dir/rshapes.c.i"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rshapes.c > CMakeFiles/raylib.dir/rshapes.c.i
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rshapes.c > CMakeFiles/raylib.dir/rshapes.c.i
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/rshapes.c.s"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rshapes.c -o CMakeFiles/raylib.dir/rshapes.c.s
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rshapes.c -o CMakeFiles/raylib.dir/rshapes.c.s
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/flags.make
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtext.c
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nil/Projects/lsystems/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.o"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.o -MF CMakeFiles/raylib.dir/rtext.c.o.d -o CMakeFiles/raylib.dir/rtext.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtext.c
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.o -MF CMakeFiles/raylib.dir/rtext.c.o.d -o CMakeFiles/raylib.dir/rtext.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtext.c
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib.dir/rtext.c.i"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtext.c > CMakeFiles/raylib.dir/rtext.c.i
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtext.c > CMakeFiles/raylib.dir/rtext.c.i
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/rtext.c.s"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtext.c -o CMakeFiles/raylib.dir/rtext.c.s
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtext.c -o CMakeFiles/raylib.dir/rtext.c.s
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/flags.make
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtextures.c
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.o: thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/nil/Projects/lsystems/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.o"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.o -MF CMakeFiles/raylib.dir/rtextures.c.o.d -o CMakeFiles/raylib.dir/rtextures.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtextures.c
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.o -MF CMakeFiles/raylib.dir/rtextures.c.o.d -o CMakeFiles/raylib.dir/rtextures.c.o -c /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtextures.c
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/raylib.dir/rtextures.c.i"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtextures.c > CMakeFiles/raylib.dir/rtextures.c.i
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtextures.c > CMakeFiles/raylib.dir/rtextures.c.i
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/raylib.dir/rtextures.c.s"
-	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtextures.c -o CMakeFiles/raylib.dir/rtextures.c.s
+	cd /home/nil/Projects/lsystems/build/thirdparty/raylib-6.0/raylib && /usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtextures.c -o CMakeFiles/raylib.dir/rtextures.c.s
 
 # Object files for target raylib
 raylib_OBJECTS = \

@@ -95,23 +95,7 @@ private:
 		void rotate_l_by(const float angle);
 		void rotate_h_by(const float angle);
 	};
-	State current_state = (State) {
-		this,
-		0, 0,
-		{0, 0, 0},
-		// matrice dove la prima colonna è H / heading
-		// la seconda è L / left
-		// la terza è U / up
-		// se vogliamo che la direzione iniziale della tartaruga sia verso
-		// l'alto allora heading/la prima colonna deve essere verso l'alto
-		// che per il nostro sistema di riferimento vuol dire verso le y
-		// positive.
-		// L e U possono essere quello che gli pare, basta che HLU sia una 
-		// base ortonormale
-		{0, 0, 1,
-         1, 0, 0,
-         0, 1, 0},
-	};
+	State current_state;
 	std::vector<State> state_stack {};
 	struct MeshBuilder {
 		const Turtle* owner;
@@ -134,7 +118,7 @@ private:
 		void add_polygon(std::vector<Vector3> points);
 		Mesh get();
 	};
-	MeshBuilder mesh_builder{this, {}, {}, {}};
+	MeshBuilder mesh_builder;
 
 	void follow_char(const char c);
 

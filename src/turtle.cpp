@@ -110,7 +110,24 @@ Turtle::Turtle(float angle,
     :angle(angle),
      stride(stride),
      thickness_table(thickness_table),
-     texcoords_table(texcoords_table) {}
+     texcoords_table(texcoords_table),
+	 current_state{
+		this,
+		0, 0,
+		{0, 0, 0},
+		// matrice dove la prima colonna è H / heading
+		// la seconda è L / left
+		// la terza è U / up
+		// se vogliamo che la direzione iniziale della tartaruga sia verso
+		// l'alto allora heading/la prima colonna deve essere verso l'alto
+		// che per il nostro sistema di riferimento vuol dire verso le y
+		// positive.
+		// L e U possono essere quello che gli pare, basta che HLU sia una 
+		// base ortonormale
+		{0, 0, 1,
+         1, 0, 0,
+         0, 1, 0}},
+	 mesh_builder{this, {}, {}, {}} {}
 
 Model Turtle::follow_string(const std::string& s) {
     for(const char c : s)
@@ -346,13 +363,13 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 	// non so per quale motivo il disco, anche se con la normale giusta a -1,
 	// lo crea comunque nel verso oppposto da quello che si aspetta raylib
 	// per ovviare a questa cosa se flippa il winding del disco
-	// par_shapes_invert(cap_bot, 0, 0);
+	par_shapes_invert(cap_bot, 0, 0);
 
 	par_shapes_merge_and_free(cylinder, cap_top);
 	par_shapes_merge_and_free(cylinder, cap_bot);
 
 	// allunga alla lunghezza desiderata e setta larghezza
-	const Vector3 diff = sub(startpos, endpos);
+	const Vector3 diff = sub(endpos, startpos);
 	const float diff_norm = norm2(diff);
 
 	par_shapes_scale(cylinder,

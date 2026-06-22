@@ -86,6 +86,7 @@ Model gen_tree_model(unsigned int seed, Shader shader) {
 	
 	// genera le istruzioni da far seguire alla tartaruga 
 	// (qui è dove si fa la parte di l-system come sistemi di riscrittura)
+
 	std::string turtle_instructions =
 		(rewrite_times(7,   // how many times to rewrite
 					   "A", //axiom
@@ -97,6 +98,7 @@ Model gen_tree_model(unsigned int seed, Shader shader) {
 						   RWP('S', "F L"),
 						   RWP('L', "['''^^{-f+f+f-|-f+f+f}]"),
 					   }));
+	// std::string turtle_instructions = "FfF+FfF+FfF";
 
 	Model tree_model = turtle.follow_string(turtle_instructions);
 
@@ -148,6 +150,11 @@ Model gen_tree_model(unsigned int seed, Shader shader) {
 					 .texture,
 					 TEXTURE_FILTER_TRILINEAR);
 
+	// tutto blu di prepotenza -> come se non ci fosse
+	Image tree_norm_im = GenImageColor(10, 10, {0, 0, 255, 255});
+	Texture tree_norm_tex = LoadTextureFromImage(tree_norm_im);
+	UnloadImage(tree_norm_im);
+	tree_model.materials[0].maps[MATERIAL_MAP_NORMAL].texture = tree_norm_tex;
 
     tree_model.materials[0].shader = shader;
 	
@@ -207,14 +214,54 @@ int main() {
 
     //Image displacementImg = LoadImage("resources/textures/Grass001_2K-PNG_Displacement.png");
     //shader.locs[SHADER_LOC_MAP_HEIGHT] = GetShaderLocation(shader, "resources/textures/Grass001_2K-PNG_Displacement.png");
-    //Mesh floorMesh = GenMeshHeightmap(displacementImg, (Vector3){ 100.0f, 0.002f, 100.0f });
+    //Mesh floor_mesh = GenMeshHeightmap(displacementImg, (Vector3){ 100.0f, 0.002f, 100.0f });
     //UnloadImage(displacementImg);
 
-    Mesh floorMesh = GenMeshPlane(100.0f, 100.0f, 100, 100);
-    GenMeshTangents(&floorMesh);
-    Model floor = LoadModelFromMesh(floorMesh);
+	float floor_width = 100.0f;
+	float floor_length = 100.0f;
+	float floor_vertices[] = {
+		+floor_width/2, 0, +floor_length/2,
+		+floor_width/2, 0, -floor_length/2,
+		-floor_width/2, 0, -floor_length/2,
 
-    floor.materials[0].shader = shader;
+		-floor_width/2, 0, -floor_length/2,
+		-floor_width/2, 0, +floor_length/2,
+		+floor_width/2, 0, +floor_length/2,
+	};
+
+	float floor_texcoords[] = {
+		+10.0f, +10.0f,
+		+10.0f, -10.0f,
+		-10.0f, -10.0f,
+
+		-10.0f, -10.0f,
+		-10.0f, +10.0f,
+		+10.0f, +10.0f,
+	};
+
+	float floor_normals[] = {
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+	};
+
+	Mesh floor_mesh = {0};
+	floor_mesh.vertices = floor_vertices;
+	floor_mesh.texcoords = floor_texcoords;
+	floor_mesh.normals = floor_normals;
+
+	floor_mesh.vertexCount = 6;
+	floor_mesh.triangleCount = 2;
+
+	UploadMesh(&floor_mesh, false);
+
+    Model floor = LoadModelFromMesh(floor_mesh);
+
+    // floor.materials[0].shader = shader;
 
     floor.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture = mraTexture;
     GenTextureMipmaps(&floor.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture);
@@ -232,7 +279,7 @@ int main() {
 
     int maxLightCount = 1;
     int useTexAlbedo = 1;
-    int useTexNormal = 1;
+    int useTexNormal = 0;
     int useTexMRA    = 1;
 
     float floorMetallic = 0.2f;
@@ -248,8 +295,10 @@ int main() {
 
     Vector4 floorEmissiveColor =
 		ColorNormalize(floor.materials[0].maps[MATERIAL_MAP_EMISSION].color);
-    Vector2 floorTextureTiling = { 20.0f, 20.0f };
 
+	SetTextureWrap(albedoTexture, TEXTURE_WRAP_REPEAT);
+	SetTextureWrap(normalTexture, TEXTURE_WRAP_REPEAT);
+	SetTextureWrap(mraTexture, TEXTURE_WRAP_REPEAT);
 
 	SetShaderValue(shader, GetShaderLocation(shader, "numOfLights"),
 				   &maxLightCount, SHADER_UNIFORM_INT);
@@ -273,9 +322,10 @@ int main() {
 				   &ambientColorNormalized, SHADER_UNIFORM_VEC3);
 	SetShaderValue(shader, GetShaderLocation(shader, "emissiveColor"),
 				   &floorEmissiveColor, SHADER_UNIFORM_VEC4);
+
+	Vector2 floorTextureTiling = {0.05, 0.5f};
 	SetShaderValue(shader, GetShaderLocation(shader, "tiling"),
 				   &floorTextureTiling, SHADER_UNIFORM_VEC2);
-
 	// Create light
 	Light sunLight;
 	Color sunColor = { 255, 244, 214, 255 };
@@ -284,7 +334,18 @@ int main() {
 						   sunColor, 5.0f, shader);
 	UpdateLight(shader, sunLight);
 
-	std::vector<std::pair<Vector3, Model>> tree_positions;
+	/*
+	Model default_cube = LoadModelFromMesh(GenMeshCube(1.0f, 2.0f, 1.0f));
+	default_cube.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = 
+		LoadTextureFromImage(GenImageChecked(2, 2, 1, 1, BLACK, PURPLE));
+	default_cube.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture = 
+		LoadTextureFromImage(GenImageColor(10, 10, {0, 255, 0, 255}));
+	default_cube.materials[0].shader = shader;
+	*/
+
+	std::vector<std::pair<Vector3, Model>> tree_positions{
+		// {{0, 0, 0}, default_cube}
+	};
     while(!WindowShouldClose()) {
 		int centerX = GetScreenWidth()/2;
 		int centerY = GetScreenHeight()/2;
@@ -314,7 +375,7 @@ int main() {
 			Vector2 screenCenter = { (float)centerX, (float)centerY };
 			Ray crosshairRay = GetMouseRay(screenCenter, camera);
 			RayCollision collision = GetRayCollisionMesh(crosshairRay,
-														 floorMesh,
+														 floor_mesh,
 														 floor.transform);
 			if (collision.hit) {
 				tree_positions.push_back({collision.point,

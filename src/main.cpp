@@ -218,7 +218,7 @@ Model gen_tree_model(unsigned int r_seed, Shader shader) {
 	// generiamo quindi una texture che inizia con del marrone scuro (tronco)
 	// e procede verso un verde chiaro (foglie) seguendo un certo gradiente
 	Image tree_col_im = GenImageGradientLinear(10, 10, 0,
-											   DARKBROWN,
+											   BROWN,
 											   LIME);
 	Texture tree_col_tex = LoadTextureFromImage(tree_col_im);
 	UnloadImage(tree_col_im);
@@ -246,7 +246,7 @@ Model gen_tree_model(unsigned int r_seed, Shader shader) {
 	// mra.a = (non utilizzato)
 	Image tree_mra_im = GenImageGradientLinear(10, 10, 0,
 											   {0, 255, 0, 255},
-											   {0, 100, 100, 255});
+											   {0, 255, 0, 255});
 	Texture tree_mra_tex = LoadTextureFromImage(tree_mra_im);
 	UnloadImage(tree_mra_im);
 
@@ -364,13 +364,13 @@ int main() {
 	unsigned short floor_indices[] = {
 		0, 1, 2,
 		2, 3, 0,
-	}
+	};
 
 	Mesh floor_mesh = {0};
 	floor_mesh.vertices = floor_vertices;
 	floor_mesh.texcoords = floor_texcoords;
 	floor_mesh.normals = floor_normals;
-	floor_mesh.indices = indices;
+	floor_mesh.indices = floor_indices;
 
 	floor_mesh.vertexCount = 4;
 	floor_mesh.triangleCount = 2;
@@ -447,7 +447,7 @@ int main() {
 	// dallo shader pbr che abbiamo preso e modificato per questo progetto
 	// per adesso la settiamo solo a un valore di "come se non ci fosse"
 	// prima di passarla allo shader
-	Vector2 floorTextureTiling = {0.05, 0.5f};
+	Vector2 floorTextureTiling = {0.5, 0.5f};
 
 	SetShaderValue(shader, GetShaderLocation(shader, "tiling"),
 				   &floorTextureTiling, SHADER_UNIFORM_VEC2);

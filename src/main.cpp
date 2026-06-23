@@ -11,6 +11,7 @@
 #include "rewrite.hpp"
 #include "turtle.hpp"
 #include "light.hpp"
+#include "terrain.hpp"
 
 float deg_to_rad(const float deg) {
     return (deg * PI) / 180.0f;
@@ -159,11 +160,13 @@ int main() {
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(1280, 960, "L Systems");
 
+	DisableCursor();
+
     int target_fps = 60;
     SetTargetFPS(target_fps);
 
 	Camera camera;
-	camera.position = (Vector3){ 10.0f, 2.0f, 10.0f };
+	camera.position = (Vector3){ 10.0f, 250.0f, 10.0f };
 	camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
 	camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
 	camera.fovy = 45.0f;
@@ -210,29 +213,31 @@ int main() {
     //Mesh floorMesh = GenMeshHeightmap(displacementImg, (Vector3){ 100.0f, 0.002f, 100.0f });
     //UnloadImage(displacementImg);
 
-    Mesh floorMesh = GenMeshPlane(100.0f, 100.0f, 100, 100);
-    GenMeshTangents(&floorMesh);
-    Model floor = LoadModelFromMesh(floorMesh);
+    //Mesh floorMesh = GenMeshPlane(100.0f, 100.0f, 100, 100);
+    //GenMeshTangents(&floorMesh);
+    //Model floor = LoadModelFromMesh(floorMesh);
 
-    floor.materials[0].shader = shader;
+	Terrain terrain = Terrain::loadFromFile("resources/textures/heigthmap.save");
 
-    floor.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture = mraTexture;
-    GenTextureMipmaps(&floor.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture);
-    SetTextureFilter(floor.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture, TEXTURE_FILTER_TRILINEAR);
+    terrain.getModel().materials[0].shader = shader;
+
+    terrain.getModel().materials[0].maps[MATERIAL_MAP_OCCLUSION].texture = mraTexture;
+    GenTextureMipmaps(&terrain.getModel().materials[0].maps[MATERIAL_MAP_OCCLUSION].texture);
+    SetTextureFilter(terrain.getModel().materials[0].maps[MATERIAL_MAP_OCCLUSION].texture, TEXTURE_FILTER_TRILINEAR);
 
 	Texture2D albedoTexture = LoadTexture("resources/textures/Grass007_2K-PNG_Color.png");
-	floor.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = albedoTexture;
-	GenTextureMipmaps(&floor.materials[0].maps[MATERIAL_MAP_ALBEDO].texture);
-	SetTextureFilter(floor.materials[0].maps[MATERIAL_MAP_ALBEDO].texture, TEXTURE_FILTER_TRILINEAR);
+	terrain.getModel().materials[0].maps[MATERIAL_MAP_ALBEDO].texture = albedoTexture;
+	GenTextureMipmaps(&terrain.getModel().materials[0].maps[MATERIAL_MAP_ALBEDO].texture);
+	SetTextureFilter(terrain.getModel().materials[0].maps[MATERIAL_MAP_ALBEDO].texture, TEXTURE_FILTER_TRILINEAR);
 
 	Texture2D normalTexture = LoadTexture("resources/textures/Grass007_2K-PNG_NormalGL.png");
-	floor.materials[0].maps[MATERIAL_MAP_NORMAL].texture = normalTexture;
-	GenTextureMipmaps(&floor.materials[0].maps[MATERIAL_MAP_NORMAL].texture);
-	SetTextureFilter(floor.materials[0].maps[MATERIAL_MAP_NORMAL].texture, TEXTURE_FILTER_TRILINEAR);
+	terrain.getModel().materials[0].maps[MATERIAL_MAP_NORMAL].texture = normalTexture;
+	GenTextureMipmaps(&terrain.getModel().materials[0].maps[MATERIAL_MAP_NORMAL].texture);
+	SetTextureFilter(terrain.getModel().materials[0].maps[MATERIAL_MAP_NORMAL].texture, TEXTURE_FILTER_TRILINEAR);
 
     int maxLightCount = 1;
     int useTexAlbedo = 1;
-    int useTexNormal = 1;
+    int useTexNormal = 0;
     int useTexMRA    = 1;
 
     float floorMetallic = 0.2f;
@@ -247,8 +252,8 @@ int main() {
 									   ambientColor.b/255.0f };
 
     Vector4 floorEmissiveColor =
-		ColorNormalize(floor.materials[0].maps[MATERIAL_MAP_EMISSION].color);
-    Vector2 floorTextureTiling = { 20.0f, 20.0f };
+		ColorNormalize(terrain.getModel().materials[0].maps[MATERIAL_MAP_EMISSION].color);
+    Vector2 floorTextureTiling = { 1.0f, 1.0f };
 
 
 	SetShaderValue(shader, GetShaderLocation(shader, "numOfLights"),
@@ -280,7 +285,7 @@ int main() {
 	Light sunLight;
 	Color sunColor = { 255, 244, 214, 255 };
 	sunLight = CreateLight(LIGHT_DIRECTIONAL,
-						   { 0.0f, 20.0f, 50.0f }, { 0.0f, 0.0f, 0.0f },
+						   { 0.0f, 250.0f, 50.0f }, { 0.0f, 0.0f, 0.0f },
 						   sunColor, 5.0f, shader);
 	UpdateLight(shader, sunLight);
 
@@ -314,8 +319,8 @@ int main() {
 			Vector2 screenCenter = { (float)centerX, (float)centerY };
 			Ray crosshairRay = GetMouseRay(screenCenter, camera);
 			RayCollision collision = GetRayCollisionMesh(crosshairRay,
-														 floorMesh,
-														 floor.transform);
+														 terrain.getModel().meshes[0],
+														 terrain.getModel().transform);
 			if (collision.hit) {
 				tree_positions.push_back({collision.point,
 										  gen_tree_model(time(0), shader)});
@@ -326,7 +331,8 @@ int main() {
 			ClearBackground(SKYBLUE);
 
 			BeginMode3D(camera); {
-				DrawModel(floor, {0.0f, 0.0f, 0.0f}, 1.0f, WHITE);
+				terrain.Disegna();
+
 				// Draw sphere to show the sun position
 				if (sunLight.enabled)
 					DrawSphereEx(sunLight.position, 0.2f, 8, 8, sunColor);
@@ -349,7 +355,7 @@ int main() {
     UnloadTexture(albedoTexture);
     UnloadTexture(normalTexture);
     UnloadShader(shader);      // Unload shader
-    UnloadModel(floor);
+    UnloadModel(terrain.getModel());
     CloseWindow();
     return 0;
 }

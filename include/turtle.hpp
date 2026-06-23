@@ -70,23 +70,40 @@ private:
 
 	struct State {
 		// nello stato ci mettiamo gli indici alla color/thickness table
-		// invece che metterci il colore o la thickness visto che
-		// se ce mettiamo colore o thickness poi avanzare lo stato al colore
-		// o thickness successivi come famo?
-		// non famo
-		// quindi lo stato c'ha gli indici
+		// invece che metterci il colore o la thickness visto che vogliamo che
+		// un'istanza di state abbia tutte le informazioni per calcolare lo
+		// state successivo a una trasformazione quale, ad esempio
+		// passare al colore (o spessore) successivo
 		size_t thickness_table_index;
 		size_t texcoords_table_index;
 		Vector3 pos;
         Matrix3 hlu;
 
 		State step_by(const float step_length);
-        // vedi pagina 19 del pdf docs/book/abop-ch1.pdf
+        // vedi pagina 19 del pdf docs/book/abop-ch1.pdf per come
+        // sono implementate queste 3 funzioni
 		void rotate_u_by(const float angle);
 		void rotate_l_by(const float angle);
 		void rotate_h_by(const float angle);
 	};
-	State current_state;
+	State current_state {
+		0, 0,
+		{0, 0, 0},
+		// matrice HLU per indicare l'orientamento della tartaruga
+		// nello spazio:
+		// la prima colonna è H / heading
+		// la seconda è L / left
+		// la terza è U / up
+		// se vogliamo che la direzione iniziale della tartaruga sia verso
+		// l'alto allora heading/la prima colonna deve essere verso l'alto
+		// che per il nostro sistema di riferimento vuol dire verso le y
+		// positive.
+		// L e U possono essere messe a piacimento, basta che HLU formi una
+		// base ortonormale
+		{0, 0, 1,
+         1, 0, 0,
+         0, 1, 0}};
+
 	std::vector<State> state_stack {};
 	struct MeshBuilder {
 		// un'istanza di Turtle::mesh_builder non è necessariamente
@@ -105,11 +122,12 @@ private:
 
 		// i vettori li rappresentiamo così piatti invece di fare un vettore 
 		// di struct per poterli passare più facilmente all'api poi di raylib
-		// che si aspetta degli array piatti di xyzxyzxyz... o uvuvuvuv...
-		// o via dicendo
+		// che, per passarli a opengli, si aspetta degli array piatti
+		// xyzxyzxyz... o uvuvuvuv... o via dicendo
 
 		// queste funzioni prendono thickness, texcoords, et al da owner
-		// (owner->current_texcoords() / owner->current_thickness(), et al.)
+		// non vi è quindi bisogno di passargli ulteriori informazioni su
+		// come va fatto il cilindro/poligono
 		void add_cylinder(Vector3 start, Vector3 end);
 		void add_polygon(std::vector<Vector3> points);
 		Mesh get();
@@ -119,8 +137,6 @@ private:
 	void follow_instruction(const instruction& i);
 
 	// funzioni di convenience visto che scrivere
-	// color_table[current_state.color_table_index]
-	// ogni volta è un po' una rottura
 	const std::array<float, 2> current_texcoords() const;
 	const float current_thickness() const;
 };

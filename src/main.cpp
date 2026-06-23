@@ -31,9 +31,8 @@ std::vector<T> map_range(T start, T end, size_t n) {
     return res;
 }
 
-// vorrei scusarmi col professor bertini per quello che sto per fare
-// c++ non c'ha partial template specialization per template di funzioni
-// e me serviva farne due che prendevano entrambe array, e così era più comodo
+// workaround per permettere partial specializaton di template di funzioni
+// in quanto questa non è presente nello standard c++ 17
 #define def_range_mat(T, N)									\
 	template<>												\
 	std::vector<std::array<T, N>>							\
@@ -72,18 +71,32 @@ std::vector<Color> map_range<Color>(Color start, Color end, size_t n) {
     return res;
 }
 
-// vorrei scusarmi per questa piccola istanza di
-// "codice c++ che da grande voleva essere lisp"
-// è solo che gli l-system parametrici so' definiti così e io non saprei
-// come altro implementarli onestamente
-// https://stackoverflow.com/questions/35361408/why-i-can-not-return-initializer-list-from-lambda
+// genera modello di albero da posizionare sulla mappa utilizzando
+// uno stochastic parametric l-system
 
-Model gen_tree_model(Shader shader) {
-	static unsigned int r_seed = 0;
+Model gen_tree_model(unsigned int r_seed, Shader shader) {
+	// per ripetibilità/facilità nel testare passiamo il random seed utilizzato
+	// dallo stochastic parametric l-system sottostante alla funzione
+	srand(r_seed);
 
 	constexpr float stride = 0.3f;
 	constexpr float angle = deg_to_rad(22.5);
 
+	// riscrittura tramite l-system parametrico
+	// le varie "istruzioni" in un l-sustem parametrico sono coppie
+	// (carattere - lista di parametri)
+	// e le regole di riscrittura sono rappresentate come associazioni
+	// "se ho un'istruzione con questo carattere applico questa funzione
+	//  ai parametri dell'struzione, e ottengo la regola riscritta"
+	// 
+	// la funzione applicata ai parametri è wrappata in un oggetto RewriteTarget
+	// per facilitare la gestione di regole stocastiche, che sono rappresentate
+	// tramite liste di coppie
+	// (probabilità di scegliere questa regola - regola in questione)
+	// 
+	// tutto ciò viene rappresntato in c++ come segue
+	// (la potenza espressiva di questo modello è purtroppo accompagnata
+	//  da un'elevata verbosità)
 	const std::map<char, RewriteTarget> tree_rewrite_rules = {
 		RWP('A', [stride, angle](const std::vector<float>& ignored) {
 			(void)ignored;
@@ -170,33 +183,43 @@ Model gen_tree_model(Shader shader) {
 					 {']',{}}};
 			})};
 
-	// per essere sicuri che non ci siano due chiamate con lo stesso seed
-	r_seed++;
-	srand(r_seed);
+	// date le rewrite rule è ora possibile riscrivere una stringa assioma
+	// tot volte per ottenere le istruzioni da far seguire a una tartaruga
+	// per la creazione un albero
 
+	// generiamo quindi le istruzioni
 	std::vector<instruction> turtle_instructions =
-		rewrite_times(7,          // how many times to rewrite
-					  {{'A',{}}}, //axiom
+		rewrite_times(7,           // quante volte riscrivere
+					  {{'A',{}}},  // assioma
 					  tree_rewrite_rules);
 
-	// crea tartaruga
+	// e la tartaruga
     Turtle turtle
-		(map_range<float>(0.06f, 0.015f, 7),	// tickess table
-		 map_range(std::array{0.05f, 0.05f},	// texcoord table
+		(map_range<float>(0.06f, 0.015f, 7),  // tickess table
+		 map_range(std::array{0.05f, 0.05f},  // texcoord table
 				   std::array{0.95f, 0.95f},
 				   7));	
 	
-
+	// e tramite possiamo ottenere un modello 3d di albero da posizionare
+	// sulla mappa
 	Model tree_model = turtle.follow_instruction_vector(turtle_instructions);
-	// ottenuto il modello dell'albero, la tartaruga lo rende senza texture
-	// alcuna, abbiamo solo le texcoord sul modello
-	// questo ci consente di fare un po' gli sgargiulli con le texture una
-	// volta che la tartaruga ci rende questo albero
 
-	// innanzitutto un po' di colore
+	// la funzione follow_instruction_vector rende un modello volutamente privo
+	// di texture, ma con delle texture coordinate ben chiare per le varie
+	// componenti dell'albero, questo ci permette di settare le texture che
+	// vogliamo per l'albero senza dover mettere troppa logica di texturing
+	// all'interno della tartarugo
+	// 
+	// creiamo innanzitutto una texture di albedo/colore per l'albero
+	// le regole da noi usate, accompagnate alla texcoord table passata al
+	// costruttore della tartaruga, assegnano texture coordinate sempre maggiori
+	// man mano che si avanza dal tronco dell'albero alle foglie di questo.
+	// 
+	// generiamo quindi una texture che inizia con del marrone scuro (tronco)
+	// e procede verso un verde chiaro (foglie) seguendo un certo gradiente
 	Image tree_col_im = GenImageGradientLinear(10, 10, 0,
-											   BLUE, // in basso (troco/rami)
-											   RED); // in alto  (foglie)
+											   DARKBROWN,
+											   LIME);
 	Texture tree_col_tex = LoadTextureFromImage(tree_col_im);
 	UnloadImage(tree_col_im);
 	tree_model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = tree_col_tex;
@@ -204,26 +227,32 @@ Model gen_tree_model(Shader shader) {
 					  .materials[0]
 					  .maps[MATERIAL_MAP_ALBEDO]
 					  .texture);
+
+	// la scelta del filtro è stata effettuata in modo empirico confrontando
+	// come variava l'aspetto dell'albero al variare del filtro scelto, non
+	// vi è stato un metodo particolarmente teorico dietro a questo selezione
 	SetTextureFilter(tree_model.materials[0]
 					 .maps[MATERIAL_MAP_ALBEDO]
 					 .texture,
 					 TEXTURE_FILTER_TRILINEAR);
 
-	// poi creiamo pure le texture mra per l'albero
-	// la faremo un po' "a mano", come fatto per tree_col_tex
-	// per come l'abbiamo mappata noi nello shader
+	// creiamo inoltre una texture mra (metalness, roughness, ambient occlusion)
+	// per l'albero
+	// nello shader da noi usato mra sono mappate alle componenti rgba della
+	// texture come segue
 	// mra.r = metallic
 	// mra.g = roughness
 	// mra.b = ambient occlusion
-	// mra.a = (non utilizzato
+	// mra.a = (non utilizzato)
 	Image tree_mra_im = GenImageGradientLinear(10, 10, 0,
 											   {0, 255, 0, 255},
-											   {0, 255, 0, 255}
-											  );
+											   {0, 100, 100, 255});
 	Texture tree_mra_tex = LoadTextureFromImage(tree_mra_im);
 	UnloadImage(tree_mra_im);
-	// mra è posizionata a MATERIAL_MAP_OCCLUSION nello shader anche se non
-	// è propriamente una occlusion map, pardon il nome
+
+	// all'interno dello shader la texture mra è alla posizione indicata da
+	// MATERIAL_MAP_OCCLUSION, anche se non è propriamente una occlusion map
+	// ci scusiamo pardon il nome un po' confuso
     tree_model.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture =
 		tree_mra_tex;
 	GenTextureMipmaps(&tree_model
@@ -235,9 +264,11 @@ Model gen_tree_model(Shader shader) {
 					 .texture,
 					 TEXTURE_FILTER_TRILINEAR);
 
-	// normal map tutta blu di prepotenza è come se non ci fosse
-	// messa solo così se lo shader proprio insiste nell'avere una normal map
-	// almeno qualcosa la trova
+	// la normal map dell'albero è messa tutta blu, che per come opengl legge
+	// le normal map è equivalente al non avere una normal map, questo è stato
+	// fatto perché ci serviva solo che ci fosse una normal map sul modello, ma
+	// le normali dei vertici sono già settate durante la creazione della mesh
+	// e queste erano già sufficienti ai nostri scopi per questo progetto.
 	Image tree_norm_im = GenImageColor(10, 10, {0, 0, 255, 255});
 	Texture tree_norm_tex = LoadTextureFromImage(tree_norm_im);
 	UnloadImage(tree_norm_im);
@@ -247,7 +278,6 @@ Model gen_tree_model(Shader shader) {
 	
 	return tree_model;
 }
-		
 
 int main() {
     SetConfigFlags(FLAG_MSAA_4X_HINT);
@@ -263,13 +293,15 @@ int main() {
 	camera.fovy = 45.0f;
 	camera.projection = CAMERA_PERSPECTIVE;
 
-    // Load depth shader and get depth texture shader location
-    Shader shader = LoadShader(TextFormat("resources/shaders/pbr.vs"), TextFormat("resources/shaders/pbr.fs"));
+    // carica lo shader e setta le posizioni che ci servono all'interno di questo 
+    Shader shader = LoadShader("resources/shaders/pbr.vs",
+							   "resources/shaders/pbr.fs");
     shader.locs[SHADER_LOC_MAP_NORMAL] = GetShaderLocation(shader, "normalMap");
     shader.locs[SHADER_LOC_COLOR_DIFFUSE] = GetShaderLocation(shader, "albedoColor");
     shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
     shader.locs[SHADER_LOC_MAP_OCCLUSION] = GetShaderLocation(shader, "mraMap");
 
+	// texture utilizzate per roughness e normal del "pavimento"
 	Image imgRoughness = LoadImage("resources/textures/Grass007_2K-PNG_Roughness.png");
 	Image imgAO = LoadImage("resources/textures/Grass007_2K-PNG_AmbientOcclusion.png");
 
@@ -299,56 +331,57 @@ int main() {
     UnloadImage(imgRoughness);
     UnloadImage(imgAO);
 
-    //Image displacementImg = LoadImage("resources/textures/Grass001_2K-PNG_Displacement.png");
-    //shader.locs[SHADER_LOC_MAP_HEIGHT] = GetShaderLocation(shader, "resources/textures/Grass001_2K-PNG_Displacement.png");
-    //Mesh floor_mesh = GenMeshHeightmap(displacementImg, (Vector3){ 100.0f, 0.002f, 100.0f });
-    //UnloadImage(displacementImg);
-
+	// la mesh del pavimento viene creata manualmente
+	// al momento invece di avere un pavimento diviso in più sottomesh
+	// impostiamo la texture del pavimento per essere ripetuta a coordinate
+	// uv oltre il range (0, 1) - (0, 1), e mettiamo le texture cordinate del
+	// pavimento a -10 - 10
+	// questo ci da un modo un po' più semplice per avere un pavimento con
+	// texture ripetuta
 	float floor_width = 100.0f;
 	float floor_length = 100.0f;
 	float floor_vertices[] = {
 		+floor_width/2, 0, +floor_length/2,
 		+floor_width/2, 0, -floor_length/2,
 		-floor_width/2, 0, -floor_length/2,
-
-		-floor_width/2, 0, -floor_length/2,
 		-floor_width/2, 0, +floor_length/2,
-		+floor_width/2, 0, +floor_length/2,
 	};
 
 	float floor_texcoords[] = {
 		+10.0f, +10.0f,
 		+10.0f, -10.0f,
 		-10.0f, -10.0f,
-
-		-10.0f, -10.0f,
 		-10.0f, +10.0f,
-		+10.0f, +10.0f,
 	};
 
 	float floor_normals[] = {
 		0.0f, 1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f,
-
-		0.0f, 1.0f, 0.0f,
-		0.0f, 1.0f, 0.0f,
 		0.0f, 1.0f, 0.0f,
 	};
+
+	unsigned short floor_indices[] = {
+		0, 1, 2,
+		2, 3, 0,
+	}
 
 	Mesh floor_mesh = {0};
 	floor_mesh.vertices = floor_vertices;
 	floor_mesh.texcoords = floor_texcoords;
 	floor_mesh.normals = floor_normals;
+	floor_mesh.indices = indices;
 
-	floor_mesh.vertexCount = 6;
+	floor_mesh.vertexCount = 4;
 	floor_mesh.triangleCount = 2;
 
+	// false è per dire che è una static mesh
+	// dynamic=false
 	UploadMesh(&floor_mesh, false);
 
     Model floor = LoadModelFromMesh(floor_mesh);
 
-    // floor.materials[0].shader = shader;
+    floor.materials[0].shader = shader;
 
     floor.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture = mraTexture;
     GenTextureMipmaps(&floor.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture);
@@ -410,10 +443,16 @@ int main() {
 	SetShaderValue(shader, GetShaderLocation(shader, "emissiveColor"),
 				   &floorEmissiveColor, SHADER_UNIFORM_VEC4);
 
+	// questo valore non è utilizzato, ma l'uniforme `tiling` viene utilizzata
+	// dallo shader pbr che abbiamo preso e modificato per questo progetto
+	// per adesso la settiamo solo a un valore di "come se non ci fosse"
+	// prima di passarla allo shader
 	Vector2 floorTextureTiling = {0.05, 0.5f};
+
 	SetShaderValue(shader, GetShaderLocation(shader, "tiling"),
 				   &floorTextureTiling, SHADER_UNIFORM_VEC2);
-	// Create light
+
+	// e luce fu
 	Light sunLight;
 	Color sunColor = { 255, 244, 214, 255 };
 	sunLight = CreateLight(LIGHT_DIRECTIONAL,
@@ -421,14 +460,14 @@ int main() {
 						   sunColor, 5.0f, shader);
 	UpdateLight(shader, sunLight);
 
-	/*
-	Model default_cube = LoadModelFromMesh(GenMeshCube(1.0f, 2.0f, 1.0f));
-	default_cube.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = 
-		LoadTextureFromImage(GenImageChecked(2, 2, 1, 1, BLACK, PURPLE));
-	default_cube.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture = 
-		LoadTextureFromImage(GenImageColor(10, 10, {0, 255, 0, 255}));
-	default_cube.materials[0].shader = shader;
-	*/
+	// default_cube, lasciato per essere, in caso, scommentato a fini di testing
+
+	// Model default_cube = LoadModelFromMesh(GenMeshCube(1.0f, 2.0f, 1.0f));
+	// default_cube.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = 
+	// 	LoadTextureFromImage(GenImageChecked(2, 2, 1, 1, BLACK, PURPLE));
+	// default_cube.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture = 
+	// 	LoadTextureFromImage(GenImageColor(10, 10, {0, 255, 0, 255}));
+	// default_cube.materials[0].shader = shader;
 
 	std::vector<std::pair<Vector3, Model>> tree_positions{
 		// {{0, 0, 0}, default_cube}
@@ -439,8 +478,6 @@ int main() {
 
 		UpdateCamera(&camera, CAMERA_FIRST_PERSON);
 
-		// Update the shader with the camera view vector
-		// (points towards { 0.0f, 0.0f, 0.0f })
 		float cameraPos[3] = {camera.position.x,
 							  camera.position.y,
 							  camera.position.z};
@@ -449,15 +486,18 @@ int main() {
 					   cameraPos,
 					   SHADER_UNIFORM_VEC3);
 
+		// premere z resetta la telecamera e la fa puntare verso l'origine
 		if (IsKeyPressed(KEY_Z))
 			camera.target = (Vector3){ 0.0f, 0.0f, 0.0f};
 
-		// Check key input to enable/disable sun
+		// premere 1 accende o spegne il sole
 		if (IsKeyPressed(KEY_ONE)) {
 			sunLight.enabled = !sunLight.enabled;
 			UpdateLight(shader, sunLight);
 		}
 
+		// tasto destro per piantare un albero nel punto dove
+		// il crosshair al centro dello schermo interseca il pavimento 
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
 			Vector2 screenCenter = { (float)centerX, (float)centerY };
 			Ray crosshairRay = GetMouseRay(screenCenter, camera);
@@ -466,7 +506,7 @@ int main() {
 														 floor.transform);
 			if (collision.hit) {
 				tree_positions.push_back({collision.point,
-										  gen_tree_model(shader)});
+										  gen_tree_model(time(0), shader)});
 			}
 		}
 
@@ -475,10 +515,10 @@ int main() {
 
 			BeginMode3D(camera); {
 				DrawModel(floor, {0.0f, 0.0f, 0.0f}, 1.0f, WHITE);
-				// Draw sphere to show the sun position
+				// disegna una sfera dove abbiamo messo la light
+				// source del sole per indicare la posizione del suddetto
 				if (sunLight.enabled)
 					DrawSphereEx(sunLight.position, 0.2f, 8, 8, sunColor);
-				// if(drawSphere)
 
 				for(const auto& p:tree_positions)
 					DrawModel(p.second, p.first, 1.0f, WHITE);
@@ -496,39 +536,8 @@ int main() {
     UnloadTexture(mraTexture);
     UnloadTexture(albedoTexture);
     UnloadTexture(normalTexture);
-    UnloadShader(shader);      // Unload shader
+    UnloadShader(shader);
     UnloadModel(floor);
     CloseWindow();
     return 0;
 }
-
-/*
-// per test
-// ogni tanto mi crasha la tartaruga e basta ma fare il debug con tutto
-// il pappone di raylib che ci s'ha mo' diventa un po' controrto
-// quindi scommento questo, e cambio int main() sotto a int main2() o che so
-// così di main mi runna questo e amen, e si fa prima a testare
-int main() {
-    InitWindow(100, 100, "Hello World");
-    std::string hilbert_axiom = "A";
-    std::map<char, RewriteTarget> hilbert_trans {
-		RWP('A' ,"B-F+CFC+F-D&F^D-F+&&CFC+F+B//"),
-		RWP('B' ,"A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//"),
-		RWP('C' ,"|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//"),
-		RWP('D' ,"|CFB-F+B|FA&F^A&&FB-F+B|FC//"),
-    };
-    std::string hilbert = rewrite_times(2, hilbert_axiom, hilbert_trans);
-	Image tree_tex_im = GenImageGradientLinear(1, 10, 0, DARKBROWN, GREEN);
-	Texture tree_tex = LoadTextureFromImage(tree_tex_im);
-	UnloadImage(tree_tex_im);
-
-    Turtle t(deg_to_rad(22.5), 0.30f,
-			 map_range<float>(0.06f, 0.015f, 7),
-			 tree_tex,
-			 map_range(std::array{0.0f, 0.0f}, std::array{0.95f, 0.95f}, 7));
-    std::string& target = hilbert;
-
-	Model tree_model = t.follow_string(target);
-	return 0;
-}
-*/

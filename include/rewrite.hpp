@@ -8,8 +8,7 @@
 #include<cassert>    // per assert
 #include<functional> // per std::function
 
-// e chi c'ha lo sbatti di starlo a scrivere tutto ogni volta
-// quindi un po' di shortcut per il macello di tipo che sto per fare qua sotto
+// per evitare di avere type declaration troppo geroglifiche
 typedef std::pair<char, std::vector<float>> instruction;
 typedef std::function<std::vector<instruction>(std::vector<float>)> transition;
 
@@ -50,8 +49,8 @@ private:
 	public:
 		Random(const std::vector<std::pair<float, transition>>& t_probs)
 			:t_probs(t_probs) {
-			// inizializzare vuota sta roba è un'errore fatale quindi
-			// manco sto a fa "graceful failure handling"
+			// inizializzare t_probs come vuota è un'errore abbastanza fatale
+			// quindi si gestisce con un panic direttamente
 			assert(t_probs.size() > 0
 				   && "can't have a map with negative number of elements!");
 		}
@@ -71,8 +70,9 @@ private:
 				else r -= p.first;
 				picked++;
 			}
-			// come fallback se il loop di sopra per qualche motivo va
-			// in caciara (non si sa mai quando usi i float)
+			// come fallback se il loop di sopra non rende niente
+			// (non si sa mai quando usi i float)
+
 			// rbegin ritorna un puntatore/iteratore all'ultimo elemento
 			return t_probs.rbegin()->second(args);
 		}
@@ -84,7 +84,7 @@ private:
 };
 
 // rewrite pair
-// defined as a shortcut mainly for convenience reasons
+// shortcut di convenience
 #define RWP(a, ...) {a, RewriteTarget(__VA_ARGS__)}
 
 std::vector<instruction>

@@ -1,27 +1,5 @@
 #include "turtle.hpp"
 
-// utility function to draw leaves
-// should probably put it somewhere other than here
-void DrawTriangleFan3D(const Vector3* points, int point_count, Color color) {
-    rlBegin(RL_TRIANGLES); {
-		rlColor4ub(color.r, color.g, color.b, color.a);
-		int i = 1;
-		while(i) {
-			int j = (i+1)%point_count;
-
-			rlVertex3f(points[0].x, points[0].y, points[0].z);
-			rlVertex3f(points[i].x, points[i].y, points[i].z);
-			rlVertex3f(points[j].x, points[j].y, points[j].z);
-			// both sides
-			rlVertex3f(points[0].x, points[0].y, points[0].z);
-			rlVertex3f(points[j].x, points[j].y, points[j].z);
-			rlVertex3f(points[i].x, points[i].y, points[i].z);
-
-			i=j;
-		}
-    } rlEnd();
-}
-
 Matrix3::Matrix3(float f00, float f01, float f02,
 				 float f10, float f11, float f12,
 				 float f20, float f21, float f22)
@@ -65,10 +43,8 @@ std::array<float, 3> Matrix3::row(const unsigned int n) const {
     return {f[n][0], f[n][1], f[n][2]};
 }
 
-// ho fatto un attimo sta cazzata che [] è per accedere e mutare gli elementi
-// della matrice mentre () è per ricevere una copia degli elementi
-// ha senso? no
-// funziona? più del dovuto
+// [] è per accedere e mutare gli elementi della matrice
+// () è per ricevere una copia degli elementi
 float* Matrix3::operator[](const unsigned int r) {
     return f[r];
 }
@@ -86,7 +62,7 @@ Matrix3 Matrix3::trans() const {
 }
 
 // moltiplica per un vettore colonna
-// (il vettore colonna lo passo come riga per semplificarmi la vita)
+// il vettore colonna viene comunque passato "come riga" per semplicità
 std::array<float, 3> Matrix3::operator*(const std::array<float, 3>& vec) const {
     return {
 		(vec[0] * f[0][0]) + (vec[1] * f[0][1]) + (vec[2] * f[0][2]),
@@ -107,33 +83,20 @@ Turtle::Turtle(const std::vector<float>& thickness_table,
 			   const std::vector<std::array<float, 2>>& texcoords_table)
     :thickness_table(thickness_table),
      texcoords_table(texcoords_table),
-	 current_state{
-		0, 0,
-		{0, 0, 0},
-		// matrice dove la prima colonna è H / heading
-		// la seconda è L / left
-		// la terza è U / up
-		// se vogliamo che la direzione iniziale della tartaruga sia verso
-		// l'alto allora heading/la prima colonna deve essere verso l'alto
-		// che per il nostro sistema di riferimento vuol dire verso le y
-		// positive.
-		// L e U possono essere quello che gli pare, basta che HLU sia una 
-		// base ortonormale
-		{0, 0, 1,
-         1, 0, 0,
-         0, 1, 0}},
 	 mesh_builder{this, {}, {}, {}} {}
 
 Model Turtle::follow_instruction_vector(const std::vector<instruction>& iv) {
     for(const auto& i : iv)
-		// follow_instruction() modifica il mesh_builder della tartaruga
-		// aggiungendovi forme e poligoni man mano che
-		// esegue le istruzioni
+		// follow_instruction() modifica lo stato e/o il mesh_builder
+		// interno della della tartaruga, sponsatndo la tartaruga e/o
+		// aggiungendo forme e poligoni al mesh builder basate su questa
+		// posizione
 		follow_instruction(i);
 
-	// una volta seguite tutte le istruzioni il mesh builder interno
-	// avrà un modello completo dell'albero che volevamo andare a creare
-	// e lo otteniamo attraverso
+	// una volta seguite tutte le istruzioni in sequenza, il mesh builder
+	// interno della tartaruga conterrà un modello completo dell'albero che
+	// volevamo andare a creare, per ottenere questo come Model di raylib,
+	// utilizzabile per fare le chiamate poi a DrawModel e quant'altro, chiamiamo 
 	Model tree = LoadModelFromMesh(mesh_builder.get());
 	return tree;
 }
@@ -157,9 +120,7 @@ void Turtle::log_state() {
 }
 
 Turtle::State Turtle::State::step_by(const float step_length) {
-    // vai in direzione heading di un tot
-    // forse dovrei separare posizione e metadati, sta funzione mi pare
-    // un po' stronza mo'
+    // vai avanti in direzione heading di un tot
     auto h = hlu.col(0);
     return (Turtle::State) {
 		thickness_table_index,
@@ -191,14 +152,8 @@ void Turtle::State::rotate_u_by(const float alpha) {
                         0, 0, 1);
 }
 
-
+// typedef std::pair<char, std::vector<float>> instruction;
 void Turtle::follow_instruction(const instruction& i) {
-	// un c'abbiamo rust enum o robe simili quindi non posso assicurare
-	// che un dato carattere abbia un dato carattere sia accompagnato
-	// da un dato numero di float nel vettore
-	// quindi... famo la pythonata, ci fidiamo di com'è fatto i
-	// (e al massimo qualche assert)
-
     switch(i.first) {
     case '[':
 		assert(i.second.size() == 0
@@ -294,7 +249,7 @@ void Turtle::follow_instruction(const instruction& i) {
 			current_state.texcoords_table_index++;
 		break;
     default:
-		// std::cout<<"ignoring: '"<<c<<'\''<<std::endl;
+		// std::cout<<"ignoring: '"<<i.first<<'\''<<std::endl;
 		(void)i;
 		break;
     }
@@ -308,8 +263,7 @@ const inline float Turtle::current_thickness() const {
 	return thickness_table[current_state.thickness_table_index];
 }
 
-// funzioni di utility visto che non posso aggiungere metodi a Vector3
-// somma
+// funzioni di utility per maniploare istanze di Vector3
 static inline Vector3 add(const Vector3& a, const Vector3& b) {
 	return {a.x + b.x, a.y + b.y, a.z + b.z};
 }
@@ -357,20 +311,23 @@ static inline Vector3 normalized(const Vector3& v) {
 }
 
 void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
-	// non voglio scassarmi troppo a parametrizzare la qualsiasi quindi
-	// queste le fissiamo
 	static const unsigned int slices = 4;
 	static const unsigned int stacks = 1;
 
-	// inizia creando una par_shapes_mesh contenente il cilindro che vogliamo
-	// aggiungere a mesh builder 
-	// poi aggiungiamo i punti della mesh in questione al builder
-	// poi eliminiamo la mesh visto che quello che ce dovevamo fare s'è fatto
+	// per creare il cilindro e orientarlo nello spazio in modo che
+	// abbia un estremo a startpos e l'altro a endpos usiamo la libreria
+	// par_shapes, che è una delle dipendenze di raylib e in quanto tale
+	// distribuita con essa
+	// 
+	// creiamo una par_mesh_shape temporanea contenete il cilindro da
+	// aggiungere al builder
+	// aggiungiamo poi tutti punti della mesh in questione al builder
+	// ed eliminaimo infine la mesh in questione
 
 	// crea mesh (inizialmente centrata all'origine
-	// dalla documentazione di par_shapes, il cilindro inizialemnte
-	// si trova appoggiato all'asse z (ha una base sul piano z=0) e si
-    // sviluppa lungo l'asse z in positivo
+	// dalla documentazione di par_shapes: il cilindro inizialemnte
+	// ha una base sul piano z=0, una base sul piano z=1, e raggio di base
+	// pari a 1
 	par_shapes_mesh *cylinder = par_shapes_create_cylinder(slices, stacks);
 
 	// prima di fare lo scaling e traslazione, par_shapes_create_cylinder
@@ -379,8 +336,11 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 		(1.0f, slices,
 		 (float[]){0.0, 0.0, 1.0},  // centro del disco
 		 (float[]){0.0, 0.0, 1.0}); // normale del disco
+
 	// par_shapes_create_disk non crea/alloca spazio per le texture coordinate
-	// quindi se vogliamo settarele (qui mettiamo a 0) ci s'ha da fa noi tutto
+	// del disco, l'array tcoords sarà quindi di default un puntatore nullo
+	// per settare le texture del disco dobbiamo prima allocare della memoria
+	// per l'array in questione, e in seguito popolarlo
 	cap_top->tcoords = PAR_MALLOC(float, 2*cap_top->npoints);
 	for (size_t i = 0; i < 2*cap_top->npoints; ++i)
 		cap_top->tcoords[i] = 0.0f;
@@ -394,14 +354,16 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 	for (size_t i = 0; i < 2*cap_bot->npoints; ++i)
 		cap_bot->tcoords[i] = 0.95f;
 	// non so per quale motivo il disco, anche se con la normale giusta a -1,
-	// lo crea comunque nel verso oppposto da quello che si aspetta raylib
-	// per ovviare a questa cosa se flippa il winding del disco
+	// lo crea comunque con i triangoli orientati nel verso oppposto da
+	// quello che si aspettano opengl e, di conseguenza, raylib
+	// per ovviare a questa cosa si inverte la mesh di cap_bot chiamando
 	par_shapes_invert(cap_bot, 0, 0);
 
 	par_shapes_merge_and_free(cylinder, cap_top);
 	par_shapes_merge_and_free(cylinder, cap_bot);
 
-	// allunga alla lunghezza desiderata e setta larghezza
+	// possiamo ora scalare e orientare il cilindro lungo il vettore
+	// startpos -> endpos, per fare ciò
 	const Vector3 diff = sub(endpos, startpos);
 	const float diff_norm = norm2(diff);
 
@@ -413,9 +375,11 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 	// ruota in modo che orientata lungo la differenza tra startpos e endpos
 	// per farlo lo ruotiamo di 180 gradi lungo la bisettrice
 	// tra i due vettori, z da una parte, e diff dall'altra
-	// per facilitare il calcolo della bisettrice normalizziamo prima diff e
-	// famo la media con z, la media tra due versori giace sulla bisettrice
-	// tra i due quindi ez
+	// 
+	// per ottenere la bisettice tra diff e z normalizziamo prima diff e
+	// calcoliamo la somma con z, la somma di due vettori con ugual modulo
+	// giace sulla bisettrice tra questo, poi normalizziamo poi la somma
+	// e abbiamo ottenuto il versore bisettrice tra diff e il versore z
 	const Vector3 bisec = normalized(add(normalized(diff), {0, 0, 1}));
 	par_shapes_rotate(cylinder, PI, (float[]){bisec.x, bisec.y, bisec.z});
 
@@ -423,13 +387,12 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 	// lo trasliamo alla posizione desiderata
 	par_shapes_translate(cylinder, startpos.x, startpos.y, startpos.z);
 
-	// creato il cilindro aggiungiamo tutti i punti dell suddetto al builder
-	// e (motivo per cui ho fatto sto builder) aggiungiamo i corrispettivi
-	// colori al builder
-	// (vedi GenMeshCylinder in thirdparty/src/rmodels.c per da dove ho preso
-	//  il codice per iterare una par_shapes_mesh)
+	// la mesh temporanea è ora pronta all'uso
+	// aggiungiamo quindi tutti i punti della suddetta al nostro builder
+	// (vediere GenMeshCylinder in thirdparty/src/rmodels.c per il codice da
+	//  dove ho preso la logica per iterare un'istanza di par_shapes_mesh)
 
-	// par_shapes_mesh è definita come
+	// nota per il lettore: par_shapes_mesh è definita come segue
 	// typedef struct par_shapes_mesh_s {
 	// 	   float* points;           // (X Y Z X Y Z...)
 	// 	   int npoints;
@@ -438,23 +401,20 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 	// 	   float* normals;          // Optional (X Y Z X Y Z...)
 	// 	   float* tcoords;          // Optional (U V U V U V...)
 	// } par_shapes_mesh;
+
 	size_t vertex_count = cylinder->ntriangles*3;
 	for(size_t i = 0; i<vertex_count; ++i) {
-		// push vertex position xyz into mesh builder vertex positions
+		// push di vertex position (xyz) nelle vertex positions del builder 
 		for(size_t j = 0; j<3; ++j)
 			points.push_back
 				(cylinder->points[cylinder->triangles[i]*3 + j]);
 
-		// push vertex normal(?) xyz into mesh builder normals
+		// push di vertex normal(xyz) nelle vertex normals del builder
 		for(size_t j = 0; j<3; ++j)
 			normals.push_back
 				(cylinder->normals[cylinder->triangles[i]*3 + j]);
 
-		// push vertex texture coordiantes into mesh builder vertex texcoords
-		// TODO(?): per adesso tutti i vertici di uno stesso cilindro/poligono
-		// hanno le stesse texcoords, sarebbe a dire
-		// un cilindro/foglia di per se è... piatto, un c'ha texture interna
-		// uv mapping proprio nada
+		// push di vertex texcoords(uv) nelle vertex texcoords del builder 
 		for(size_t j = 0; j<2; ++j)
 			texcoords.push_back(owner->current_texcoords()[j]);
 	}
@@ -462,7 +422,7 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 }
 
 void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
-	// siano A, B, e C i primi 3 punti di points
+	// siano A, B, e C i primi 3 punti di poly
 	// se i punti sono dati in senso (TODO: controllare) orario
 	// e AB e AC non sono paralleli (TODO: vedere cosa fare se lo sono)
 	// allora possiamo trovare la normale del poligono come il prodotto
@@ -470,8 +430,8 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 	// https://en.wikipedia.org/wiki/Cross_product
 	// (magari poi anche normalizzato)
 	const Vector3 A = poly[0];
-	const Vector3 B = poly[2];
-	const Vector3 C = poly[3];
+	const Vector3 B = poly[1];
+	const Vector3 C = poly[2];
 
 	const Vector3 AB = {A.x - B.x, A.y - B.y, A.z - B.z};
 	const Vector3 BC = {B.x - C.x, B.y - C.y, B.z - C.z};
@@ -483,7 +443,6 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 		AB.z * BC.x - AB.x * BC.z,
 		AB.x * BC.y - AB.y * BC.x
 	};
-
 
 	const float cross_prod_norm = sqrt(cross_prod.x * cross_prod.x +
 									   cross_prod.y * cross_prod.y +
@@ -503,16 +462,11 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 	// 0 n-1 n
 	// visto che le foglie sono 3d vogliamo che siano visibili da entrambi
 	// i lato, disegnamo i triangoli da entrambe le direzioni
-	// ma, visto che il lato su e il lato giu avranno direzioni opposte,
-	// dobbiamo calcolare le normali di entrambi
 	// inoltre, onde evitare z fighting, disegnmo i due piani della fogli a un
 	// epsilon proprio piccolino piccolino di distanza
-	// (se potrebbe fare pure un poliedro, così è un attimo per test)
-
 	const float leaf_thickness = 0.0001f;
 
 	const auto tc = owner->current_texcoords();
-
 	for(size_t i = 1; i<poly.size()-1; i++) {
 		// pusha triangolo
 		// 0, i, i+1
@@ -533,7 +487,8 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 			texcoords.push_back(tc[1]);
 		}
 
-		// triangolo giu (con la normale dall'altra parte)
+		// triangolo giu
+		// (con la normale dall'altra parte visto che sta opposto)
 		for(const auto &v : std::vector<Vector3>{poly[0], poly[i+1], poly[i]}) {
 			points.push_back(v.x - (norm.x * leaf_thickness));
 			points.push_back(v.y - (norm.y * leaf_thickness));

@@ -394,6 +394,33 @@ src/rewrite.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/rewrite.cpp.s
 .PHONY : src/rewrite.cpp.s
 
+src/terrain.o: src/terrain.cpp.o
+.PHONY : src/terrain.o
+
+# target to build an object file
+src/terrain.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/terrain.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/terrain.cpp.o
+.PHONY : src/terrain.cpp.o
+
+src/terrain.i: src/terrain.cpp.i
+.PHONY : src/terrain.i
+
+# target to preprocess a source file
+src/terrain.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/terrain.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/terrain.cpp.i
+.PHONY : src/terrain.cpp.i
+
+src/terrain.s: src/terrain.cpp.s
+.PHONY : src/terrain.s
+
+# target to generate assembly for a file
+src/terrain.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/terrain.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/terrain.cpp.s
+.PHONY : src/terrain.cpp.s
+
 src/turtle.o: src/turtle.cpp.o
 .PHONY : src/turtle.o
 
@@ -503,6 +530,9 @@ help:
 	@echo "... src/rewrite.o"
 	@echo "... src/rewrite.i"
 	@echo "... src/rewrite.s"
+	@echo "... src/terrain.o"
+	@echo "... src/terrain.i"
+	@echo "... src/terrain.s"
 	@echo "... src/turtle.o"
 	@echo "... src/turtle.i"
 	@echo "... src/turtle.s"

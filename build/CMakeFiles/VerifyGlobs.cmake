@@ -6,6 +6,7 @@ file(GLOB NEW_GLOB LIST_DIRECTORIES false "/home/nil/Projects/lsystems/src/[!mai
 set(OLD_GLOB
   "/home/nil/Projects/lsystems/src/light.cpp"
   "/home/nil/Projects/lsystems/src/rewrite.cpp"
+  "/home/nil/Projects/lsystems/src/terrain.cpp"
   "/home/nil/Projects/lsystems/src/turtle.cpp"
   )
 if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
@@ -29,7 +30,7 @@ if(NOT "${NEW_GLOB}" STREQUAL "${OLD_GLOB}")
   file(TOUCH_NOCREATE "/home/nil/Projects/lsystems/build/CMakeFiles/cmake.verify_globs")
 endif()
 
-# TEST_SOURCES at CMakeLists.txt:76 (file)
+# TEST_SOURCES at CMakeLists.txt:78 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES false "/home/nil/Projects/lsystems/test/*.cpp")
 set(OLD_GLOB
   "/home/nil/Projects/lsystems/test/matrix_test.cpp"

@@ -1,4 +1,3 @@
-
 #ifndef LSYSTEMS_TERRAIN_H
 #define LSYSTEMS_TERRAIN_H
 #include <cmath>
@@ -13,52 +12,25 @@
 
 class Terrain {
 public:
-    Terrain(std::vector<Vector3>&& inputVertex, int w, int h)
-        : terrainVertex(std::move(inputVertex)), width(w), height(h) {
-        genTerrainMesh();
+    Terrain(std::vector<Vector3>&& input_vertex, int w, int h)
+        : terrain_vertices(std::move(input_vertex)), width(w), height(h) {
+        gen_terrain_mesh();
     }
-
-    static Terrain loadFromFile(const char* filename);
-
-    // Ottimizzato: restituisce un riferimento costante, evitando copie inutili all'esterno
-    [[nodiscard]] const std::vector<Vector3>& terrain_vertex() const {
-        return terrainVertex;
+    static Terrain load_from_file(const char* filename);
+    void gen_terrain_mesh();
+    void draw() {
+        DrawModel(terrain_model, (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, WHITE);
     }
-
-    [[nodiscard]] int height1() const {
-        return height;
-    }
-
-    [[nodiscard]] int width1() const {
-        return width;
-    }
-
-    void genTerrainMesh();
-
-    void AssegnaShaderPBR(Shader pbrShader) {
-        terrainModel.materials[0].shader = pbrShader;
-    }
-
-    void ImpostaTexturePBR(int mappaTipo, Texture2D texture) {
-        terrainModel.materials[0].maps[mappaTipo].texture = texture;
-    }
-
-    void Disegna() {
-        DrawModel(terrainModel, (Vector3){ 0.0f, 0.0f, 0.0f }, 1.0f, WHITE);
-    }
-
-    Model getModel() { return terrainModel; }
-
-    // Aggiunto il distruttore per scaricare la memoria video quando il Terreno viene distrutto
+    Model getModel() { return terrain_model; }
     ~Terrain() {
-        UnloadModel(terrainModel);
+        UnloadModel(terrain_model);
     }
 
 protected:
-    std::vector<Vector3> terrainVertex = {};
+    std::vector<Vector3> terrain_vertices = {};
     int height;
     int width;
-    Model terrainModel;
+    Model terrain_model;
 };
 
-#endif //LSYSTEMS_TERRAIN_HLSYSTEMS_TERRAIN_HPP
+#endif // LSYSTEMS_TERRAIN_H

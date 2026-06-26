@@ -32,7 +32,7 @@ uniform sampler2D mraMap;
 uniform sampler2D normalMap;
 uniform sampler2D emissiveMap; // r: Hight g:emissive
 
-uniform vec2 tiling;
+uniform vec2 tiling = vec2(1.0, 1.0);
 uniform vec2 offset;
 
 uniform int useTexAlbedo;

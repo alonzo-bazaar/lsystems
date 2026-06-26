@@ -159,32 +159,30 @@ Model gen_tree_model(unsigned int seed, Shader shader) {
 int main() {
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(1280, 960, "L Systems");
-
 	DisableCursor();
-
     int target_fps = 60;
     SetTargetFPS(target_fps);
 
+	// Setup camera
 	Camera camera;
-	camera.position = (Vector3){ 10.0f, 250.0f, 10.0f };
+	camera.position = (Vector3){ 10.0f, 120.0f, 10.0f };
 	camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
 	camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
 	camera.fovy = 45.0f;
 	camera.projection = CAMERA_PERSPECTIVE;
 
-    // Load depth shader and get depth texture shader location
+    // Setup shader
     Shader shader = LoadShader(TextFormat("resources/shaders/pbr.vs"), TextFormat("resources/shaders/pbr.fs"));
     shader.locs[SHADER_LOC_MAP_NORMAL] = GetShaderLocation(shader, "normalMap");
     shader.locs[SHADER_LOC_COLOR_DIFFUSE] = GetShaderLocation(shader, "albedoColor");
     shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
     shader.locs[SHADER_LOC_MAP_OCCLUSION] = GetShaderLocation(shader, "mraMap");
 
+	// Setup MRA per shader mettendo insieme roughness e AO
 	Image imgRoughness = LoadImage("resources/textures/Grass007_2K-PNG_Roughness.png");
 	Image imgAO = LoadImage("resources/textures/Grass007_2K-PNG_AmbientOcclusion.png");
-
     ImageFormat(&imgRoughness, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
     ImageFormat(&imgAO, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
-
     Image imgMRA = GenImageColor(imgRoughness.width, imgRoughness.height, BLACK);
     ImageFormat(&imgMRA, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
 
@@ -208,55 +206,56 @@ int main() {
     UnloadImage(imgRoughness);
     UnloadImage(imgAO);
 
-    //Image displacementImg = LoadImage("resources/textures/Grass001_2K-PNG_Displacement.png");
-    //shader.locs[SHADER_LOC_MAP_HEIGHT] = GetShaderLocation(shader, "resources/textures/Grass001_2K-PNG_Displacement.png");
-    //Mesh floorMesh = GenMeshHeightmap(displacementImg, (Vector3){ 100.0f, 0.002f, 100.0f });
-    //UnloadImage(displacementImg);
+	// Generazione chunk terreno
+	std::vector<Terrain> world_chunks;
+    int range = 5;
+	for (int x = -range; x <= range; x++) {
+		for (int z = -range; z <= range; z++) {
+			int chunk_size = 31;
+			world_chunks.push_back(Terrain::gen_perlin_chunk(x * chunk_size, z * chunk_size, chunk_size + 1));
+		}
+	}
 
-    //Mesh floorMesh = GenMeshPlane(100.0f, 100.0f, 100, 100);
-    //GenMeshTangents(&floorMesh);
-    //Model floor = LoadModelFromMesh(floorMesh);
 
-	Terrain terrain = Terrain::load_from_file
-        ("resources/textures/heigthmap.save");
-
-    Model terrain_model = terrain.getModel();
-    terrain_model.materials[0].shader = shader;
-
-    terrain_model.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture = mraTexture;
-    GenTextureMipmaps(&terrain_model.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture);
-    SetTextureFilter(terrain_model.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture, TEXTURE_FILTER_TRILINEAR);
-
+	// Setup texture terreno
 	Texture2D albedoTexture = LoadTexture("resources/textures/Grass007_2K-PNG_Color.png");
-	terrain_model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = albedoTexture;
-	GenTextureMipmaps(&terrain_model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture);
-	SetTextureFilter(terrain_model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture, TEXTURE_FILTER_TRILINEAR);
-
 	Texture2D normalTexture = LoadTexture("resources/textures/Grass007_2K-PNG_NormalGL.png");
-	terrain_model.materials[0].maps[MATERIAL_MAP_NORMAL].texture = normalTexture;
-	GenTextureMipmaps(&terrain_model.materials[0].maps[MATERIAL_MAP_NORMAL].texture);
-	SetTextureFilter(terrain_model.materials[0].maps[MATERIAL_MAP_NORMAL].texture, TEXTURE_FILTER_TRILINEAR);
 
-    int maxLightCount = 1;
-    int useTexAlbedo = 1;
-    int useTexNormal = 0;
-    int useTexMRA    = 1;
+	auto setupTexture = [](Texture2D& tex) {
+		GenTextureMipmaps(&tex);
+		SetTextureFilter(tex, TEXTURE_FILTER_TRILINEAR);
+	};
 
-    float floorMetallic = 0.2f;
-    float floorRoughness = 0.8f;
-    float floorAo = 0.5f;
-    float floorEmissivePower = 0.0f;
+	setupTexture(albedoTexture);
+	setupTexture(normalTexture);
+	setupTexture(mraTexture); // Assicurati di averla caricata
 
-    float ambientIntensity = 0.1f;
-    Color ambientColor = { 26, 32, 135, 255 };
-    Vector3 ambientColorNormalized = { ambientColor.r/255.0f,
+	for (auto& terrain : world_chunks) {
+		Material& mat = terrain.get_model().materials[0];
+		mat.shader = shader;
+		mat.maps[MATERIAL_MAP_OCCLUSION].texture = mraTexture;
+		mat.maps[MATERIAL_MAP_ALBEDO].texture = albedoTexture;
+		mat.maps[MATERIAL_MAP_NORMAL].texture = normalTexture;
+	}
+
+	// Setup variabili shader
+	int maxLightCount = 1;
+	int useTexAlbedo = 1;
+	int useTexNormal = 0;
+	int useTexMRA    = 1;
+	float floorMetallic = 0.2f;
+	float floorRoughness = 0.8f;
+	float floorAo = 0.5f;
+	float floorEmissivePower = 0.0f;
+	float ambientIntensity = 0.1f;
+	Color ambientColor = { 26, 32, 135, 255 };
+	Vector3 ambientColorNormalized = { ambientColor.r/255.0f,
 									   ambientColor.g/255.0f,
 									   ambientColor.b/255.0f };
 
-    Vector4 floorEmissiveColor =
-		ColorNormalize(terrain_model.materials[0].maps[MATERIAL_MAP_EMISSION].color);
-    Vector2 floorTextureTiling = { 1.0f, 1.0f };
-
+	SetTextureWrap(albedoTexture, TEXTURE_WRAP_REPEAT);
+	SetTextureWrap(normalTexture, TEXTURE_WRAP_REPEAT);
+	SetTextureWrap(mraTexture, TEXTURE_WRAP_REPEAT);
 
 	SetShaderValue(shader, GetShaderLocation(shader, "numOfLights"),
 				   &maxLightCount, SHADER_UNIFORM_INT);
@@ -278,28 +277,23 @@ int main() {
 				   &ambientIntensity, SHADER_UNIFORM_FLOAT);
 	SetShaderValue(shader, GetShaderLocation(shader, "ambientColor"),
 				   &ambientColorNormalized, SHADER_UNIFORM_VEC3);
-	SetShaderValue(shader, GetShaderLocation(shader, "emissiveColor"),
-				   &floorEmissiveColor, SHADER_UNIFORM_VEC4);
-	SetShaderValue(shader, GetShaderLocation(shader, "tiling"),
-				   &floorTextureTiling, SHADER_UNIFORM_VEC2);
 
-	// Create light
+	// Crea sole
 	Light sunLight;
 	Color sunColor = { 255, 244, 214, 255 };
 	sunLight = CreateLight(LIGHT_DIRECTIONAL,
-						   { 0.0f, 250.0f, 50.0f }, { 0.0f, 0.0f, 0.0f },
+						   { 0.0f, 2050.0f, 1050.0f }, { 0.0f, 0.0f, 0.0f },
 						   sunColor, 5.0f, shader);
-	UpdateLight(shader, sunLight);
 
 	std::vector<std::pair<Vector3, Model>> tree_positions;
+
     while(!WindowShouldClose()) {
 		int centerX = GetScreenWidth()/2;
 		int centerY = GetScreenHeight()/2;
 
-		UpdateCamera(&camera, CAMERA_FIRST_PERSON);
+		UpdateCamera(&camera, CAMERA_FREE);
 
-		// Update the shader with the camera view vector
-		// (points towards { 0.0f, 0.0f, 0.0f })
+		// Aggiorna la posizione della camera nello shader
 		float cameraPos[3] = {camera.position.x,
 							  camera.position.y,
 							  camera.position.z};
@@ -307,39 +301,43 @@ int main() {
 					   shader.locs[SHADER_LOC_VECTOR_VIEW],
 					   cameraPos,
 					   SHADER_UNIFORM_VEC3);
-
+		// Reset target camera
 		if (IsKeyPressed(KEY_Z))
 			camera.target = (Vector3){ 0.0f, 0.0f, 0.0f};
 
-		// Check key input to enable/disable sun
-		if (IsKeyPressed(KEY_ONE)) {
-			sunLight.enabled = !sunLight.enabled;
-			UpdateLight(shader, sunLight);
-		}
-
+    	// Controlla click mouse sinistro per aggiungere albero
 		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-			Vector2 screenCenter = { (float)centerX, (float)centerY };
+			Vector2 screenCenter = { static_cast<float>(centerX), static_cast<float>(centerY) };
 			Ray crosshairRay = GetMouseRay(screenCenter, camera);
-			RayCollision collision = GetRayCollisionMesh(crosshairRay,
-														 terrain_model.meshes[0],
-														 terrain_model.transform);
-			if (collision.hit) {
-				tree_positions.push_back({collision.point,
-										  gen_tree_model(time(0), shader)});
+			// Verifica se raggio colpisce bbox del chunk
+			for (auto& terrain:world_chunks) {
+				BoundingBox box = GetMeshBoundingBox(terrain.get_model().meshes[0]);
+
+				if (GetRayCollisionBox(crosshairRay, box).hit) {
+					RayCollision col = GetRayCollisionMesh(crosshairRay,
+											 terrain.get_model().meshes[0],
+											 terrain.get_model().transform);
+					// Se colpisce terreno entro minDistance aggiunge albero
+					if (float minDistance = 15.0f; col.hit && col.distance < minDistance) {
+						tree_positions.emplace_back(col.point, gen_tree_model(time(0), shader));
+						break;
+					}
+				}
 			}
 		}
 
 		BeginDrawing(); {
 			ClearBackground(SKYBLUE);
 
-			BeginMode3D(camera); {
-				terrain.draw();
-
-				// Draw sphere to show the sun position
+			BeginMode3D(camera);
+			{
+				// Disegna terreno
+				for (auto& terrain:world_chunks)
+					terrain.draw_terrain();
+				// Disegna sole
 				if (sunLight.enabled)
-					DrawSphereEx(sunLight.position, 0.2f, 8, 8, sunColor);
-				// if(drawSphere)
-
+					DrawSphere(sunLight.position, 100, sunColor);
+				// Disegna alberi
 				for(const auto& p:tree_positions)
 					DrawModel(p.second, p.first, 1.0f, WHITE);
 			}
@@ -352,13 +350,14 @@ int main() {
 
 		} EndDrawing();
     }
-
+	// Unload roba
     UnloadTexture(mraTexture);
     UnloadTexture(albedoTexture);
     UnloadTexture(normalTexture);
-    UnloadShader(shader);      // Unload shader
-    UnloadModel(terrain_model);
-    CloseWindow();
+    UnloadShader(shader);
+	for (auto& terrain:world_chunks)
+		UnloadModel(terrain.get_model());
+	CloseWindow();
     return 0;
 }
 

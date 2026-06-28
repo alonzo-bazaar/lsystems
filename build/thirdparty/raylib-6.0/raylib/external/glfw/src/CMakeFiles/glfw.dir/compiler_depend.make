@@ -14,6 +14,17 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/context.c.o: 
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/limits.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -171,12 +182,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/context.c.o: 
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/egl_context.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/egl_context.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -191,6 +197,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/egl_context.c
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -349,10 +365,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/egl_context.c
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/glx_context.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/glx_context.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -367,6 +380,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/glx_context.c
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -525,10 +548,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/glx_context.c
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/init.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/init.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -543,6 +563,21 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/init.c.o: /ho
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stdarg___va_copy.h \
+  /usr/lib/clang/22/include/__stdarg_header_macro.h \
+  /usr/lib/clang/22/include/__stdarg_va_arg.h \
+  /usr/lib/clang/22/include/__stdarg_va_copy.h \
+  /usr/lib/clang/22/include/__stdarg_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -701,10 +736,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/init.c.o: /ho
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/input.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/input.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -720,6 +752,19 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/input.c.o: /h
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__float_float.h \
+  /usr/lib/clang/22/include/__float_header_macro.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/float.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -887,11 +932,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/input.c.o: /h
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/float.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/linux_joystick.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/linux_joystick.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -906,6 +947,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/linux_joystic
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -1083,10 +1134,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/linux_joystic
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/monitor.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/monitor.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -1101,6 +1149,20 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/monitor.c.o: 
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__float_float.h \
+  /usr/lib/clang/22/include/__float_header_macro.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/float.h \
+  /usr/lib/clang/22/include/limits.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -1272,13 +1334,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/monitor.c.o: 
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/float.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_init.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_init.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -1293,6 +1349,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_init.c.o
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -1450,10 +1516,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_init.c.o
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_joystick.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_joystick.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -1468,6 +1531,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_joystick
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -1618,10 +1691,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_joystick
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_monitor.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_monitor.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -1636,6 +1706,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_monitor.
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -1802,10 +1882,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_monitor.
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_window.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_window.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -1820,6 +1897,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_window.c
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -1975,10 +2062,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/null_window.c
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/osmesa_context.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/osmesa_context.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -1993,6 +2077,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/osmesa_contex
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -2151,10 +2245,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/osmesa_contex
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/platform.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/platform.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -2169,6 +2260,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/platform.c.o:
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -2326,10 +2427,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/platform.c.o:
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_module.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_module.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -2344,6 +2442,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_module.
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -2496,10 +2604,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_module.
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_poll.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_poll.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -2514,6 +2619,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_poll.c.
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -2674,10 +2789,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_poll.c.
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_thread.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_thread.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -2692,6 +2804,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_thread.
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -2845,10 +2967,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_thread.
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_time.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -2863,6 +2982,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_time.c.
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -3013,10 +3142,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/posix_time.c.
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/vulkan.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -3031,6 +3157,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o: /
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -3189,10 +3325,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/vulkan.c.o: /
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/window.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/window.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -3207,6 +3340,19 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/window.c.o: /
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__float_float.h \
+  /usr/lib/clang/22/include/__float_header_macro.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/float.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -3365,11 +3511,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/window.c.o: /
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/float.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_init.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -3384,6 +3526,17 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o:
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/limits.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -3560,12 +3713,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_init.c.o:
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_monitor.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -3580,6 +3728,17 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/limits.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -3750,12 +3909,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_monitor.c
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_window.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_window.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -3770,6 +3924,17 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_window.c.
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/limits.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -3940,12 +4105,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/x11_window.c.
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
+  /usr/include/unistd.h
 
 thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c.o: /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.c \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h \
@@ -3960,6 +4120,16 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h \
   /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h \
+  /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h \
+  /usr/lib/clang/22/include/__stddef_header_macro.h \
+  /usr/lib/clang/22/include/__stddef_null.h \
+  /usr/lib/clang/22/include/__stddef_offsetof.h \
+  /usr/lib/clang/22/include/__stddef_ptrdiff_t.h \
+  /usr/lib/clang/22/include/__stddef_size_t.h \
+  /usr/lib/clang/22/include/__stddef_wchar_t.h \
+  /usr/lib/clang/22/include/stdarg.h \
+  /usr/lib/clang/22/include/stddef.h \
+  /usr/lib/clang/22/include/stdint.h \
   /usr/include/X11/X.h \
   /usr/include/X11/XKBlib.h \
   /usr/include/X11/Xatom.h \
@@ -4110,10 +4280,7 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
   /usr/include/sys/types.h \
   /usr/include/sys/ucontext.h \
   /usr/include/time.h \
-  /usr/include/unistd.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h \
-  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
+  /usr/include/unistd.h
 
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.c:
@@ -4121,6 +4288,8 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 /usr/include/X11/Xmd.h:
 
 /usr/include/bits/locale.h:
+
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.c:
 
 /usr/include/linux/sched/types.h:
 
@@ -4154,19 +4323,27 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/linux_joystick.c:
 
-/usr/lib/gcc/x86_64-redhat-linux/16/include/float.h:
-
-/usr/include/math.h:
-
 /usr/include/bits/libm-simd-decl-stubs.h:
 
 /usr/include/asm-generic/errno.h:
 
 /usr/include/bits/fp-logb.h:
 
+/usr/include/math.h:
+
+/usr/lib/clang/22/include/float.h:
+
+/usr/lib/clang/22/include/__float_float.h:
+
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/mappings.h:
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/input.c:
+
+/usr/lib/clang/22/include/__stdarg_va_list.h:
+
+/usr/lib/clang/22/include/__stdarg_va_arg.h:
+
+/usr/lib/clang/22/include/__stdarg_header_macro.h:
 
 /usr/include/errno.h:
 
@@ -4174,17 +4351,11 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_monitor.c:
 
+/usr/lib/clang/22/include/__stdarg___va_copy.h:
+
 /usr/include/bits/waitflags.h:
 
 /usr/include/alloca.h:
-
-/usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h:
-
-/usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h:
-
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.c:
-
-/usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h:
 
 /usr/include/unistd.h:
 
@@ -4266,19 +4437,19 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 
 /usr/include/bits/types/struct_timespec.h:
 
-/usr/include/bits/waitstatus.h:
+/usr/include/bits/types/struct_sched_param.h:
 
-/usr/include/bits/timesize.h:
+/usr/include/bits/types/struct___jmp_buf_tag.h:
 
-/usr/include/bits/stat.h:
+/usr/lib/clang/22/include/__stdarg_va_copy.h:
 
-/usr/include/assert.h:
+/usr/include/bits/types/sigval_t.h:
 
-/usr/include/asm/types.h:
+/usr/include/bits/types/sigevent_t.h:
 
-/usr/include/asm/sockios.h:
+/usr/include/bits/typesizes.h:
 
-/usr/include/bits/pthread_stack_min-dynamic.h:
+/usr/include/bits/types/sig_atomic_t.h:
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_init.c:
 
@@ -4292,85 +4463,63 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 
 /usr/include/X11/extensions/shape.h:
 
-/usr/include/asm-generic/errno-base.h:
-
-/usr/include/asm-generic/types.h:
-
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/internal.h:
-
-/usr/include/bits/endian.h:
-
-/usr/include/X11/extensions/Xrender.h:
-
 /usr/include/X11/extensions/Xge.h:
 
 /usr/include/bits/setjmp.h:
 
-/usr/include/bits/types/struct___jmp_buf_tag.h:
+/usr/include/bits/sigcontext.h:
 
-/usr/include/asm/posix_types.h:
+/usr/include/X11/extensions/XInput2.h:
 
-/usr/include/asm/posix_types_64.h:
+/usr/include/X11/extensions/xfixeswire.h:
 
-/usr/include/dirent.h:
+/usr/include/bits/floatn-common.h:
 
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h:
+/usr/include/bits/types/sigset_t.h:
 
-/usr/include/X11/cursorfont.h:
+/usr/include/asm-generic/sockios.h:
 
-/usr/include/bits/cpu-set.h:
+/usr/include/X11/extensions/XI2.h:
 
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3native.h:
+/usr/include/X11/keysymdef.h:
 
-/usr/include/X11/X.h:
+/usr/lib/clang/22/include/stdint.h:
 
-/usr/include/bits/types/__FILE.h:
+/usr/include/X11/Xutil.h:
 
-/usr/include/asm/ioctls.h:
+/usr/include/X11/Xosdefs.h:
 
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_joystick.h:
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/linux_joystick.h:
 
-/usr/include/asm-generic/ioctls.h:
+/usr/include/stdint.h:
 
-/usr/include/sys/stat.h:
+/usr/include/linux/limits.h:
 
-/usr/include/bits/types/struct_FILE.h:
+/usr/include/X11/Xlib.h:
 
-/usr/include/bits/ss_flags.h:
+/usr/include/stdio.h:
 
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h:
+/usr/include/X11/Xfuncproto.h:
+
+/usr/lib/clang/22/include/__float_header_macro.h:
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/platform.h:
 
-/usr/include/X11/extensions/shapeconst.h:
+/usr/include/bits/types/struct_sigstack.h:
 
-/usr/include/bits/select.h:
+/usr/lib/clang/22/include/__stddef_header_macro.h:
+
+/usr/include/X11/extensions/shapeconst.h:
 
 /usr/include/sys/types.h:
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_poll.h:
 
-/usr/include/bits/types/sigevent_t.h:
+/usr/include/bits/types/clockid_t.h:
 
-/usr/include/bits/wchar.h:
+/usr/lib/clang/22/include/__stddef_ptrdiff_t.h:
 
-/usr/include/asm-generic/bitsperlong.h:
-
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_module.c:
-
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h:
-
-/usr/include/bits/math-vector.h:
-
-/usr/include/bits/signum-arch.h:
-
-/usr/include/bits/types/struct_sigstack.h:
-
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/linux_joystick.h:
-
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/context.c:
-
-/usr/include/X11/Xosdefs.h:
+/usr/include/bits/select.h:
 
 /usr/include/X11/extensions/render.h:
 
@@ -4382,17 +4531,61 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_platform.h:
 
-/usr/include/X11/extensions/xfixeswire.h:
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_module.c:
 
-/usr/include/bits/floatn-common.h:
+/usr/lib/clang/22/include/__stddef_null.h:
 
-/usr/include/X11/keysymdef.h:
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3.h:
+
+/usr/include/bits/math-vector.h:
+
+/usr/include/bits/signum-arch.h:
+
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_window.c:
+
+/usr/include/X11/extensions/XKBstr.h:
+
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/context.c:
+
+/usr/lib/clang/22/include/stdarg.h:
+
+/usr/lib/clang/22/include/__stddef_offsetof.h:
+
+/usr/include/bits/wchar.h:
+
+/usr/include/asm-generic/bitsperlong.h:
+
+/usr/include/dirent.h:
+
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/xkb_unicode.h:
+
+/usr/lib/clang/22/include/__stdarg___gnuc_va_list.h:
+
+/usr/include/asm-generic/ioctls.h:
+
+/usr/lib/clang/22/include/limits.h:
+
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/include/GLFW/glfw3native.h:
+
+/usr/include/X11/X.h:
+
+/usr/include/bits/types/__FILE.h:
+
+/usr/include/asm-generic/errno-base.h:
+
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/internal.h:
+
+/usr/lib/clang/22/include/__stddef_size_t.h:
+
+/usr/include/asm-generic/types.h:
+
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_joystick.h:
+
+/usr/include/asm/ioctls.h:
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/vulkan.c:
 
 /usr/include/X11/XKBlib.h:
-
-/usr/include/bits/types/struct_sched_param.h:
 
 /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/posix_time.h:
 
@@ -4414,43 +4607,51 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 
 /usr/include/bits/types/__sigset_t.h:
 
+/usr/lib/clang/22/include/__stddef_wchar_t.h:
+
 /usr/include/X11/Xdefs.h:
 
-/usr/include/stdio.h:
+/usr/include/asm/posix_types.h:
 
-/usr/include/X11/Xfuncproto.h:
+/usr/include/asm/posix_types_64.h:
 
-/usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h:
+/usr/include/sys/stat.h:
+
+/usr/include/bits/types/struct_FILE.h:
+
+/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/x11_platform.h:
+
+/usr/include/bits/ss_flags.h:
+
+/usr/include/asm/sockios.h:
+
+/usr/include/bits/pthread_stack_min-dynamic.h:
+
+/usr/include/asm/types.h:
+
+/usr/include/bits/stat.h:
+
+/usr/include/assert.h:
 
 /usr/include/bits/byteswap.h:
 
-/usr/include/stdint.h:
-
-/usr/include/linux/limits.h:
-
-/usr/include/X11/Xlib.h:
-
-/usr/include/bits/sigcontext.h:
-
-/usr/include/X11/extensions/XInput2.h:
-
-/usr/include/bits/types/clockid_t.h:
-
 /usr/include/bits/confname.h:
 
-/home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/glfw/src/null_window.c:
+/usr/include/X11/cursorfont.h:
 
-/usr/include/X11/extensions/XKBstr.h:
+/usr/include/bits/cpu-set.h:
 
-/usr/include/X11/Xutil.h:
+/usr/include/X11/extensions/Xrender.h:
 
-/usr/include/bits/typesizes.h:
+/usr/include/bits/endian.h:
 
-/usr/include/bits/types/sig_atomic_t.h:
+/usr/include/bits/waitstatus.h:
 
-/usr/include/bits/types/__sigval_t.h:
+/usr/include/bits/timesize.h:
 
 /usr/include/X11/extensions/Xfixes.h:
+
+/usr/include/bits/types/__sigval_t.h:
 
 /usr/include/features.h:
 
@@ -4482,8 +4683,6 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 
 /usr/include/bits/libc-header-start.h:
 
-/usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h:
-
 /usr/include/bits/siginfo-consts.h:
 
 /usr/include/bits/local_lim.h:
@@ -4510,9 +4709,9 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 
 /usr/include/bits/pthreadtypes.h:
 
-/usr/include/asm-generic/ioctl.h:
-
 /usr/include/bits/types/siginfo_t.h:
+
+/usr/include/asm-generic/ioctl.h:
 
 /usr/include/bits/sched.h:
 
@@ -4543,6 +4742,8 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 /usr/include/bits/signal_ext.h:
 
 /usr/include/bits/dlfcn.h:
+
+/usr/lib/clang/22/include/stddef.h:
 
 /usr/include/bits/signum-generic.h:
 
@@ -4593,11 +4794,3 @@ thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/xkb_unicode.c
 /usr/include/X11/extensions/Xinerama.h:
 
 /usr/include/bits/types/locale_t.h:
-
-/usr/include/asm-generic/sockios.h:
-
-/usr/include/X11/extensions/XI2.h:
-
-/usr/include/bits/types/sigset_t.h:
-
-/usr/include/bits/types/sigval_t.h:

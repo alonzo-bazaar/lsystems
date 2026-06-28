@@ -78,7 +78,6 @@ Matrix3 Matrix3::operator*(const Matrix3& rhs) const {
                      (*this)*(rhs.col(2)));
 }
 
-
 Turtle::Turtle(const std::vector<float>& thickness_table,
 			   const std::vector<std::array<float, 2>>& texcoords_table)
     :thickness_table(thickness_table),

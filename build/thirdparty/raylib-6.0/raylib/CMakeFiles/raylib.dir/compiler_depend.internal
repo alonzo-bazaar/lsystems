@@ -13,6 +13,27 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/qoaplay.c
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/stb_vorbis.c
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raylib.h
+ /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h
+ /usr/lib/clang/22/include/__stdarg___va_copy.h
+ /usr/lib/clang/22/include/__stdarg_header_macro.h
+ /usr/lib/clang/22/include/__stdarg_va_arg.h
+ /usr/lib/clang/22/include/__stdarg_va_copy.h
+ /usr/lib/clang/22/include/__stdarg_va_list.h
+ /usr/lib/clang/22/include/__stddef_header_macro.h
+ /usr/lib/clang/22/include/__stddef_null.h
+ /usr/lib/clang/22/include/__stddef_offsetof.h
+ /usr/lib/clang/22/include/__stddef_ptrdiff_t.h
+ /usr/lib/clang/22/include/__stddef_size_t.h
+ /usr/lib/clang/22/include/__stddef_wchar_t.h
+ /usr/lib/clang/22/include/emmintrin.h
+ /usr/lib/clang/22/include/limits.h
+ /usr/lib/clang/22/include/mm_malloc.h
+ /usr/lib/clang/22/include/mmintrin.h
+ /usr/lib/clang/22/include/stdarg.h
+ /usr/lib/clang/22/include/stdbool.h
+ /usr/lib/clang/22/include/stddef.h
+ /usr/lib/clang/22/include/stdint.h
+ /usr/lib/clang/22/include/xmmintrin.h
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
@@ -128,16 +149,6 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/raudio.c.o
  /usr/include/time.h
  /usr/include/unistd.h
  /usr/include/wchar.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/emmintrin.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/mm_malloc.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/mmintrin.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdbool.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/xmmintrin.h
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rcore.c
@@ -154,6 +165,23 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rcamera.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rgestures.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rlgl.h
+ /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h
+ /usr/lib/clang/22/include/__stdarg___va_copy.h
+ /usr/lib/clang/22/include/__stdarg_header_macro.h
+ /usr/lib/clang/22/include/__stdarg_va_arg.h
+ /usr/lib/clang/22/include/__stdarg_va_copy.h
+ /usr/lib/clang/22/include/__stdarg_va_list.h
+ /usr/lib/clang/22/include/__stddef_header_macro.h
+ /usr/lib/clang/22/include/__stddef_null.h
+ /usr/lib/clang/22/include/__stddef_offsetof.h
+ /usr/lib/clang/22/include/__stddef_ptrdiff_t.h
+ /usr/lib/clang/22/include/__stddef_size_t.h
+ /usr/lib/clang/22/include/__stddef_wchar_t.h
+ /usr/lib/clang/22/include/limits.h
+ /usr/lib/clang/22/include/stdarg.h
+ /usr/lib/clang/22/include/stdbool.h
+ /usr/lib/clang/22/include/stddef.h
+ /usr/lib/clang/22/include/stdint.h
  /usr/include/X11/X.h
  /usr/include/X11/Xatom.h
  /usr/include/X11/Xdefs.h
@@ -256,12 +284,6 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rcore.c.o
  /usr/include/sys/types.h
  /usr/include/time.h
  /usr/include/unistd.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdbool.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rmodels.c
@@ -274,6 +296,27 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raylib.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raymath.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rlgl.h
+ /usr/lib/clang/22/include/__float_float.h
+ /usr/lib/clang/22/include/__float_header_macro.h
+ /usr/lib/clang/22/include/__float_infinity_nan.h
+ /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h
+ /usr/lib/clang/22/include/__stdarg___va_copy.h
+ /usr/lib/clang/22/include/__stdarg_header_macro.h
+ /usr/lib/clang/22/include/__stdarg_va_arg.h
+ /usr/lib/clang/22/include/__stdarg_va_copy.h
+ /usr/lib/clang/22/include/__stdarg_va_list.h
+ /usr/lib/clang/22/include/__stddef_header_macro.h
+ /usr/lib/clang/22/include/__stddef_null.h
+ /usr/lib/clang/22/include/__stddef_offsetof.h
+ /usr/lib/clang/22/include/__stddef_ptrdiff_t.h
+ /usr/lib/clang/22/include/__stddef_size_t.h
+ /usr/lib/clang/22/include/__stddef_wchar_t.h
+ /usr/lib/clang/22/include/float.h
+ /usr/lib/clang/22/include/limits.h
+ /usr/lib/clang/22/include/stdarg.h
+ /usr/lib/clang/22/include/stdbool.h
+ /usr/lib/clang/22/include/stddef.h
+ /usr/lib/clang/22/include/stdint.h
  /usr/include/alloca.h
  /usr/include/asm-generic/errno-base.h
  /usr/include/asm-generic/errno.h
@@ -364,19 +407,28 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rmodels.c.o
  /usr/include/sys/select.h
  /usr/include/sys/types.h
  /usr/include/unistd.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/float.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdbool.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rshapes.c
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/config.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raylib.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rlgl.h
+ /usr/lib/clang/22/include/__float_float.h
+ /usr/lib/clang/22/include/__float_header_macro.h
+ /usr/lib/clang/22/include/__float_infinity_nan.h
+ /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h
+ /usr/lib/clang/22/include/__stdarg___va_copy.h
+ /usr/lib/clang/22/include/__stdarg_header_macro.h
+ /usr/lib/clang/22/include/__stdarg_va_arg.h
+ /usr/lib/clang/22/include/__stdarg_va_copy.h
+ /usr/lib/clang/22/include/__stdarg_va_list.h
+ /usr/lib/clang/22/include/__stddef_null.h
+ /usr/lib/clang/22/include/__stddef_size_t.h
+ /usr/lib/clang/22/include/__stddef_wchar_t.h
+ /usr/lib/clang/22/include/float.h
+ /usr/lib/clang/22/include/stdarg.h
+ /usr/lib/clang/22/include/stdbool.h
+ /usr/lib/clang/22/include/stddef.h
  /usr/include/alloca.h
  /usr/include/bits/atomic_wide_counter.h
  /usr/include/bits/byteswap.h
@@ -429,10 +481,6 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rshapes.c.o
  /usr/include/sys/cdefs.h
  /usr/include/sys/select.h
  /usr/include/sys/types.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/float.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdbool.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtext.c
@@ -441,6 +489,18 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/stb_truetype.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raylib.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rlgl.h
+ /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h
+ /usr/lib/clang/22/include/__stdarg___va_copy.h
+ /usr/lib/clang/22/include/__stdarg_header_macro.h
+ /usr/lib/clang/22/include/__stdarg_va_arg.h
+ /usr/lib/clang/22/include/__stdarg_va_copy.h
+ /usr/lib/clang/22/include/__stdarg_va_list.h
+ /usr/lib/clang/22/include/__stddef_null.h
+ /usr/lib/clang/22/include/__stddef_size_t.h
+ /usr/lib/clang/22/include/__stddef_wchar_t.h
+ /usr/lib/clang/22/include/stdarg.h
+ /usr/lib/clang/22/include/stdbool.h
+ /usr/lib/clang/22/include/stddef.h
  /usr/include/alloca.h
  /usr/include/assert.h
  /usr/include/bits/atomic_wide_counter.h
@@ -508,9 +568,6 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtext.c.o
  /usr/include/sys/cdefs.h
  /usr/include/sys/select.h
  /usr/include/sys/types.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdbool.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h
 
 thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rtextures.c
@@ -523,6 +580,27 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.o
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/external/stb_perlin.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/raylib.h
  /home/nil/Projects/lsystems/thirdparty/raylib-6.0/src/rlgl.h
+ /usr/lib/clang/22/include/__stdarg___gnuc_va_list.h
+ /usr/lib/clang/22/include/__stdarg___va_copy.h
+ /usr/lib/clang/22/include/__stdarg_header_macro.h
+ /usr/lib/clang/22/include/__stdarg_va_arg.h
+ /usr/lib/clang/22/include/__stdarg_va_copy.h
+ /usr/lib/clang/22/include/__stdarg_va_list.h
+ /usr/lib/clang/22/include/__stddef_header_macro.h
+ /usr/lib/clang/22/include/__stddef_null.h
+ /usr/lib/clang/22/include/__stddef_offsetof.h
+ /usr/lib/clang/22/include/__stddef_ptrdiff_t.h
+ /usr/lib/clang/22/include/__stddef_size_t.h
+ /usr/lib/clang/22/include/__stddef_wchar_t.h
+ /usr/lib/clang/22/include/emmintrin.h
+ /usr/lib/clang/22/include/limits.h
+ /usr/lib/clang/22/include/mm_malloc.h
+ /usr/lib/clang/22/include/mmintrin.h
+ /usr/lib/clang/22/include/stdarg.h
+ /usr/lib/clang/22/include/stdbool.h
+ /usr/lib/clang/22/include/stddef.h
+ /usr/lib/clang/22/include/stdint.h
+ /usr/lib/clang/22/include/xmmintrin.h
  /usr/include/alloca.h
  /usr/include/assert.h
  /usr/include/bits/atomic_wide_counter.h
@@ -600,14 +678,4 @@ thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/rtextures.c.o
  /usr/include/sys/cdefs.h
  /usr/include/sys/select.h
  /usr/include/sys/types.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/emmintrin.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/mm_malloc.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/mmintrin.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdbool.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stddef.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/stdint.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
- /usr/lib/gcc/x86_64-redhat-linux/16/include/xmmintrin.h
 

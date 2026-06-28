@@ -213,6 +213,19 @@ lsystems_main/fast:
 .PHONY : lsystems_main/fast
 
 #=============================================================================
+# Target rules for targets named lsystems_json
+
+# Build rule for target.
+lsystems_json: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lsystems_json
+.PHONY : lsystems_json
+
+# fast build rule for target.
+lsystems_json/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/build
+.PHONY : lsystems_json/fast
+
+#=============================================================================
 # Target rules for targets named lsystems_test
 
 # Build rule for target.
@@ -316,12 +329,37 @@ gtest_main/fast:
 	$(MAKE) $(MAKESILENT) -f thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest_main.dir/build.make thirdparty/googletest-1.17.0/googletest/CMakeFiles/gtest_main.dir/build
 .PHONY : gtest_main/fast
 
+src/json_main.o: src/json_main.cpp.o
+.PHONY : src/json_main.o
+
+# target to build an object file
+src/json_main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/json_main.cpp.o
+.PHONY : src/json_main.cpp.o
+
+src/json_main.i: src/json_main.cpp.i
+.PHONY : src/json_main.i
+
+# target to preprocess a source file
+src/json_main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/json_main.cpp.i
+.PHONY : src/json_main.cpp.i
+
+src/json_main.s: src/json_main.cpp.s
+.PHONY : src/json_main.s
+
+# target to generate assembly for a file
+src/json_main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/json_main.cpp.s
+.PHONY : src/json_main.cpp.s
+
 src/light.o: src/light.cpp.o
 .PHONY : src/light.o
 
 # target to build an object file
 src/light.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/light.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/light.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/light.cpp.o
 .PHONY : src/light.cpp.o
 
@@ -331,6 +369,7 @@ src/light.i: src/light.cpp.i
 # target to preprocess a source file
 src/light.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/light.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/light.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/light.cpp.i
 .PHONY : src/light.cpp.i
 
@@ -340,6 +379,7 @@ src/light.s: src/light.cpp.s
 # target to generate assembly for a file
 src/light.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/light.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/light.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/light.cpp.s
 .PHONY : src/light.cpp.s
 
@@ -373,6 +413,7 @@ src/rewrite.o: src/rewrite.cpp.o
 # target to build an object file
 src/rewrite.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/rewrite.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/rewrite.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/rewrite.cpp.o
 .PHONY : src/rewrite.cpp.o
 
@@ -382,6 +423,7 @@ src/rewrite.i: src/rewrite.cpp.i
 # target to preprocess a source file
 src/rewrite.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/rewrite.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/rewrite.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/rewrite.cpp.i
 .PHONY : src/rewrite.cpp.i
 
@@ -391,6 +433,7 @@ src/rewrite.s: src/rewrite.cpp.s
 # target to generate assembly for a file
 src/rewrite.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/rewrite.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/rewrite.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/rewrite.cpp.s
 .PHONY : src/rewrite.cpp.s
 
@@ -400,6 +443,7 @@ src/turtle.o: src/turtle.cpp.o
 # target to build an object file
 src/turtle.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/turtle.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/turtle.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/turtle.cpp.o
 .PHONY : src/turtle.cpp.o
 
@@ -409,6 +453,7 @@ src/turtle.i: src/turtle.cpp.i
 # target to preprocess a source file
 src/turtle.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/turtle.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/turtle.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/turtle.cpp.i
 .PHONY : src/turtle.cpp.i
 
@@ -418,6 +463,7 @@ src/turtle.s: src/turtle.cpp.s
 # target to generate assembly for a file
 src/turtle.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_main.dir/build.make CMakeFiles/lsystems_main.dir/src/turtle.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_json.dir/build.make CMakeFiles/lsystems_json.dir/src/turtle.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/turtle.cpp.s
 .PHONY : src/turtle.cpp.s
 
@@ -491,9 +537,13 @@ help:
 	@echo "... gmock_main"
 	@echo "... gtest"
 	@echo "... gtest_main"
+	@echo "... lsystems_json"
 	@echo "... lsystems_main"
 	@echo "... lsystems_test"
 	@echo "... raylib"
+	@echo "... src/json_main.o"
+	@echo "... src/json_main.i"
+	@echo "... src/json_main.s"
 	@echo "... src/light.o"
 	@echo "... src/light.i"
 	@echo "... src/light.s"

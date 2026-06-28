@@ -65,8 +65,9 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake/Modules/CheckIncludeFile.cmake"
   "/usr/share/cmake/Modules/CheckLibraryExists.cmake"
   "/usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake"
-  "/usr/share/cmake/Modules/Compiler/GNU-C.cmake"
-  "/usr/share/cmake/Modules/Compiler/GNU-CXX.cmake"
+  "/usr/share/cmake/Modules/Compiler/Clang-C.cmake"
+  "/usr/share/cmake/Modules/Compiler/Clang-CXX.cmake"
+  "/usr/share/cmake/Modules/Compiler/Clang.cmake"
   "/usr/share/cmake/Modules/Compiler/GNU.cmake"
   "/usr/share/cmake/Modules/FindFontconfig.cmake"
   "/usr/share/cmake/Modules/FindFreetype.cmake"
@@ -91,6 +92,8 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake/Modules/Platform/Linker/Linux-GNU-C.cmake"
   "/usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake"
   "/usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake"
+  "/usr/share/cmake/Modules/Platform/Linux-Clang-C.cmake"
+  "/usr/share/cmake/Modules/Platform/Linux-Clang-CXX.cmake"
   "/usr/share/cmake/Modules/Platform/Linux-GNU-C.cmake"
   "/usr/share/cmake/Modules/Platform/Linux-GNU-CXX.cmake"
   "/usr/share/cmake/Modules/Platform/Linux-GNU.cmake"
@@ -137,6 +140,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/lsystems_main.dir/DependInfo.cmake"
+  "CMakeFiles/lsystems_json.dir/DependInfo.cmake"
   "CMakeFiles/lsystems_test.dir/DependInfo.cmake"
   "thirdparty/raylib-6.0/raylib/CMakeFiles/raylib.dir/DependInfo.cmake"
   "thirdparty/raylib-6.0/raylib/external/glfw/src/CMakeFiles/glfw.dir/DependInfo.cmake"

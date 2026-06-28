@@ -1,0 +1,79 @@
+{
+    "version" : 1,
+
+    "plain_bush" : {
+        "color_table": {
+            "start" : "0x00ff00",
+            "end" : "0x884400",
+            "steps" : 10
+        },
+        "thickness_table": {
+            "start" : 0.05,
+            "end" : 0.01,
+            "steps" : 10
+        },
+
+        "axiom" : "A",
+
+        "stride" : 0.3,
+        "angle" : 22.5,
+	"rewrite_times":7,
+
+        "rewrite_rules" : {
+            "A" : "[&FL!A]/////'[&FL!A]///////'[&FL!A]",
+            "F" : [[0.9, "S////FF"],
+                   [0.1, "S/////F]"]],
+            "S": "FL",
+            "L": "['''^^{-f+f+f-|-f+f+f}]"
+        }
+    },
+
+    "parametric_bush": {
+        "color_table": {
+            "start" : "0x00ff00",
+            "end" : "0x884400",
+            "steps" : 10
+        },
+        "thickness_table": {
+            "start" : 0.05,
+            "end" : 0.01,
+            "steps" : 10
+        },
+
+        "axiom" : "A",
+
+        "stride" : 0.3,
+        "angle" : 22.5,
+	"rewrite_times":7,
+
+        "rewrite_rules" : {
+            "A" : [
+                "[",
+                ["&", "angle"], ["F", "stride"], "L!A",
+                "]",
+
+                ["/", ["*", 5, "stride"]],
+                "'",
+
+                "[",
+                ["&", "angle"], ["F", "stride"], "L!A",
+                "]",
+
+                ["/", ["*", 7, "stride"]],
+                "'",
+
+                "[",
+                ["&", "angle"], ["F", "stride"], "L!A",
+                "]"
+            ],
+            "F" : [[0.9, ["S",
+                          ["/", ["*", "angle",  4]],
+                          ["F", ["*", ["param", 0], 2]]]],
+                   [0.1, ["S",
+                          ["/", ["*", "angle",  4]],
+                          ["F", ["+", ["param", 0], 0.02]]]]]
+        },
+        "S": "FL",
+        "L": "['''^^{-f+f+f-|-f+f+f}]"
+    }
+}

@@ -42,10 +42,14 @@ file(GLOB
   LSYSTEMS_SOURCES       # nome della variabile dove mettere i file
   CONFIGURE_DEPENDS      # ricrea il file make quando vengono aggiunti file
   LIST_DIRECTORIES FALSE # non mettere cartelle alla lista di file
-  "${CMAKE_CURRENT_LIST_DIR}/src/[!main]*.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/src/*[!main].cpp"
 )
 set(LSYSTEMS_MAIN "${CMAKE_CURRENT_LIST_DIR}/src/main.cpp")
-set(LSYSTEMS_INCLUDES "${CMAKE_CURRENT_LIST_DIR}/include")
+set(
+    LSYSTEMS_INCLUDES
+    "${CMAKE_CURRENT_LIST_DIR}/include"
+    "${CMAKE_CURRENT_LIST_DIR}/thirdparty/nlohmann-json/single_include/nlohmann"
+)
 set(RAYLIB_INCLUDES "${RAYLIB_DIR}/src")
 
 # crea target eseguibile con quanto descritto sopra
@@ -60,6 +64,22 @@ target_include_directories(
 )
 target_link_libraries(
   "${PROJECT_NAME}_main"
+  PUBLIC raylib
+)
+
+# target eseguibile a parte per l'editor di json
+set(LSYSTEMS_JSON_MAIN "${CMAKE_CURRENT_LIST_DIR}/src/json_main.cpp")
+add_executable("${PROJECT_NAME}_json")
+target_sources(
+  "${PROJECT_NAME}_json"
+  PUBLIC ${LSYSTEMS_JSON_MAIN} ${LSYSTEMS_SOURCES}
+)
+target_include_directories(
+  "${PROJECT_NAME}_json"
+  PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
+)
+target_link_libraries(
+  "${PROJECT_NAME}_json"
   PUBLIC raylib
 )
 

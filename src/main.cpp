@@ -22,12 +22,12 @@ std::vector<T> map_range(T start, T end, size_t n) {
     std::vector<T> res(n);
     double start_weight = 1.0;
     double end_weight = 0.0;
-    double step = 1.0/(n-1);
+    double step = 1.0 / (n - 1);
 
-    for(size_t i = 0; i<n; ++i) {
-		res[i] = static_cast<T>((start * start_weight) + (end * end_weight));
-		start_weight -= step;
-		end_weight += step;
+    for (size_t i = 0; i < n; ++i) {
+        res[i] = static_cast<T>((start * start_weight) + (end * end_weight));
+        start_weight -= step;
+        end_weight += step;
     }
     return res;
 }
@@ -59,117 +59,118 @@ def_range_mat(unsigned char, 4)
 
 template<>
 std::vector<Color> map_range<Color>(Color start, Color end, size_t n) {
-	auto floats = map_range(std::array{start.r, start.g, start.b, start.a},
-							std::array{end.r, end.g, end.b, end.a},
-							n);
+    auto floats = map_range(std::array{start.r, start.g, start.b, start.a},
+                            std::array{end.r, end.g, end.b, end.a},
+                            n);
 
-	std::vector<Color> res(n);
-    for(size_t i = 0; i<n; ++i) {
-		res[i].r = floats[i][0];
-		res[i].g = floats[i][1];
-		res[i].b = floats[i][2];
-		res[i].a = floats[i][3];
+    std::vector<Color> res(n);
+    for (size_t i = 0; i < n; ++i) {
+        res[i].r = floats[i][0];
+        res[i].g = floats[i][1];
+        res[i].b = floats[i][2];
+        res[i].a = floats[i][3];
     }
     return res;
 }
 
 Model gen_tree_model(unsigned int seed, Shader shader) {
-	srand(seed);
-	// crea tartaruga
-	// ok ecco la tartaruga
+    srand(seed);
+    // crea tartaruga
+    // ok ecco la tartaruga
     Turtle turtle
-		(deg_to_rad(22.5),						// angle
-		 0.30f,									// stride
-		 map_range<float>(0.06f, 0.015f, 7),	// tickess table
-		 map_range(std::array{0.05f, 0.05f},	// texcoord table
-				   std::array{0.95f, 0.95f},
-				   7));	
-	
-	// genera le istruzioni da far seguire alla tartaruga 
-	// (qui è dove si fa la parte di l-system come sistemi di riscrittura)
-	std::string turtle_instructions =
-		(rewrite_times(7,   // how many times to rewrite
-					   "A", //axiom
-					   {    // rewrite rules
-						   RWP('A', "[&FL!A]/////'[&FL!A]///////'[&FL!A]"),
-						   RWP('F', {{0.1, "S ///// FF"},
-									 {0.3, "S //// F"},
-									 {0.6, "S ///// F"}}),
-						   RWP('S', "F L"),
-						   RWP('L', "['''^^{-f+f+f-|-f+f+f}]"),
-					   }));
+    (deg_to_rad(22.5), // angle
+     0.30f, // stride
+     map_range<float>(0.06f, 0.015f, 7), // tickess table
+     map_range(std::array{0.05f, 0.05f}, // texcoord table
+               std::array{0.95f, 0.95f},
+               7));
 
-	Model tree_model = turtle.follow_string(turtle_instructions);
+    // genera le istruzioni da far seguire alla tartaruga
+    // (qui è dove si fa la parte di l-system come sistemi di riscrittura)
+    std::string turtle_instructions =
+    (rewrite_times(7, // how many times to rewrite
+                   "A", //axiom
+                   {
+                       // rewrite rules
+                       RWP('A', "[&FL!A]/////'[&FL!A]///////'[&FL!A]"),
+                       RWP('F', {{0.1, "S ///// FF"},
+                           {0.3, "S //// F"},
+                           {0.6, "S ///// F"}}),
+                       RWP('S', "F L"),
+                       RWP('L', "['''^^{-f+f+f-|-f+f+f}]"),
+                   }));
 
-	// ottenuto il modello dell'albero, la tartaruga lo rende senza texture
-	// alcuna, abbiamo solo le texcoord sul modello
-	// questo ci consente di fare un po' gli sgargiulli con le texture una
-	// volta che la tartaruga ci rende questo albero
+    Model tree_model = turtle.follow_string(turtle_instructions);
 
-	// intanto un po' di colore
+    // ottenuto il modello dell'albero, la tartaruga lo rende senza texture
+    // alcuna, abbiamo solo le texcoord sul modello
+    // questo ci consente di fare un po' gli sgargiulli con le texture una
+    // volta che la tartaruga ci rende questo albero
 
-	Image tree_col_im = GenImageGradientLinear(10, 10, 0,
-											   BLUE, // lower end (trunk)
-											   RED); // higher end (leaves)
-	Texture tree_col_tex = LoadTextureFromImage(tree_col_im);
-	UnloadImage(tree_col_im);
-	tree_model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = tree_col_tex;
-	GenTextureMipmaps(&tree_model
-					  .materials[0]
-					  .maps[MATERIAL_MAP_ALBEDO]
-					  .texture);
-	SetTextureFilter(tree_model.materials[0]
-					 .maps[MATERIAL_MAP_ALBEDO]
-					 .texture,
-					 TEXTURE_FILTER_TRILINEAR);
+    // intanto un po' di colore
 
-	// poi creiamo pure le texture mra per l'albero
-	// la faremo un po' "a mano" (con mano = C++), come fatto per tree_col_tex
-	// per come l'abbiamo mappata noi nello shader
-	// mra.r = metallic
-	// mra.g = roughness
-	// mra.b = ambient occlusion
-	// mra.a = (non utilizzato
-	Image tree_mra_im = GenImageGradientLinear(10, 10, 0,
-											   {0, 255, 0, 255},
-											   {0, 255, 0, 255}
-											  );
-	Texture tree_mra_tex = LoadTextureFromImage(tree_mra_im);
-	UnloadImage(tree_mra_im);
-	// mra è posizionata a MATERIAL_MAP_OCCLUSION ma è tutt'altro
-	// un po' un azzigogolo da parte nostra
+    Image tree_col_im = GenImageGradientLinear(10, 10, 0,
+                                               BLUE, // lower end (trunk)
+                                               RED); // higher end (leaves)
+    Texture tree_col_tex = LoadTextureFromImage(tree_col_im);
+    UnloadImage(tree_col_im);
+    tree_model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = tree_col_tex;
+    GenTextureMipmaps(&tree_model
+        .materials[0]
+        .maps[MATERIAL_MAP_ALBEDO]
+        .texture);
+    SetTextureFilter(tree_model.materials[0]
+                     .maps[MATERIAL_MAP_ALBEDO]
+                     .texture,
+                     TEXTURE_FILTER_TRILINEAR);
+
+    // poi creiamo pure le texture mra per l'albero
+    // la faremo un po' "a mano" (con mano = C++), come fatto per tree_col_tex
+    // per come l'abbiamo mappata noi nello shader
+    // mra.r = metallic
+    // mra.g = roughness
+    // mra.b = ambient occlusion
+    // mra.a = (non utilizzato
+    Image tree_mra_im = GenImageGradientLinear(10, 10, 0,
+                                               {0, 255, 0, 255},
+                                               {0, 255, 0, 255}
+    );
+    Texture tree_mra_tex = LoadTextureFromImage(tree_mra_im);
+    UnloadImage(tree_mra_im);
+    // mra è posizionata a MATERIAL_MAP_OCCLUSION ma è tutt'altro
+    // un po' un azzigogolo da parte nostra
     tree_model.materials[0].maps[MATERIAL_MAP_OCCLUSION].texture =
-		tree_mra_tex;
-	GenTextureMipmaps(&tree_model
-					  .materials[0]
-					  .maps[MATERIAL_MAP_OCCLUSION]
-					  .texture);
-	SetTextureFilter(tree_model.materials[0]
-					 .maps[MATERIAL_MAP_OCCLUSION]
-					 .texture,
-					 TEXTURE_FILTER_TRILINEAR);
+            tree_mra_tex;
+    GenTextureMipmaps(&tree_model
+        .materials[0]
+        .maps[MATERIAL_MAP_OCCLUSION]
+        .texture);
+    SetTextureFilter(tree_model.materials[0]
+                     .maps[MATERIAL_MAP_OCCLUSION]
+                     .texture,
+                     TEXTURE_FILTER_TRILINEAR);
 
 
     tree_model.materials[0].shader = shader;
-	
-	return tree_model;
+
+    return tree_model;
 }
-		
+
 
 int main() {
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(1280, 960, "L Systems");
-	DisableCursor();
+    DisableCursor();
     int target_fps = 60;
     SetTargetFPS(target_fps);
 
-	// Setup camera
-	Camera camera;
-	camera.position = (Vector3){ 10.0f, 120.0f, 10.0f };
-	camera.target = (Vector3){ 0.0f, 0.0f, 0.0f };
-	camera.up = (Vector3){ 0.0f, 1.0f, 0.0f };
-	camera.fovy = 45.0f;
-	camera.projection = CAMERA_PERSPECTIVE;
+    // Setup camera
+    Camera camera;
+    camera.position = (Vector3){32.0f, 100.0f, 32.0f};
+    camera.target = (Vector3){0.0f, 0.0f, 0.0f};
+    camera.up = (Vector3){0.0f, 1.0f, 0.0f};
+    camera.fovy = 45.0f;
+    camera.projection = CAMERA_PERSPECTIVE;
 
     // Setup shader
     Shader shader = LoadShader(TextFormat("resources/shaders/pbr.vs"), TextFormat("resources/shaders/pbr.fs"));
@@ -178,25 +179,25 @@ int main() {
     shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
     shader.locs[SHADER_LOC_MAP_OCCLUSION] = GetShaderLocation(shader, "mraMap");
 
-	// Setup MRA per shader mettendo insieme roughness e AO
-	Image imgRoughness = LoadImage("resources/textures/Grass007_2K-PNG_Roughness.png");
-	Image imgAO = LoadImage("resources/textures/Grass007_2K-PNG_AmbientOcclusion.png");
+    // Setup MRA per shader mettendo insieme roughness e AO
+    Image imgRoughness = LoadImage("resources/textures/Grass007_2K-PNG_Roughness.png");
+    Image imgAO = LoadImage("resources/textures/Grass007_2K-PNG_AmbientOcclusion.png");
     ImageFormat(&imgRoughness, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
     ImageFormat(&imgAO, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
     Image imgMRA = GenImageColor(imgRoughness.width, imgRoughness.height, BLACK);
     ImageFormat(&imgMRA, PIXELFORMAT_UNCOMPRESSED_R8G8B8A8);
 
-    Color *pixelsMRA   = (Color *)imgMRA.data;
-    Color *pixelsRough = (Color *)imgRoughness.data;
-    Color *pixelsAO    = (Color *)imgAO.data;
+    Color *pixelsMRA = (Color *) imgMRA.data;
+    Color *pixelsRough = (Color *) imgRoughness.data;
+    Color *pixelsAO = (Color *) imgAO.data;
 
     int totalPixels = imgMRA.width * imgMRA.height;
     for (int i = 0; i < totalPixels; i++) {
-		pixelsMRA[i].r = 0;                // R (Metalness)
-		pixelsMRA[i].g = pixelsRough[i].r; // G (Roughness)
-		pixelsMRA[i].b = pixelsAO[i].r;    // B (Ambient Occlusion)
-		pixelsMRA[i].a = 255;              // A (Alpha)
-	}
+        pixelsMRA[i].r = 0; // R (Metalness)
+        pixelsMRA[i].g = pixelsRough[i].r; // G (Roughness)
+        pixelsMRA[i].b = pixelsAO[i].r; // B (Ambient Occlusion)
+        pixelsMRA[i].a = 255; // A (Alpha)
+    }
 
     Texture2D mraTexture = LoadTextureFromImage(imgMRA);
     GenTextureMipmaps(&mraTexture);
@@ -206,158 +207,166 @@ int main() {
     UnloadImage(imgRoughness);
     UnloadImage(imgAO);
 
-	// Generazione chunk terreno
-	std::vector<Terrain> world_chunks;
-    int range = 5;
-	for (int x = -range; x <= range; x++) {
-		for (int z = -range; z <= range; z++) {
-			int chunk_size = 31;
-			world_chunks.push_back(Terrain::gen_perlin_chunk(x * chunk_size, z * chunk_size, chunk_size + 1));
-		}
-	}
+    // Generazione chunk terreno
 
 
-	// Setup texture terreno
-	Texture2D albedoTexture = LoadTexture("resources/textures/Grass007_2K-PNG_Color.png");
-	Texture2D normalTexture = LoadTexture("resources/textures/Grass007_2K-PNG_NormalGL.png");
+    // Setup texture terreno
+    Texture2D albedoTexture = LoadTexture("resources/textures/Grass007_2K-PNG_Color.png");
+    Texture2D normalTexture = LoadTexture("resources/textures/Grass007_2K-PNG_NormalGL.png");
 
-	auto setupTexture = [](Texture2D& tex) {
-		GenTextureMipmaps(&tex);
-		SetTextureFilter(tex, TEXTURE_FILTER_TRILINEAR);
-	};
+    auto setupTexture = [](Texture2D &tex) {
+        GenTextureMipmaps(&tex);
+        SetTextureFilter(tex, TEXTURE_FILTER_TRILINEAR);
+    };
 
-	setupTexture(albedoTexture);
-	setupTexture(normalTexture);
-	setupTexture(mraTexture); // Assicurati di averla caricata
+    setupTexture(albedoTexture);
+    setupTexture(normalTexture);
+    setupTexture(mraTexture); // Assicurati di averla caricata
 
-	for (auto& terrain : world_chunks) {
-		Material& mat = terrain.get_model().materials[0];
-		mat.shader = shader;
-		mat.maps[MATERIAL_MAP_OCCLUSION].texture = mraTexture;
-		mat.maps[MATERIAL_MAP_ALBEDO].texture = albedoTexture;
-		mat.maps[MATERIAL_MAP_NORMAL].texture = normalTexture;
-	}
+    // Setup variabili shader
+    int maxLightCount = 1;
+    int useTexAlbedo = 1;
+    int useTexNormal = 1;
+    int useTexMRA = 1;
+    float floorMetallic = 0.2f;
+    float floorRoughness = 0.8f;
+    float floorAo = 0.5f;
+    float floorEmissivePower = 0.0f;
+    float ambientIntensity = 0.1f;
+    Color ambientColor = {26, 32, 135, 255};
+    Vector3 ambientColorNormalized = {
+        ambientColor.r / 255.0f,
+        ambientColor.g / 255.0f,
+        ambientColor.b / 255.0f
+    };
 
-	// Setup variabili shader
-	int maxLightCount = 1;
-	int useTexAlbedo = 1;
-	int useTexNormal = 0;
-	int useTexMRA    = 1;
-	float floorMetallic = 0.2f;
-	float floorRoughness = 0.8f;
-	float floorAo = 0.5f;
-	float floorEmissivePower = 0.0f;
-	float ambientIntensity = 0.1f;
-	Color ambientColor = { 26, 32, 135, 255 };
-	Vector3 ambientColorNormalized = { ambientColor.r/255.0f,
-									   ambientColor.g/255.0f,
-									   ambientColor.b/255.0f };
+    SetTextureWrap(albedoTexture, TEXTURE_WRAP_REPEAT);
+    SetTextureWrap(normalTexture, TEXTURE_WRAP_REPEAT);
+    SetTextureWrap(mraTexture, TEXTURE_WRAP_REPEAT);
 
-	SetTextureWrap(albedoTexture, TEXTURE_WRAP_REPEAT);
-	SetTextureWrap(normalTexture, TEXTURE_WRAP_REPEAT);
-	SetTextureWrap(mraTexture, TEXTURE_WRAP_REPEAT);
+    SetShaderValue(shader, GetShaderLocation(shader, "numOfLights"),
+                   &maxLightCount, SHADER_UNIFORM_INT);
+    SetShaderValue(shader, GetShaderLocation(shader, "useTexAlbedo"),
+                   &useTexAlbedo, SHADER_UNIFORM_INT);
+    SetShaderValue(shader, GetShaderLocation(shader, "useTexNormal"),
+                   &useTexNormal, SHADER_UNIFORM_INT);
+    SetShaderValue(shader, GetShaderLocation(shader, "useTexMRA"),
+                   &useTexMRA, SHADER_UNIFORM_INT);
+    SetShaderValue(shader, GetShaderLocation(shader, "metallicValue"),
+                   &floorMetallic, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, GetShaderLocation(shader, "roughnessValue"),
+                   &floorRoughness, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, GetShaderLocation(shader, "aoValue"),
+                   &floorAo, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, GetShaderLocation(shader, "emissivePower"),
+                   &floorEmissivePower, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, GetShaderLocation(shader, "ambient"),
+                   &ambientIntensity, SHADER_UNIFORM_FLOAT);
+    SetShaderValue(shader, GetShaderLocation(shader, "ambientColor"),
+                   &ambientColorNormalized, SHADER_UNIFORM_VEC3);
 
-	SetShaderValue(shader, GetShaderLocation(shader, "numOfLights"),
-				   &maxLightCount, SHADER_UNIFORM_INT);
-	SetShaderValue(shader, GetShaderLocation(shader, "useTexAlbedo"),
-				   &useTexAlbedo, SHADER_UNIFORM_INT);
-	SetShaderValue(shader, GetShaderLocation(shader, "useTexNormal"),
-				   &useTexNormal, SHADER_UNIFORM_INT);
-	SetShaderValue(shader, GetShaderLocation(shader, "useTexMRA"),
-				   &useTexMRA, SHADER_UNIFORM_INT);
-	SetShaderValue(shader, GetShaderLocation(shader, "metallicValue"),
-				   &floorMetallic, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "roughnessValue"),
-				   &floorRoughness, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "aoValue"),
-				   &floorAo, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "emissivePower"),
-				   &floorEmissivePower, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "ambient"),
-				   &ambientIntensity, SHADER_UNIFORM_FLOAT);
-	SetShaderValue(shader, GetShaderLocation(shader, "ambientColor"),
-				   &ambientColorNormalized, SHADER_UNIFORM_VEC3);
+    // Crea sole
+    Light sunLight;
+    Color sunColor = {255, 244, 214, 255};
+    sunLight = CreateLight(LIGHT_DIRECTIONAL,
+                           {0.0f, 1050.0f, 1050.0f}, {0.0f, 0.0f, 0.0f},
+                           sunColor, 5.0f, shader);
 
-	// Crea sole
-	Light sunLight;
-	Color sunColor = { 255, 244, 214, 255 };
-	sunLight = CreateLight(LIGHT_DIRECTIONAL,
-						   { 0.0f, 2050.0f, 1050.0f }, { 0.0f, 0.0f, 0.0f },
-						   sunColor, 5.0f, shader);
+    std::vector<std::pair<Vector3, Model> > tree_positions;
 
-	std::vector<std::pair<Vector3, Model>> tree_positions;
+    std::map<std::pair<int, int>, Terrain> active_chunks;
 
-    while(!WindowShouldClose()) {
-		int centerX = GetScreenWidth()/2;
-		int centerY = GetScreenHeight()/2;
+    while (!WindowShouldClose()) {
+        int centerX = GetScreenWidth() / 2;
+        int centerY = GetScreenHeight() / 2;
 
-		UpdateCamera(&camera, CAMERA_FREE);
+        UpdateCamera(&camera, CAMERA_FREE);
 
-		// Aggiorna la posizione della camera nello shader
-		float cameraPos[3] = {camera.position.x,
-							  camera.position.y,
-							  camera.position.z};
-		SetShaderValue(shader,
-					   shader.locs[SHADER_LOC_VECTOR_VIEW],
-					   cameraPos,
-					   SHADER_UNIFORM_VEC3);
-		// Reset target camera
-		if (IsKeyPressed(KEY_Z))
-			camera.target = (Vector3){ 0.0f, 0.0f, 0.0f};
+        // Aggiorna la posizione della camera nello shader
+        float cameraPos[3] = {
+            camera.position.x,
+            camera.position.y,
+            camera.position.z
+        };
+        SetShaderValue(shader,
+                       shader.locs[SHADER_LOC_VECTOR_VIEW],
+                       cameraPos,
+                       SHADER_UNIFORM_VEC3);
 
-    	// Controlla click mouse sinistro per aggiungere albero
-		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-			Vector2 screenCenter = { static_cast<float>(centerX), static_cast<float>(centerY) };
-			Ray crosshairRay = GetMouseRay(screenCenter, camera);
-			// Verifica se raggio colpisce bbox del chunk
-			for (auto& terrain:world_chunks) {
-				BoundingBox box = GetMeshBoundingBox(terrain.get_model().meshes[0]);
+        Terrain::chunk_management(active_chunks, camera, shader, mraTexture, albedoTexture, normalTexture);
 
-				if (GetRayCollisionBox(crosshairRay, box).hit) {
-					RayCollision col = GetRayCollisionMesh(crosshairRay,
-											 terrain.get_model().meshes[0],
-											 terrain.get_model().transform);
-					// Se colpisce terreno entro minDistance aggiunge albero
-					if (float minDistance = 15.0f; col.hit && col.distance < minDistance) {
-						tree_positions.emplace_back(col.point, gen_tree_model(time(0), shader));
-						break;
-					}
-				}
-			}
-		}
+        // Reset target camera
+        if (IsKeyPressed(KEY_Z))
+            camera.target = (Vector3){0.0f, 0.0f, 0.0f};
 
-		BeginDrawing(); {
-			ClearBackground(SKYBLUE);
+        // Controlla click mouse sinistro per aggiungere albero
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+            Vector2 screenCenter = {static_cast<float>(centerX), static_cast<float>(centerY)};
+            Ray crosshairRay = GetMouseRay(screenCenter, camera);
+            // Verifica se raggio colpisce bbox del chunk
+            for (auto &chunk: active_chunks) {
+                BoundingBox box = GetMeshBoundingBox(chunk.second.get_model().meshes[0]);
 
-			BeginMode3D(camera);
-			{
-				// Disegna terreno
-				for (auto& terrain:world_chunks)
-					terrain.draw_terrain();
-				// Disegna sole
-				if (sunLight.enabled)
-					DrawSphere(sunLight.position, 100, sunColor);
-				// Disegna alberi
-				for(const auto& p:tree_positions)
-					DrawModel(p.second, p.first, 1.0f, WHITE);
-			}
-			EndMode3D();
+                box.min.x += chunk.second.get_world_x();
+                box.min.z += chunk.second.get_world_z();
+                box.max.x += chunk.second.get_world_x();
+                box.max.z += chunk.second.get_world_z();
 
-			DrawLine(centerX - 20, centerY, centerX + 20, centerY, BLACK);
-			DrawLine(centerX, centerY - 20, centerX, centerY + 20, BLACK);
-			DrawText(TextFormat("FPS: %i (target %i)", GetFPS(), target_fps),
-					 10, 10, 20, DARKGRAY);
+                if (GetRayCollisionBox(crosshairRay, box).hit) {
+                    Matrix chunkTransform = MatrixTranslate(chunk.second.get_world_x(), 0.0f, chunk.second.get_world_z());
+                    RayCollision col = GetRayCollisionMesh(crosshairRay,
+                                                           chunk.second.get_model().meshes[0], chunkTransform);
+                    // Se colpisce terreno entro minDistance aggiunge albero
+                    if (float minDistance = 15.0f; col.hit && col.distance < minDistance) {
+                        tree_positions.emplace_back(col.point, gen_tree_model(time(0), shader));
+                        break;
+                    }
+                }
+            }
+        }
 
-		} EndDrawing();
+        BeginDrawing();
+        {
+            ClearBackground(SKYBLUE);
+            BeginMode3D(camera);
+            {
+                // Disegna terreno
+                for (auto &terrain: active_chunks)
+                    terrain.second.draw_terrain();
+                // Disegna sole
+                if (sunLight.enabled)
+                    DrawSphere(sunLight.position, 100, sunColor);
+                // Disegna alberi
+                for (const auto &p : tree_positions) {
+                    Vector3 tree_pos = p.first;
+                    std::pair tree_chunk = {
+                        static_cast<int>(floorf(tree_pos.x / Terrain::CHUNK_SIZE)),
+                        static_cast<int>(floorf(tree_pos.z / Terrain::CHUNK_SIZE))
+                    };
+                    // Se il chunk calcolato è attivo, disegna l'albero
+                    if (active_chunks.find(tree_chunk) != active_chunks.end()) {
+                        DrawModel(p.second, tree_pos, 1.0f, WHITE);
+                    }
+                }
+            }
+            EndMode3D();
+
+            DrawLine(centerX - 20, centerY, centerX + 20, centerY, BLACK);
+            DrawLine(centerX, centerY - 20, centerX, centerY + 20, BLACK);
+            DrawText(TextFormat("FPS: %i (target %i)", GetFPS(), target_fps),
+                     10, 10, 20, DARKGRAY);
+        }
+        EndDrawing();
     }
-	// Unload roba
+
+    // Unload roba
     UnloadTexture(mraTexture);
     UnloadTexture(albedoTexture);
     UnloadTexture(normalTexture);
     UnloadShader(shader);
-	for (auto& terrain:world_chunks)
-		UnloadModel(terrain.get_model());
-	CloseWindow();
+    for (auto &terrain: active_chunks)
+        UnloadModel(terrain.second.get_model());
+    CloseWindow();
     return 0;
 }
 

@@ -7,10 +7,11 @@
 #include<initializer_list>
 
 #include "raylib.h"
-
+#include "raymath.h"
 #include "rewrite.hpp"
 #include "turtle.hpp"
 #include "light.hpp"
+#include "player.hpp"
 #include "terrain.hpp"
 
 float deg_to_rad(const float deg) {
@@ -165,12 +166,7 @@ int main() {
     SetTargetFPS(target_fps);
 
     // Setup camera
-    Camera camera;
-    camera.position = (Vector3){32.0f, 100.0f, 32.0f};
-    camera.target = (Vector3){0.0f, 0.0f, 0.0f};
-    camera.up = (Vector3){0.0f, 1.0f, 0.0f};
-    camera.fovy = 45.0f;
-    camera.projection = CAMERA_PERSPECTIVE;
+    Player player({0.0f, (0.5f + 1.0f), 0.0f});
 
     // Setup shader
     Shader shader = LoadShader(TextFormat("resources/shaders/pbr.vs"), TextFormat("resources/shaders/pbr.fs"));
@@ -207,9 +203,6 @@ int main() {
     UnloadImage(imgRoughness);
     UnloadImage(imgAO);
 
-    // Generazione chunk terreno
-
-
     // Setup texture terreno
     Texture2D albedoTexture = LoadTexture("resources/textures/Grass007_2K-PNG_Color.png");
     Texture2D normalTexture = LoadTexture("resources/textures/Grass007_2K-PNG_NormalGL.png");
@@ -221,7 +214,7 @@ int main() {
 
     setupTexture(albedoTexture);
     setupTexture(normalTexture);
-    setupTexture(mraTexture); // Assicurati di averla caricata
+    setupTexture(mraTexture);
 
     // Setup variabili shader
     int maxLightCount = 1;
@@ -266,11 +259,9 @@ int main() {
                    &ambientColorNormalized, SHADER_UNIFORM_VEC3);
 
     // Crea sole
-    Light sunLight;
     Color sunColor = {255, 244, 214, 255};
-    sunLight = CreateLight(LIGHT_DIRECTIONAL,
-                           {0.0f, 1050.0f, 1050.0f}, {0.0f, 0.0f, 0.0f},
-                           sunColor, 5.0f, shader);
+    Light sunLight = CreateLight(LIGHT_DIRECTIONAL, {0.0f, 1050.0f, 1050.0f},
+                                 {0.0f, 0.0f, 0.0f}, sunColor, 5.0f, shader);
 
     std::vector<std::pair<Vector3, Model> > tree_positions;
 
@@ -280,29 +271,29 @@ int main() {
         int centerX = GetScreenWidth() / 2;
         int centerY = GetScreenHeight() / 2;
 
-        UpdateCamera(&camera, CAMERA_FREE);
+        char sideway = IsKeyDown(KEY_D) - IsKeyDown(KEY_A);
+        char forward = IsKeyDown(KEY_W) - IsKeyDown(KEY_S);
+        bool crouching = IsKeyDown(KEY_LEFT_CONTROL);
+        bool jumping = IsKeyPressed(KEY_SPACE);
+
+        player.update_body(sideway, forward, jumping, crouching);
+
+        player.update_camera_first_person();
 
         // Aggiorna la posizione della camera nello shader
-        float cameraPos[3] = {
-            camera.position.x,
-            camera.position.y,
-            camera.position.z
-        };
-        SetShaderValue(shader,
-                       shader.locs[SHADER_LOC_VECTOR_VIEW],
-                       cameraPos,
-                       SHADER_UNIFORM_VEC3);
+        player.update_shader_position(shader);
 
-        Terrain::chunk_management(active_chunks, camera, shader, mraTexture, albedoTexture, normalTexture);
+        // Generazione terreno
+        Terrain::chunk_management(active_chunks, player.get_camera(), shader, mraTexture, albedoTexture, normalTexture);
 
         // Reset target camera
         if (IsKeyPressed(KEY_Z))
-            camera.target = (Vector3){0.0f, 0.0f, 0.0f};
+            player.set_position({0.0f, 0.0f, 0.0f});
 
         // Controlla click mouse sinistro per aggiungere albero
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
             Vector2 screenCenter = {static_cast<float>(centerX), static_cast<float>(centerY)};
-            Ray crosshairRay = GetMouseRay(screenCenter, camera);
+            Ray crosshairRay = GetMouseRay(screenCenter, player.get_camera());
             // Verifica se raggio colpisce bbox del chunk
             for (auto &chunk: active_chunks) {
                 BoundingBox box = GetMeshBoundingBox(chunk.second.get_model().meshes[0]);
@@ -313,7 +304,8 @@ int main() {
                 box.max.z += chunk.second.get_world_z();
 
                 if (GetRayCollisionBox(crosshairRay, box).hit) {
-                    Matrix chunkTransform = MatrixTranslate(chunk.second.get_world_x(), 0.0f, chunk.second.get_world_z());
+                    Matrix chunkTransform = MatrixTranslate(chunk.second.get_world_x(), 0.0f,
+                                                            chunk.second.get_world_z());
                     RayCollision col = GetRayCollisionMesh(crosshairRay,
                                                            chunk.second.get_model().meshes[0], chunkTransform);
                     // Se colpisce terreno entro minDistance aggiunge albero
@@ -328,7 +320,7 @@ int main() {
         BeginDrawing();
         {
             ClearBackground(SKYBLUE);
-            BeginMode3D(camera);
+            BeginMode3D(player.get_camera());
             {
                 // Disegna terreno
                 for (auto &terrain: active_chunks)
@@ -337,7 +329,7 @@ int main() {
                 if (sunLight.enabled)
                     DrawSphere(sunLight.position, 100, sunColor);
                 // Disegna alberi
-                for (const auto &p : tree_positions) {
+                for (const auto &p: tree_positions) {
                     Vector3 tree_pos = p.first;
                     std::pair tree_chunk = {
                         static_cast<int>(floorf(tree_pos.x / Terrain::CHUNK_SIZE)),

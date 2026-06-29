@@ -1,18 +1,17 @@
 
 #ifndef LSYSTEMS_TERRAIN_H
 #define LSYSTEMS_TERRAIN_H
+
+#include <vector>
+#include <map>
 #include <cmath>
 
 #include "raylib.h"
-#include <iostream>
-#include <vector>
-#include <map>
-
-#include "raymath.h"
 
 class Terrain {
 public:
     static constexpr int CHUNK_SIZE = 32;
+    static constexpr int VERTEX_SIZE = CHUNK_SIZE + 1;
     static constexpr int RENDER_DISTANCE = 4;
 
     Terrain(std::vector<Vector3>&& inputVertex, const float wx, const float wz)
@@ -28,9 +27,9 @@ public:
     static void chunk_management(std::map<std::pair<int, int>, Terrain> &active_chunks, const Camera &camera, const Shader &shader, const Texture2D &mraTexture,
                                  const Texture2D &albedoTexture, const Texture2D &normalTexture);
 
-    void draw_terrain() const {
-        DrawModel(terrain_model, (Vector3){world_x, 0.0f, world_z}, 1.0f, WHITE);
-    }
+    void draw_terrain() const;
+
+    static float get_height(float world_x, float world_z);
 
     [[nodiscard]] Model get_model() const { return terrain_model; }
 

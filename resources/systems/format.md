@@ -1,3 +1,7 @@
+> *NOTA BENE* : sto documento è una prima bozza di formato
+> il formato poi implementato è un po' diverso da quanto qua descritto
+> c'ho da aggiornare la documentazione poi
+
 # Format json per l-system
 
 ## Obbiettivi del formato

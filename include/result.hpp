@@ -10,6 +10,8 @@
 
 template<typename S, typename E>
 struct Result {
+	typedef S ok_t;
+	typedef E err_t;
 	std::variant<S, std::list<E>> inner;
 	Result(S s):inner{std::in_place_index<0>, s}{}
 	Result(E e):inner{std::in_place_index<1>, std::list<E>{e}}{}
@@ -23,6 +25,7 @@ struct Result {
 	}
 
 	bool is_ok() const { return inner.index() == 0; }
+	bool is_err() const { return inner.index() == 1; }
 	operator bool() const { return inner.index() == 0; }
 	S get() const { return std::get<0>(inner); }
 	E err() const { return std::get<1>(inner).front(); }

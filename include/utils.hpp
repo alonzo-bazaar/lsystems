@@ -94,7 +94,6 @@ std::function<Ret(Args... args)> complement
 	return [orig](Args... args){ return !orig(args...); };
 }
 
-// support for std::functions but also for like... functions
 template<typename Ret, typename... Args>
 std::function<Ret(Args... args)> complement
 (Ret(*orig)(Args... args)) {
@@ -105,186 +104,56 @@ std::function<Ret(Args... args)> complement
 // https://en.cppreference.com/cpp/algorithm/transform
 // since res does initially contain 0 elements so... can't really
 // transform into it
-template<typename In, typename Out, typename Collection>
-std::vector<Out>
-mapcar(std::function<Out(In)> fn, Collection in) {
-	std::vector<Out>res;
+template<typename InElt, typename OutElt, typename Collection>
+std::vector<OutElt> mapcar(Collection in, std::function<OutElt(InElt)> fn) {
+	std::vector<OutElt>res;
 	res.reserve(in.size());
-	for(const In& in_elt : in)
+	for(const InElt& in_elt : in)
 		res.push_back(fn(in_elt));
 	return res;
 }
 
-// same as above, also support plain ol' function pointers
-// should probalby just have a template with callable shit
-template<typename In, typename Out, typename Collection>
-std::vector<Out>
-mapcar(Out(*fn)(In), Collection in) {
-	std::vector<Out>res;
+template<typename InElt, typename OutElt, typename Collection>
+std::vector<OutElt> mapcar(Collection in, OutElt(*fn)(InElt)) {
+	std::vector<OutElt>res;
 	res.reserve(in.size());
-	for(const In& in_elt : in)
+	for(const InElt& in_elt : in)
 		res.push_back(fn(in_elt));
 	return res;
 }
 
-template<typename T, typename Elt>
-bool contains(const T& t, const Elt& elt) {
+template<typename T>
+bool contains(const std::vector<T> t, const T elt) {
 	return std::find(t.cbegin(), t.cend(), elt) != t.cend();
 }
 
 template<typename T, typename Fn>
-bool contains_if(const T& t, const Fn& fn) {
+bool contains_if(const T t, const Fn fn) {
 	return std::find_if(t.cbegin(), t.cend(), fn) != t.cend();
 }
 
-/*
-template<typename T>
-std::vector<T>vec_cat2(std::vector<T> v1, std::vector<T> v2) {
-	std::vector v3(v1);
-	v3.insert(v3.end(), v2.begin(), v2.end());
-	return v3;
+// de morgen
+template<typename T, typename Fn>
+bool all(const T t, const Fn fn) {
+	return !contains_if(t, complement(fn));
 }
 
-// hic est reimplementatio de
-// https://doc.rust-lang.org/std/result/
-// in c++ (fatta male)
-// S = success type, E = error type
-// 
-// come filosofia generale di questa classe Result
-// (raggiunta dopo lunghe lotte col compiler, non era affatto il mio piano
-//  iniziale)
-// 
-// c++ la prende bene se gli lasciamo decidere implicitamente che
-// dato un return type Result<A, B>
-// allora return A vuol dire ok
-// e return B vuol dire che qualcosa non va bene
-// 
-// ma se proviamo a specificare
-// return Result(A), oppure
-// return Result::ok(a), oppure
-// return Ok(a)
-// per tutte queste tre alternative, s'incazza
-// quindi il modo più facile per usare questa classe result è lasciare che
-// c++ faccia implicitamente la conversione di qualsiasi cosa e manco provare
-// a essere espliciti
-// 
-// inoltre
-// spesso si usano stringhe come valori di ritorno
-// spesso si usano stringhe come messaggi di errore
-// e spesso si usa, come stringa o valore di ritorno, un valore che può essere
-// convertito implicitamente da stringa
-// 
-// se ci si affida quindi alla conversione implicita, e non abbiamo altra
-// scelta, il compiler non riesce a distinguere cosa è cosa
-// 
-// per ovviare ciò sono forniti i seguenti struct wrapper il cui unico scopo
-// è rendere esplicito al compiler "ue fra, da questo lato del result"
-// (resi generici visto che non costa manco troppo da fare)
-// 
-// sia avvisato l'utente che l'uso di questa classe result porta a tempi
-// di compilazione che non invidio al rust, e a messaggi di errure di
-// lunghezze della madonna 
-// la uso nel mio codice solo per sunk cost fallacy a sto punto
-template <typename T>
-struct Ok {
-	const T t;
-	Ok(const T t):t(t){}
-	const T get() { return t; }
-	operator T() const noexcept { return t; }
-
-	std::ostream& operator<< (std::ostream& os) const {
-		return os<<"Ok{"<<t<<"}";
-	}
-	std::stringstream& operator<< (std::stringstream& ss) const {
-		return ss<<t;
-	}
-};
-
-template <typename T>
-struct Err {
-	const T t;
-	Err(const T t):t(t){}
-	const T get() { return t; }
-	operator T() const noexcept { return t; }
-
-	std::ostream& operator<< (std::ostream& os) const {
-		return os<<"Err{"<<t<<"}";
-	}
-	std::stringstream& operator<< (std::stringstream& ss) const {
-		return ss<<t;
-	}
-};
-
-template <typename S, typename E>
-struct Result {
-	const bool is_ok;
-	std::variant<S, std::vector<E>> data;
-	// errors represented internally as a cascade of events
-	// ergo, collection
-
-	Result(Ok<S> s) :data(s), is_ok(true){}
-	Result(S s) :data(s), is_ok(true){}
-
-	Result(Err<E> s) :data(s), is_ok(true){}
-	Result(E e) :data(std::vector<E>{e}), is_ok(false){}
-
-	Result(const std::vector<E>& ev) :data(ev), is_ok(false){}
-
-	Result(const std::initializer_list<E>& ev) :data(ev), is_ok(false){}
-
-	bool ok() const noexcept { return is_ok; }
-	operator bool() const noexcept { return is_ok; }
-
-	// together with vector initializer serves to implicitly convert
-	// error
-	std::vector<E> furthermore(E e) {
-		std::vector<E> cpy;
-		cpy.push_back(e);
-		for(const auto& c: err_data())
-			cpy.push_back(c);
-		return cpy;
-	}
-
-	S get() const { return std::get<0>(data); }
-	E err() const { return std::get<1>(data)[0]; }
-	std::vector<E> err_data() const { return std::get<1>(data); }
-
-	operator S() const noexcept { return get(); }
-	operator E() const noexcept { return err(); }
-
-	S get_or(const S def) const noexcept {
-		try {
-			if(ok())
-				return get();
-			return def;
-		}
-		catch(std::exception &e) {
-			return def;
-		}
-	}
-
-	std::ostream& operator<< (std::ostream& os) const {
-		if(is_ok)
-			return os<<"Result::Ok{" << get() << "}";
-		else
-			return os<<"Result::Err{" << err() << "}";
-	}
-	std::string err_trace() const {
-		std::stringstream ss; 
-		ss << std::string{err()};
-		for(auto c = err_data().begin()+1; c != err_data().end(); c++)
-			ss << "  Caused by: " << std::string{*c};
-
-		return ss.str();
-	}
-	~Result() = default;
-};
-
-
-template<typename S1, typename S2, typename E>
-Result<S1, E> further_error(const Result<S2, E>& r, const E e) {
-	auto errcpy = r.err_data();
-	errcpy.push_back(e);
-	return errcpy;
+// indeed I am landfilling in the iota from std::views because for whatever
+// goddamn reason I decided to do this project in the completely arbitrary
+// standard of c++ 17, why do you ask?
+std::vector<size_t>iota(size_t to, size_t from=0) {
+	assert(from <= to);
+	std::vector<size_t> res;
+	res.reserve(to-from);
+	for(size_t i = from; i<to; ++i)
+		res.push_back(i);
+	return res;
 }
-*/
+
+template<typename T, typename Container>
+std::vector<T> suffix(size_t by, Container c) {
+	std::vector<T> res;
+	for(size_t i = by; i < c.size(); ++i)
+		res.push_back(c[i]);
+	return res;
+}

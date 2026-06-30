@@ -1,7 +1,18 @@
 {
-  "tests": 15,
+  "tests": 16,
   "name": "AllTests",
   "testsuites": [
+    {
+      "name": "JsonTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "DoesntBlowUp",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/json_test.cpp",
+          "line": 8
+        }
+      ]
+    },
     {
       "name": "MatrixTest",
       "tests": 11,

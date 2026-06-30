@@ -57,17 +57,22 @@ res_fn(read_json_file, (const char* filename), json, std::string) {
     assert(0 && "unreachable");
 }
 
-// tree json contains these
+// tree json contains these fields
 struct ParsedTree {
 	std::vector<std::array<float, 2>> texcoords_table;
 	std::vector<float> thickness_table;
+	std::string axiom;
 	std::map<char, RewriteTarget> rewrite_rules;
 	size_t rewrite_times;
+	std::map<std::string, float> tree_globals;
 };
+// let's parse them
 
 /*
-  accepted texcoord_table formats are
-  1. list of couples of numbers
+  texcoords table and thickness table formats have a fair bit in common
+  for texcoords:
+  accepted texcoords_table formats are
+  1. list of paris of numbers
   2. object containing theese 3 keys and these 3 keys only:
      - start : array of 2 numbers
      - end : array of 2 numbers
@@ -102,8 +107,12 @@ std::vector<std::string> excess_keys
 	return res;
 }
 
-// generic function to express both thickness table parsing and texcoord
-// table parsing as a function of
+// to avoid writing two parse_thicnkess_table and parse_texcoords_table
+// functions with basically identical code save for 2 calls being different
+// we're instead going to write one generic function to express whatever
+// parsing for something formatted as specified above
+// then express both parse_thicnkess_table and parse_texcoords_table
+// as functions of this single generic function
 template<typename T>
 const std::function<Result<std::vector<T>, std::string>(const json& j)>
 parse_table
@@ -123,8 +132,9 @@ parse_table
 		try {
 			// parse data table expressed as array
 			if(j.is_array()) {
-				auto f = std::find_if(j.begin(), j.end(),
-									  complement(validator));
+				auto f = std::find_if
+					(j.begin(), j.end(),
+					 complement<const json&>(validator));
 				if(f != j.end())
 					return ERR
 						("cannot parse "
@@ -135,7 +145,7 @@ parse_table
 						 + std::to_string(f-j.begin())
 						 + "] of the array, is not a valid"
 						 + long_data_name);
-				return OK(mapcar(j, transformer));
+				return OK(mapcar<json, T>(j, transformer));
 			}
 
 			// parse data table expressed as object
@@ -201,15 +211,15 @@ parse_table
 	};
 }
 
-bool is_json_valid_texcoord(const json& j) {
+bool is_json_valid_texcoords(const json& j) {
 	return j.is_array()
 		&& j.size() == 2
 		&& j[0].is_number()
 		&& j[1].is_number();
 }
 
-std::array<float, 2> valid_json_to_texcoord (const json& j) {
-	assert(is_json_valid_texcoord(j));
+std::array<float, 2> valid_json_to_texcoords (const json& j) {
+	assert(is_json_valid_texcoords(j));
 	return {j[0], j[1]};
 }
 
@@ -222,10 +232,10 @@ float valid_json_to_thickness(const json& j) {
 	return static_cast<float>(j);
 }
 
-const auto parse_texcoord_table = parse_table<std::array<float, 2>>
-	(is_json_valid_texcoord,
-	 valid_json_to_texcoord,
-	 "texcoord",
+const auto parse_texcoords_table = parse_table<std::array<float, 2>>
+	(is_json_valid_texcoords,
+	 valid_json_to_texcoords,
+	 "texcoords",
 	 "texture coordinate (ie: an array of 2 numbers)");
 
 const auto parse_thickness_table = parse_table<float>
@@ -236,49 +246,65 @@ const auto parse_thickness_table = parse_table<float>
 
 /*
   parse rewrite_rules json
-  all keys must be strings of length 1
-  all values can be
+  rewrite rules are an object where keys are strings of length 1, and values
+  express a rewrite target.
+
+  rewrite targets can be expressed as
   - strings (default parameters, if any, inferred from globals map)
   - lists of parameterized instructions interspersed with strings
-    parameterized instructions are here refered to as calculator expressions
- */
+    parameterized instrucions are arrays starting with a string of length 1
+    followed by zero or more arithmetic expressions that compute the
+	zero or more parameters that accompany the instruction marked by
+	that letter, with one arithmetic expression per parameter
 
-/*
-  valid calculator expressions are
+  arithmetic expressions are expressed in a sort of lisp inspired dsl embedded
+  within json, valid arithmetic expressions are:
   - all numbers (literals)
   - all strings (variable lookup)
 
-  then we got arithmetic expressions (expressed in json lists)
-  the big 4
-  - ["+", ...args]
-  - ["*", ...args]
+  then we can json arrays expressings arithmetic expressions
+  - ["+", args...]
+  - ["*", args...]
   - ["-", arg1, arg2]
   - ["/", arg1, arg2]
 
-  conditionals
+  conditional expressions
   - ["if", cond, then, else]
 
-  strict compairisons
+  and compairisons
   - [">", arg1, arg2]
   - [">=", arg1, arg2]
   - ["<", arg1, arg2]
   - ["<=", arg1, arg2]
   - ["==", arg1, arg2]
-
-  toleranced compairisons
   - ["<=", arg1, arg2, tolerance]
   - [">=", arg1, arg2, tolerarnce]
   - ["==", arg1, arg2, tolerance]
 
-  (note: strinc compairisons will be implemented in terms of toleranced
-   compairisons with a low (but not really) tolearnce of, say, 0.001)
+  to access parameters of parametric expressions we also provide the
+  following "special form", if one may so call it
+  - ["param", parameter_index]
+
+  note for conditional compairison operators:
+    when no tolerance is provided compairisons are performed with a rather
+	high default tolerance because floating point numbers do be like that
+	and this application does not require that much precision
+
+  note for conditional expressions:
+    in conditional expressions zero is falsey and all other values are
+    truthy, values are compared to zero with a rather high tolerance
+	(the same default tolerance used for compairison operators)
+	so many low enough values are still gonna be zero
+
+  the default tolerance used can be found here as the
+  constexpr global variable `default_tolerance`
  */
 
 // preliminary syntactic ensurance
-res_fn(validate_calculator_expression, (const json& j), bool, std::string) {
-	if(j.is_number()) // literal
+res_fn(validate_arithmetic_expression, (const json& j), bool, std::string) {
+	if(j.is_number())
 		return OK(true);
-	if(j.is_string()) // variable lookup
+	if(j.is_string())
 		return OK(true);
 	else if(j.is_array() && j.size()>0) { // composite expression
 		auto op = j["0"];
@@ -290,10 +316,12 @@ res_fn(validate_calculator_expression, (const json& j), bool, std::string) {
 			return ERR("unrecognized operator " + op.dump());
 
 		for(size_t i = 1; i<j.size(); i++)
-			if(auto r = validate_calculator_expression(j[i]);
+			if(auto r = validate_arithmetic_expression(j[i]);
 			   !r.is_ok())
 				return ERR_FURTHER("invalid operand at index "
-								   + std::to_string(i),
+								   + std::to_string(i)
+								   + " of json arithmetic expression "
+								   + j.dump(),
 								   {r.err_trace()});
 
 		auto rands_size = j.size()-1;
@@ -306,45 +334,54 @@ res_fn(validate_calculator_expression, (const json& j), bool, std::string) {
 			return ERR("operator "
 					   + op.dump()
 					   + " called with incorrect number of arguments "
-					   + std::to_string(rands_size));
+					   + std::to_string(rands_size)
+					   + " in json arithmetic expression "
+					   + j.dump());
 		return OK(true);
 	}
-	return ERR("expected calculator expression to be either "
+	return ERR("expected arithmetic expression to be either "
 			   " literal(number), variable (string), or expression(array) "
-			   " was given an expression of unrecognized type " +
+			   " was given an expression of invalid type " +
 			   json_type_to_str(j.type()));
 }
 
-bool is_valid_calculator_expression(const json& j, bool log_invalid=true) {
-	auto r = validate_calculator_expression(j);
+// wrapper around validate_arithmetic_expression that just returns
+// a boolean for caller convenience
+// but also logs any potential errors recieved by
+// validate_arithmetic_expression for user conveience
+// (ie: for my own convenience, I'm the user of this thing)
+bool is_valid_arithmetic_expression(const json& j, bool log_invalid=true) {
+	auto r = validate_arithmetic_expression(j);
 	if(r.is_ok())
 		return r.get();
 	if(log_invalid) {
-		std::cerr<<"invalid json!\n";
+		std::cerr<<"invalid arithmetic expression json!\n";
 		r.log_trace();
 	}
 	return false;
 }
 
-constexpr float default_tolerance = 0.0001;
 // https://stackoverflow.com/a/4598865
+constexpr float default_tolerance = 0.0001;
 bool float_eq(float a, float b, float tolerance=default_tolerance) {
     return (std::abs(a - b)
 			<= tolerance * std::max(std::abs(a), std::abs(b)));
 }
+
 bool rands_eq(std::vector<float> rands) {
-	if(rands.size() == 2) return float_eq(rands[0], rands[1]);
+	if(rands.size() == 2)
+		return float_eq(rands[0], rands[1]);
 	else return float_eq(rands[0], rands[1], rands[2]);
 }
 
-// (a json generated rewrite target will contain one or more lambdas
-//  invoking this function)
-res_fn(evaluate_calculator_expression,
+// a json generated rewrite target will contain one or more lambdas
+// invoking this function
+res_fn(evaluate_arithmetic_expression,
 	   (const json& expr,
 		const std::map<std::string, float>& globals,
 		const std::vector<float>& params),
 	   float, std::string) {
-	// numbers are self evaluating in calculator expressions
+	// numbers are self evaluating in arithmetic expressions
 	if(expr.is_number())
 		return OK(expr);
 
@@ -353,8 +390,8 @@ res_fn(evaluate_calculator_expression,
 		if(auto f = globals.find(expr); f != globals.end())
 			return OK(f->second);
 		else
-			return ERR("variable " +
-					   expr.dump()
+			return ERR("variable "
+					   + expr.dump()
 					   + " is not defined within this lsystem specification");
 	}
 
@@ -363,34 +400,34 @@ res_fn(evaluate_calculator_expression,
 		// operator
 		const json &op_j = expr[0];
 		if(!op_j.is_string()) return ERR
-								  ("calculator expression operator "
+								  ("arithmetic expression operator "
 								   + expr.dump()
 								   + " is not a string, cannot interpret it"
 								   + " as an operator");
-		std::string op = op_j;
+		std::string op = op_j.get<std::string>();
 
 		// operands
-		auto rand_results = mapcar
+		auto rand_results = mapcar<size_t, ret_t>
 			(iota(expr.size(), 1),
-			 std::function<ret_t(size_t)>([expr, globals, params](size_t i) {
-				 return evaluate_calculator_expression
+			 [expr, globals, params](size_t i) {
+				 return evaluate_arithmetic_expression
 					 (expr[i], globals, params);
-			 }));
+			 });
 		auto first_rand_err = std::find_if(rand_results.begin(),
 										   rand_results.end(),
 										   [](ret_t r){return r.is_err();});
 		if(first_rand_err != rand_results.end())
 			return ERR_FURTHER
-				("cannot parse calculator expression: "
-				 "encountered while evaluating expression operand",
+				("cannot parse arithmetic expression: "
+				 "encountered an error while evaluating expression operand",
 				 first_rand_err->err_trace());
 
 		// if we get here all results are ok
-		std::vector<float> rands = mapcar
-			(rand_results,
-			 std::function<ret_t::ok_t(const ret_t&)>([](const ret_t& t){
-				 return t.get();
-			 }));
+		std::vector<float> rands = mapcar<ret_t, ret_t::ok_t>
+			(rand_results, ([](const ret_t& t){ return t.get(); }));
+
+		// bit rudimentary but this helps avoid any heisenbug caused by
+		// macro name collisions
 #ifdef expect_size
 #error "lol change this macro's name then"
 #endif
@@ -468,50 +505,118 @@ res_fn(evaluate_calculator_expression,
 			   " ask gdb how you got here, I have no clue");
 }
 
-bool is_valid_rewrite_target(const json& j,
-							 const std::map<std::string, float>& globals) {
+// now that we have functions to validate, parse, and evaluate
+// the various (possibly arithmetic) expressions a rewrite target
+// can be made out of, we can use them to create functions to validate,
+// parse, and evaluate the rewrite targets in question
+res_fn(validate_rewrite_target, (const json& j), bool, std::string) {
 	if(j.is_string())
-		return true;
+		return OK(true);
+	if(j.is_array()) {
+		bool is_stochastic = true;
+		for(const auto&[_, v] : j.items())
+			if(!j[0].is_number())
+				is_stochastic = false;
 
-	if(j.is_array())
-		return
-			// deterministic rewrite rule
-			// (array of rewrite rule elements)
-			all(j, std::function<bool(const json&)>([](const json& jj) {
-				return
-					jj.is_string() ||
-					(jj.is_array() &&
-					 jj[0].is_string() &&
-					 jj[0].size() == 1 &&
-					 all(iota(jj.size(), 1),
-						 std::function<bool(size_t)>([jj](size_t i) {
-							 return is_valid_calculator_expression(jj[i]);
-						 })));}))
-			// stochastic rewrite rule
-			// (array of arrays where each array
-			//  startings with a probability number and is then followed by
-			//  0 or more rewrite rule elements)
-			|| all(j, std::function<bool(const json&)>([](const json& jj) {
-				return jj.is_array()
-					&& jj.size() > 0
-					// number has to be literal number
-					&& jj[0].is_number()
-					&& all(iota(jj.size(), 1),
-						   std::function<bool(size_t)>([jj] (size_t i) {
-							   return is_valid_calculator_expression(jj[i]);
-						   }));}));
+		if(!is_stochastic) {
+			auto validate_kids = mapcar<const json&, ret_t>
+				(j, validate_rewrite_target);
+			auto first_error = std::find_if
+				(validate_kids.cbegin(), validate_kids.cend(),
+				 [](const ret_t&t){ return t.is_err(); });
 
+			if(first_error != validate_kids.cend())
+				return ERR_FURTHER
+					("deterministic rewrite target\n"
+					 + j.dump()
+					 + " \nis invalid as its subexpression at index "
+					 + std::to_string((first_error - validate_kids.cbegin()))
+					 + " (namely "
+					 + j[(first_error - validate_kids.cbegin())].dump()
+					 + " ) is invalid",
+					 first_error->err_trace());
+			return OK(true);
+		}
+		else {
+			// probabilities all expressed as literals
+			// and must all be in the range [0, 1] to be valid probabilities
+			auto kid_probabilities = mapcar<const json&, float>
+				(j, [](const json& j){return j[0].get<float>();});
+			for(float f : kid_probabilities) {
+				if(f < 0)
+					return ERR("stochastic rewrite target rule given with"
+							   " negative probability " + std::to_string(f));
+				if(f > 1)
+					return ERR("stochastic rewrite target rule given with"
+							   " probability "
+							   + std::to_string(f)
+							   +" greater than 1");
+			}
+			auto kid_rewrite_targets = mapcar<const json&, json>
+				(j, [](const json& j){return json(suffix<json>(1, j));});
+			auto validate_kids = mapcar<const json&, ret_t>
+				(kid_rewrite_targets, validate_rewrite_target);
+			auto first_error = std::find_if
+				(validate_kids.cbegin(), validate_kids.cend(),
+				 [](const ret_t&t){ return t.is_err(); });
+
+			if(first_error != validate_kids.cend())
+				return ERR_FURTHER
+					("stochastic rewrite target\n"
+					 + j.dump()
+					 + "\nis invalid as its subexpression at index "
+					 + std::to_string((first_error - validate_kids.cbegin()))
+					 + " (namely "
+					 + j[(first_error - validate_kids.cbegin())].dump()
+					 + " ) is invalid",
+					 first_error->err_trace());
+			return OK(true);
+		}
+	}
+	else
+		return ERR("expected rewrite target to be either string or list"
+				   " of rewrite target subexpressions, received rewrite"
+				   " target:\n" + j.dump() + "\nis of invalid type "
+				   + json_type_to_str(j.type()));
+}
+
+// sed 's/arithmetic_expression/rewrite_target/g' \
+// < is_valid_arithmetic_expression
+bool is_valid_rewrite_target(const json& j, bool log_invalid=true) {
+	auto r = validate_rewrite_target(j);
+	if(r.is_ok())
+		return r.get();
+	if(log_invalid) {
+		std::cerr<<"invalid rewrite target json!\n";
+		r.log_trace();
+	}
 	return false;
 }
 
-// character is provided per se and may be returned with or without
-// parameters
-// this is the function that handles how F or + or - instructions
-// may be initialized with implicit parameters from `globals` 
+// when providing a series of l-system instructions as a string in a rewrite
+// target, we have this conveience feature that, some instructions will be
+// provided with their required parameters if the l-system spec has a specific
+// tree-level global variable within it
+// 
+// to put it less abstractly, I have the string
+// "[f///f]" in my l-system json
+// but the underlying l-system I want to create is parametric, and in
+// parametric l-systems as implemented here
+// - 'f' needs a stride parameter, and
+// - '/' needs an angle parameter
+// so to make it possible to write "[f///f]" in a string without having to
+// provide parameters for every character (which would be tedious)
+// - all f (and F) instructions in a string are silently given
+//   the default parameter "stride"
+// - all +, -, &, ^, /, and \ instructions in a string are silently given
+//   the default parameter "angle"
+// 
+// this, of course, requires that the l-system contain "stride" and "angle" 
+// parameters, so this function just... fucking throws if that's not the case
 instruction interpret_json_char
 (const char c, const std::map<std::string, float>& globals) {
 	switch(c) {
-		// these instructions don't take any parameter
+		// these don't take any parameter
 	case '[':
 	case ']':
 	case '{':
@@ -520,9 +625,7 @@ instruction interpret_json_char
 	case '!':
 	case '\'':
 		return {c, {}};
-		// f and F when given no parameters are initialized with
-		// a predefined stride, which is present in the lsystem spec under
-		// the key "stride"
+		// these take a "stride" parameter
 	case 'F':
 	case 'f':
 		if(auto f = globals.find("stride"); f != globals.end())
@@ -530,26 +633,38 @@ instruction interpret_json_char
 		throw std::runtime_error
 			("given instruction with implicit stride parameter but "
 			 "the \"stride\" variable is not present in the lsystem");
-		// + - & ^ / and \ when given no params take instead the default
-		// parameter "angle"
+		// these take an "angle" parameter
 	case '+':
 	case '-':
 	case '&':
 	case '^':
 	case '/':
 	case '\\':
-		if(auto f = globals.find("stride"); f != globals.end())
+		if(auto f = globals.find("angle"); f != globals.end())
 			return {c, {f->second}};
 		throw std::runtime_error
 			("given instruction with implicit angle parameter but "
 			 "the \"angle\" variable is not present in the lsystem");
+		// strings can ansl contain characters that are not instructions
+		// ie: non terminal characters that are associated with rules to
+		// expand later
 	default:
 		return {c, {}};
 	}
 }
 
+// takes a json transition
+// (ie: a deterministic rewrite target, or a "branch" of a stochastic
+//  rewrite target)
+// 
+// and returns a transition function (transition defined in rewrite.hpp)
+// that applies the instructions encoded in that json to a
+// given parameter vector (in the context of a given globals map)
+// 
+// (a transition is a function that accepts a parameter vector and returns
+//  a rewritten array of instructions)
 transition json_to_transition(const json& j,
-							  const std::map<std::string, float> globals) {
+							  const std::map<std::string, float>& globals) {
 	if(j.is_string())
 		return [j, globals](std::vector<float> params) {
 			std::vector<instruction> res {};
@@ -572,7 +687,7 @@ transition json_to_transition(const json& j,
 					const char c = elt[0].get<std::string>()[0];
 					std::vector<float> vals;
 					for(size_t i = 1; i<elt.size(); ++i) {
-						auto r = evaluate_calculator_expression
+						auto r = evaluate_arithmetic_expression
 							(elt[i], globals, params);
 						if(r.is_ok())
 							vals.push_back(r.get());
@@ -603,8 +718,7 @@ transition json_to_transition(const json& j,
 res_fn(parse_rewrite_target,
 	   (const json& j, const std::map<std::string, float>& globals),
 	   RewriteTarget, std::string) {
-	// rewrite target can be either a single rewrite target or a list
-	if(!is_valid_rewrite_target(j, globals))
+	if(!is_valid_rewrite_target(j))
 		return ERR("invalid rewrite target");
 
 	// is stochastic?
@@ -615,24 +729,115 @@ res_fn(parse_rewrite_target,
 	   }))) {
 		std::vector<std::pair<float, transition>> probs;
 		for(const auto& [_, v]:j.items())
-			probs.push_back({v[0],
-							 json_to_transition(json(suffix<json>(1, v)),
-												globals)});
-		return RewriteTarget(probs);
+			probs.push_back
+				({v[0],
+				  json_to_transition(json(suffix<json>(1, v)), globals)});
+		return OK(RewriteTarget(probs));
 	}	
 
 	// otherwise is deterministic
-	return RewriteTarget(json_to_transition(j, globals));
+	return OK(RewriteTarget(json_to_transition(j, globals)));
 }
 
+// rewrite rules IE:
+// object where keys are single letter strings
+// and values are rewrite targets
 res_fn(parse_rewrite_rules,
 	   (const json& j, const std::map<std::string, float>& globals),
 	   std::map<char, RewriteTarget>, std::string) {
-	assert(0 && "TODO");
+	std::map<char, RewriteTarget> res;
+
+	for(const auto& [k, v] : j.items()) {
+		char c = k[0];
+
+		auto r = parse_rewrite_target(v, globals);
+		if(r.is_err())
+			return ERR_FURTHER("cannot parse rewrite rules json,"
+							   " error occured while parsing rewrite target"
+							   " json",
+							   r.err_trace());
+		RewriteTarget rt = r.get(); 
+
+		res.insert({c, rt});
+	}
+	return OK(res);
 }
 
 res_fn(parse_tree, (const json& j), ParsedTree, std::string) {
-	assert(0 && "TODO");
+	if(!j.is_object())
+		return ERR("tree json must be object, received tree of invalid "
+				   "type " + json_type_to_str(j.type()));
+
+	const std::vector<std::string>
+		required_keys = {"texcoords_table",
+						 "thickness_table",
+						 "axiom",
+						 "rewrite_rules",
+						 "rewrite_times"};
+
+	auto missing = missing_keys(j, required_keys);
+	if(!missing.empty())
+		return ERR("malformed tree json:"
+				   " missing the following required keys: "
+				   + serialize_vec(missing));
+
+	std::map<std::string, float> globals;
+	std::vector<std::string> globals_keys = excess_keys(j, required_keys);
+	for(const auto& gk : globals_keys) {
+		auto f = j[gk];
+		if(!f.is_number())
+			return ERR("all global variables in tree must be numbers,"
+					   " tree contains invalid global variable \""
+					   + gk + "\" of non numeric type "
+					   + json_type_to_str(f.type()));
+		globals.insert({gk, f.get<float>()});
+	}
+
+	// monadi, monadi, monadi
+	// nelle gonadi, gonadi, gonadi
+	// ooooooooooooo
+	// (da cantare a ritmo di: quei ragazzi della curva b)
+	auto text_t_r = parse_texcoords_table(j["texcoords_table"]);
+	if(text_t_r.is_err())
+		return ERR_FURTHER("cannot parse tree json, "
+						   "error while parsing texcoords table",
+						   text_t_r.err_trace());
+
+	auto thic_t_r = parse_thickness_table(j["thickness_table"]);
+	if(thic_t_r.is_err())
+		return ERR_FURTHER("cannot parse tree json, "
+						   "error while parsing thickness table",
+						   thic_t_r.err_trace());
+
+	auto r_rules_r = parse_rewrite_rules(j["rewrite_rules"], globals);
+	if(r_rules_r.is_err())
+		return ERR_FURTHER("cannot parse tree json, "
+						   "error while parsing rewrite rules json",
+						   r_rules_r.err_trace());
+
+	// we don't have a separate function for axiom and rewrite times since
+	// they're both just atomic data, easier to inline
+	if(auto rt = j["rewrite_times"]; !rt.is_number())
+		return ERR("cannot parse tree json, rewrite_times value "
+				   + rt.dump()
+				   + " is of non numeric type "
+				   + json_type_to_str(rt.type()));
+
+	if(auto ax = j["axiom"]; !ax.is_string())
+		return ERR("cannot parse tree json, axiom value "
+				   + ax.dump()
+				   + " required to be a string but is instead of type "
+				   + json_type_to_str(ax.type()));
+
+	auto text_t = text_t_r.get();
+	auto thic_t = thic_t_r.get();
+	auto r_rules = r_rules_r.get();
+	size_t r_times = j["rewrite_times"].get<size_t>();
+	std::string axiom = j["axiom"].get<std::string>();
+
+	return OK(ParsedTree{text_t, thic_t,
+						 axiom, r_rules, r_times,
+						 globals});
 }
 
 res_fn(from_json, (const json& j),
@@ -682,7 +887,7 @@ res_fn(from_json, (const json& j),
 		return ERR("version field in object must be number "
 				   "received instead version "
 				   + version.dump()
-				   + " which is of type "
+				   + " which is of non numeric type "
 				   + json_type_to_str(version));
 
     if(version != 1)

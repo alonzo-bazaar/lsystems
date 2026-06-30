@@ -32,6 +32,7 @@ endif()
 # TEST_SOURCES at CMakeLists.txt:96 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES false "/home/nil/Projects/lsystems/test/*.cpp")
 set(OLD_GLOB
+  "/home/nil/Projects/lsystems/test/json_test.cpp"
   "/home/nil/Projects/lsystems/test/matrix_test.cpp"
   "/home/nil/Projects/lsystems/test/rewrite_test.cpp"
   )

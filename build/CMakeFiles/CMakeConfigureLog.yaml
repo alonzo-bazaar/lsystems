@@ -1474,8 +1474,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -1486,13 +1486,13 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_82ae2/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_82ae2.dir/build.make CMakeFiles/cmTC_82ae2.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY'
-        Building C object CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o
-        /usr/bin/clang   -v -MD -MT CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_67561/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_67561.dir/build.make CMakeFiles/cmTC_67561.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f'
+        Building C object CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o
+        /usr/bin/clang   -v -MD -MT CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c
         clang version 22.1.6 (Fedora 22.1.6-1.fc44)
         Target: x86_64-redhat-linux-gnu
         Thread model: posix
@@ -1505,7 +1505,7 @@ events:
         Candidate multilib: 32;@m32
         Selected multilib: .;@m64
          (in-process)
-         "/usr/bin/clang-22" -cc1 -triple x86_64-redhat-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY -v -fcoverage-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY -resource-dir /usr/bin/../lib/clang/22 -dependency-file CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/bin/../lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c
+         "/usr/bin/clang-22" -cc1 -triple x86_64-redhat-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f -v -fcoverage-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f -resource-dir /usr/bin/../lib/clang/22 -dependency-file CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/bin/../lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c
         clang -cc1 version 22.1.6 based upon LLVM 22.1.6 default target x86_64-redhat-linux-gnu
         ignoring nonexistent directory "/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include"
         ignoring nonexistent directory "/include"
@@ -1515,8 +1515,8 @@ events:
          /usr/local/include
          /usr/include
         End of search list.
-        Linking C executable cmTC_82ae2
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_82ae2.dir/link.txt --verbose=1
+        Linking C executable cmTC_67561
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_67561.dir/link.txt --verbose=1
         clang version 22.1.6 (Fedora 22.1.6-1.fc44)
         Target: x86_64-redhat-linux-gnu
         Thread model: posix
@@ -1528,10 +1528,10 @@ events:
         Candidate multilib: .;@m64
         Candidate multilib: 32;@m32
         Selected multilib: .;@m64
-         "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_82ae2 /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o -L/usr/bin/../lib/clang/22/lib/x86_64-redhat-linux-gnu -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16 -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtend.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crtn.o
+         "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_67561 /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o -L/usr/bin/../lib/clang/22/lib/x86_64-redhat-linux-gnu -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16 -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtend.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crtn.o
         GNU ld version 2.46-3.fc44
-        /usr/bin/clang -v -Wl,-v CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -o cmTC_82ae2
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY'
+        /usr/bin/clang -v -Wl,-v CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -o cmTC_67561
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f'
         
       exitCode: 0
   -
@@ -1564,13 +1564,13 @@ events:
       Parsed C implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY']
+        ignore line: [Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_82ae2/fast]
-        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_82ae2.dir/build.make CMakeFiles/cmTC_82ae2.dir/build]
-        ignore line: [gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY']
-        ignore line: [Building C object CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o]
-        ignore line: [/usr/bin/clang   -v -MD -MT CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_67561/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_67561.dir/build.make CMakeFiles/cmTC_67561.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f']
+        ignore line: [Building C object CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o]
+        ignore line: [/usr/bin/clang   -v -MD -MT CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -MF CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o.d -o CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [clang version 22.1.6 (Fedora 22.1.6-1.fc44)]
         ignore line: [Target: x86_64-redhat-linux-gnu]
         ignore line: [Thread model: posix]
@@ -1586,7 +1586,7 @@ events:
         ignore line: [Selected multilib: .]
         ignore line: [@m64]
         ignore line: [ (in-process)]
-        ignore line: [ "/usr/bin/clang-22" -cc1 -triple x86_64-redhat-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY -v -fcoverage-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-NZflUY -resource-dir /usr/bin/../lib/clang/22 -dependency-file CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/bin/../lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
+        ignore line: [ "/usr/bin/clang-22" -cc1 -triple x86_64-redhat-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f -v -fcoverage-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-QUcS9f -resource-dir /usr/bin/../lib/clang/22 -dependency-file CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o.d -MT CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -sys-header-deps -internal-isystem /usr/bin/../lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake/Modules/CMakeCCompilerABI.c]
         ignore line: [clang -cc1 version 22.1.6 based upon LLVM 22.1.6 default target x86_64-redhat-linux-gnu]
         ignore line: [ignoring nonexistent directory "/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include"]
         ignore line: [ignoring nonexistent directory "/include"]
@@ -1596,8 +1596,8 @@ events:
         ignore line: [ /usr/local/include]
         ignore line: [ /usr/include]
         ignore line: [End of search list.]
-        ignore line: [Linking C executable cmTC_82ae2]
-        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_82ae2.dir/link.txt --verbose=1]
+        ignore line: [Linking C executable cmTC_67561]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_67561.dir/link.txt --verbose=1]
         ignore line: [clang version 22.1.6 (Fedora 22.1.6-1.fc44)]
         ignore line: [Target: x86_64-redhat-linux-gnu]
         ignore line: [Thread model: posix]
@@ -1612,7 +1612,7 @@ events:
         ignore line: [@m32]
         ignore line: [Selected multilib: .]
         ignore line: [@m64]
-        link line: [ "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_82ae2 /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o -L/usr/bin/../lib/clang/22/lib/x86_64-redhat-linux-gnu -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16 -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtend.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crtn.o]
+        link line: [ "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_67561 /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o -L/usr/bin/../lib/clang/22/lib/x86_64-redhat-linux-gnu -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16 -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtend.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crtn.o]
           arg [/usr/bin/ld] ==> ignore
           arg [--hash-style=gnu] ==> ignore
           arg [--build-id] ==> ignore
@@ -1622,7 +1622,7 @@ events:
           arg [-dynamic-linker] ==> ignore
           arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_82ae2] ==> ignore
+          arg [cmTC_67561] ==> ignore
           arg [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o] ==> obj [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o]
           arg [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o] ==> obj [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o]
           arg [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o] ==> obj [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o]
@@ -1634,7 +1634,7 @@ events:
           arg [-L/lib] ==> dir [/lib]
           arg [-L/usr/lib] ==> dir [/usr/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_82ae2.dir/CMakeCCompilerABI.c.o] ==> ignore
+          arg [CMakeFiles/cmTC_67561.dir/CMakeCCompilerABI.c.o] ==> ignore
           arg [-lgcc] ==> lib [gcc]
           arg [--as-needed] ==> ignore
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -1684,8 +1684,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_FLAGS: ""
@@ -1697,13 +1697,13 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_05bb5/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_05bb5.dir/build.make CMakeFiles/cmTC_05bb5.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET'
-        Building CXX object CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o
-        /usr/bin/clang++   -v -MD -MT CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e2db0/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_e2db0.dir/build.make CMakeFiles/cmTC_e2db0.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp'
+        Building CXX object CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o
+        /usr/bin/clang++   -v -MD -MT CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang version 22.1.6 (Fedora 22.1.6-1.fc44)
         Target: x86_64-redhat-linux-gnu
         Thread model: posix
@@ -1716,7 +1716,7 @@ events:
         Candidate multilib: 32;@m32
         Selected multilib: .;@m64
          (in-process)
-         "/usr/bin/clang-22" -cc1 -triple x86_64-redhat-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET -v -fcoverage-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET -resource-dir /usr/bin/../lib/clang/22 -dependency-file CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16 -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/x86_64-redhat-linux -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/backward -internal-isystem /usr/bin/../lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
+         "/usr/bin/clang-22" -cc1 -triple x86_64-redhat-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp -v -fcoverage-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp -resource-dir /usr/bin/../lib/clang/22 -dependency-file CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16 -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/x86_64-redhat-linux -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/backward -internal-isystem /usr/bin/../lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp
         clang -cc1 version 22.1.6 based upon LLVM 22.1.6 default target x86_64-redhat-linux-gnu
         ignoring nonexistent directory "/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include"
         ignoring nonexistent directory "/include"
@@ -1729,8 +1729,8 @@ events:
          /usr/local/include
          /usr/include
         End of search list.
-        Linking CXX executable cmTC_05bb5
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_05bb5.dir/link.txt --verbose=1
+        Linking CXX executable cmTC_e2db0
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e2db0.dir/link.txt --verbose=1
         clang version 22.1.6 (Fedora 22.1.6-1.fc44)
         Target: x86_64-redhat-linux-gnu
         Thread model: posix
@@ -1742,10 +1742,10 @@ events:
         Candidate multilib: .;@m64
         Candidate multilib: 32;@m32
         Selected multilib: .;@m64
-         "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_05bb5 /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o -L/usr/bin/../lib/clang/22/lib/x86_64-redhat-linux-gnu -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16 -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtend.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crtn.o
+         "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_e2db0 /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o -L/usr/bin/../lib/clang/22/lib/x86_64-redhat-linux-gnu -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16 -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtend.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crtn.o
         GNU ld version 2.46-3.fc44
-        /usr/bin/clang++ -v -Wl,-v CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_05bb5
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET'
+        /usr/bin/clang++ -v -Wl,-v CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_e2db0
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp'
         
       exitCode: 0
   -
@@ -1784,13 +1784,13 @@ events:
       Parsed CXX implicit link information:
         link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
         linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)))("|,| |$)]
-        ignore line: [Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET']
+        ignore line: [Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp']
         ignore line: []
-        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_05bb5/fast]
-        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_05bb5.dir/build.make CMakeFiles/cmTC_05bb5.dir/build]
-        ignore line: [gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET']
-        ignore line: [Building CXX object CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o]
-        ignore line: [/usr/bin/clang++   -v -MD -MT CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_e2db0/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_e2db0.dir/build.make CMakeFiles/cmTC_e2db0.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp']
+        ignore line: [Building CXX object CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/usr/bin/clang++   -v -MD -MT CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang version 22.1.6 (Fedora 22.1.6-1.fc44)]
         ignore line: [Target: x86_64-redhat-linux-gnu]
         ignore line: [Thread model: posix]
@@ -1806,7 +1806,7 @@ events:
         ignore line: [Selected multilib: .]
         ignore line: [@m64]
         ignore line: [ (in-process)]
-        ignore line: [ "/usr/bin/clang-22" -cc1 -triple x86_64-redhat-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET -v -fcoverage-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-5oFAET -resource-dir /usr/bin/../lib/clang/22 -dependency-file CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16 -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/x86_64-redhat-linux -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/backward -internal-isystem /usr/bin/../lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [ "/usr/bin/clang-22" -cc1 -triple x86_64-redhat-linux-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mframe-pointer=all -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb -fdebug-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp -v -fcoverage-compilation-dir=/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-HnOnEp -resource-dir /usr/bin/../lib/clang/22 -dependency-file CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16 -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/x86_64-redhat-linux -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../include/c++/16/backward -internal-isystem /usr/bin/../lib/clang/22/include -internal-isystem /usr/local/include -internal-isystem /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -ferror-limit 19 -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -faddrsig -fdwarf2-cfi-asm -o CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake/Modules/CMakeCXXCompilerABI.cpp]
         ignore line: [clang -cc1 version 22.1.6 based upon LLVM 22.1.6 default target x86_64-redhat-linux-gnu]
         ignore line: [ignoring nonexistent directory "/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../x86_64-redhat-linux/include"]
         ignore line: [ignoring nonexistent directory "/include"]
@@ -1819,8 +1819,8 @@ events:
         ignore line: [ /usr/local/include]
         ignore line: [ /usr/include]
         ignore line: [End of search list.]
-        ignore line: [Linking CXX executable cmTC_05bb5]
-        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_05bb5.dir/link.txt --verbose=1]
+        ignore line: [Linking CXX executable cmTC_e2db0]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e2db0.dir/link.txt --verbose=1]
         ignore line: [clang version 22.1.6 (Fedora 22.1.6-1.fc44)]
         ignore line: [Target: x86_64-redhat-linux-gnu]
         ignore line: [Thread model: posix]
@@ -1835,7 +1835,7 @@ events:
         ignore line: [@m32]
         ignore line: [Selected multilib: .]
         ignore line: [@m64]
-        link line: [ "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_05bb5 /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o -L/usr/bin/../lib/clang/22/lib/x86_64-redhat-linux-gnu -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16 -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtend.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crtn.o]
+        link line: [ "/usr/bin/ld" --hash-style=gnu --build-id --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_e2db0 /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o -L/usr/bin/../lib/clang/22/lib/x86_64-redhat-linux-gnu -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16 -L/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64 -L/lib/../lib64 -L/usr/lib64 -L/lib -L/usr/lib -v CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtend.o /usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crtn.o]
           arg [/usr/bin/ld] ==> ignore
           arg [--hash-style=gnu] ==> ignore
           arg [--build-id] ==> ignore
@@ -1845,7 +1845,7 @@ events:
           arg [-dynamic-linker] ==> ignore
           arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
           arg [-o] ==> ignore
-          arg [cmTC_05bb5] ==> ignore
+          arg [cmTC_e2db0] ==> ignore
           arg [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o] ==> obj [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crt1.o]
           arg [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o] ==> obj [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/../../../../lib64/crti.o]
           arg [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o] ==> obj [/usr/bin/../lib/gcc/x86_64-redhat-linux/16/crtbegin.o]
@@ -1857,7 +1857,7 @@ events:
           arg [-L/lib] ==> dir [/lib]
           arg [-L/usr/lib] ==> dir [/usr/lib]
           arg [-v] ==> ignore
-          arg [CMakeFiles/cmTC_05bb5.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [CMakeFiles/cmTC_e2db0.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
           arg [-lstdc++] ==> lib [stdc++]
           arg [-lm] ==> lib [m]
           arg [-lgcc_s] ==> lib [gcc_s]
@@ -1908,8 +1908,8 @@ events:
     checks:
       - "Performing Test COMPILER_HAS_THOSE_TOGGLES"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-deKleZ"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-deKleZ"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-PFvlJi"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-PFvlJi"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -1921,17 +1921,17 @@ events:
       variable: "COMPILER_HAS_THOSE_TOGGLES"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-deKleZ'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-PFvlJi'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_5dea6/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_5dea6.dir/build.make CMakeFiles/cmTC_5dea6.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-deKleZ'
-        Building C object CMakeFiles/cmTC_5dea6.dir/src.c.o
-        /usr/bin/clang -DCOMPILER_HAS_THOSE_TOGGLES  -std=gnu99   -Werror=pointer-arith -MD -MT CMakeFiles/cmTC_5dea6.dir/src.c.o -MF CMakeFiles/cmTC_5dea6.dir/src.c.o.d -o CMakeFiles/cmTC_5dea6.dir/src.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-deKleZ/src.c
-        Linking C executable cmTC_5dea6
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5dea6.dir/link.txt --verbose=1
-        /usr/bin/clang CMakeFiles/cmTC_5dea6.dir/src.c.o -o cmTC_5dea6
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-deKleZ'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_cc8ec/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_cc8ec.dir/build.make CMakeFiles/cmTC_cc8ec.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-PFvlJi'
+        Building C object CMakeFiles/cmTC_cc8ec.dir/src.c.o
+        /usr/bin/clang -DCOMPILER_HAS_THOSE_TOGGLES  -std=gnu99   -Werror=pointer-arith -MD -MT CMakeFiles/cmTC_cc8ec.dir/src.c.o -MF CMakeFiles/cmTC_cc8ec.dir/src.c.o.d -o CMakeFiles/cmTC_cc8ec.dir/src.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-PFvlJi/src.c
+        Linking C executable cmTC_cc8ec
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cc8ec.dir/link.txt --verbose=1
+        /usr/bin/clang CMakeFiles/cmTC_cc8ec.dir/src.c.o -o cmTC_cc8ec
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-PFvlJi'
         
       exitCode: 0
   -
@@ -1945,8 +1945,8 @@ events:
     checks:
       - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-9FLh7I"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-9FLh7I"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-uS9yh3"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-uS9yh3"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -1958,17 +1958,17 @@ events:
       variable: "CMAKE_HAVE_LIBC_PTHREAD"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-9FLh7I'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-uS9yh3'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_1e450/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_1e450.dir/build.make CMakeFiles/cmTC_1e450.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-9FLh7I'
-        Building C object CMakeFiles/cmTC_1e450.dir/src.c.o
-        /usr/bin/clang -DCMAKE_HAVE_LIBC_PTHREAD  -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith   -std=gnu99 -MD -MT CMakeFiles/cmTC_1e450.dir/src.c.o -MF CMakeFiles/cmTC_1e450.dir/src.c.o.d -o CMakeFiles/cmTC_1e450.dir/src.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-9FLh7I/src.c
-        Linking C executable cmTC_1e450
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1e450.dir/link.txt --verbose=1
-        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith   CMakeFiles/cmTC_1e450.dir/src.c.o -o cmTC_1e450
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-9FLh7I'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_39ee0/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_39ee0.dir/build.make CMakeFiles/cmTC_39ee0.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-uS9yh3'
+        Building C object CMakeFiles/cmTC_39ee0.dir/src.c.o
+        /usr/bin/clang -DCMAKE_HAVE_LIBC_PTHREAD  -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith   -std=gnu99 -MD -MT CMakeFiles/cmTC_39ee0.dir/src.c.o -MF CMakeFiles/cmTC_39ee0.dir/src.c.o.d -o CMakeFiles/cmTC_39ee0.dir/src.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-uS9yh3/src.c
+        Linking C executable cmTC_39ee0
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_39ee0.dir/link.txt --verbose=1
+        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith   CMakeFiles/cmTC_39ee0.dir/src.c.o -o cmTC_39ee0
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-uS9yh3'
         
       exitCode: 0
   -
@@ -17948,8 +17948,8 @@ events:
     checks:
       - "Looking for XOpenDisplay in /usr/lib64/libX11.so;/usr/lib64/libXext.so"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-l7ggrK"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-l7ggrK"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xg0l3z"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xg0l3z"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -17961,17 +17961,17 @@ events:
       variable: "X11_LIB_X11_SOLO"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-l7ggrK'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xg0l3z'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_3429d/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_3429d.dir/build.make CMakeFiles/cmTC_3429d.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-l7ggrK'
-        Building C object CMakeFiles/cmTC_3429d.dir/CheckFunctionExists.c.o
-        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=XOpenDisplay -std=gnu99 -MD -MT CMakeFiles/cmTC_3429d.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_3429d.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_3429d.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-l7ggrK/CheckFunctionExists.c
-        Linking C executable cmTC_3429d
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3429d.dir/link.txt --verbose=1
-        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=XOpenDisplay CMakeFiles/cmTC_3429d.dir/CheckFunctionExists.c.o -o cmTC_3429d  /usr/lib64/libX11.so /usr/lib64/libXext.so
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-l7ggrK'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_0932c/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_0932c.dir/build.make CMakeFiles/cmTC_0932c.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xg0l3z'
+        Building C object CMakeFiles/cmTC_0932c.dir/CheckFunctionExists.c.o
+        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=XOpenDisplay -std=gnu99 -MD -MT CMakeFiles/cmTC_0932c.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_0932c.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_0932c.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xg0l3z/CheckFunctionExists.c
+        Linking C executable cmTC_0932c
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0932c.dir/link.txt --verbose=1
+        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=XOpenDisplay CMakeFiles/cmTC_0932c.dir/CheckFunctionExists.c.o -o cmTC_0932c  /usr/lib64/libX11.so /usr/lib64/libXext.so
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xg0l3z'
         
       exitCode: 0
   -
@@ -17983,8 +17983,8 @@ events:
     checks:
       - "Looking for gethostbyname"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-R8hoUZ"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-R8hoUZ"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-KpzWdK"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-KpzWdK"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -17996,17 +17996,17 @@ events:
       variable: "CMAKE_HAVE_GETHOSTBYNAME"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-R8hoUZ'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-KpzWdK'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f1dad/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_f1dad.dir/build.make CMakeFiles/cmTC_f1dad.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-R8hoUZ'
-        Building C object CMakeFiles/cmTC_f1dad.dir/CheckFunctionExists.c.o
-        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=gethostbyname -std=gnu99 -MD -MT CMakeFiles/cmTC_f1dad.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_f1dad.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_f1dad.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-R8hoUZ/CheckFunctionExists.c
-        Linking C executable cmTC_f1dad
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f1dad.dir/link.txt --verbose=1
-        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=gethostbyname CMakeFiles/cmTC_f1dad.dir/CheckFunctionExists.c.o -o cmTC_f1dad
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-R8hoUZ'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_698d2/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_698d2.dir/build.make CMakeFiles/cmTC_698d2.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-KpzWdK'
+        Building C object CMakeFiles/cmTC_698d2.dir/CheckFunctionExists.c.o
+        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=gethostbyname -std=gnu99 -MD -MT CMakeFiles/cmTC_698d2.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_698d2.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_698d2.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-KpzWdK/CheckFunctionExists.c
+        Linking C executable cmTC_698d2
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_698d2.dir/link.txt --verbose=1
+        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=gethostbyname CMakeFiles/cmTC_698d2.dir/CheckFunctionExists.c.o -o cmTC_698d2
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-KpzWdK'
         
       exitCode: 0
   -
@@ -18018,8 +18018,8 @@ events:
     checks:
       - "Looking for connect"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-h0UsSk"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-h0UsSk"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-vAkhwE"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-vAkhwE"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -18031,17 +18031,17 @@ events:
       variable: "CMAKE_HAVE_CONNECT"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-h0UsSk'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-vAkhwE'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_a6b7f/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_a6b7f.dir/build.make CMakeFiles/cmTC_a6b7f.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-h0UsSk'
-        Building C object CMakeFiles/cmTC_a6b7f.dir/CheckFunctionExists.c.o
-        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=connect -std=gnu99 -MD -MT CMakeFiles/cmTC_a6b7f.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_a6b7f.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_a6b7f.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-h0UsSk/CheckFunctionExists.c
-        Linking C executable cmTC_a6b7f
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a6b7f.dir/link.txt --verbose=1
-        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=connect CMakeFiles/cmTC_a6b7f.dir/CheckFunctionExists.c.o -o cmTC_a6b7f
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-h0UsSk'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_8c6ae/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_8c6ae.dir/build.make CMakeFiles/cmTC_8c6ae.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-vAkhwE'
+        Building C object CMakeFiles/cmTC_8c6ae.dir/CheckFunctionExists.c.o
+        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=connect -std=gnu99 -MD -MT CMakeFiles/cmTC_8c6ae.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_8c6ae.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_8c6ae.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-vAkhwE/CheckFunctionExists.c
+        Linking C executable cmTC_8c6ae
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8c6ae.dir/link.txt --verbose=1
+        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=connect CMakeFiles/cmTC_8c6ae.dir/CheckFunctionExists.c.o -o cmTC_8c6ae
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-vAkhwE'
         
       exitCode: 0
   -
@@ -18053,8 +18053,8 @@ events:
     checks:
       - "Looking for remove"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-8VWbUv"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-8VWbUv"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-y2fzvB"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-y2fzvB"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -18066,17 +18066,17 @@ events:
       variable: "CMAKE_HAVE_REMOVE"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-8VWbUv'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-y2fzvB'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_51c2c/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_51c2c.dir/build.make CMakeFiles/cmTC_51c2c.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-8VWbUv'
-        Building C object CMakeFiles/cmTC_51c2c.dir/CheckFunctionExists.c.o
-        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=remove -std=gnu99 -MD -MT CMakeFiles/cmTC_51c2c.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_51c2c.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_51c2c.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-8VWbUv/CheckFunctionExists.c
-        Linking C executable cmTC_51c2c
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_51c2c.dir/link.txt --verbose=1
-        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=remove CMakeFiles/cmTC_51c2c.dir/CheckFunctionExists.c.o -o cmTC_51c2c
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-8VWbUv'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_f1fdd/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_f1fdd.dir/build.make CMakeFiles/cmTC_f1fdd.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-y2fzvB'
+        Building C object CMakeFiles/cmTC_f1fdd.dir/CheckFunctionExists.c.o
+        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=remove -std=gnu99 -MD -MT CMakeFiles/cmTC_f1fdd.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_f1fdd.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_f1fdd.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-y2fzvB/CheckFunctionExists.c
+        Linking C executable cmTC_f1fdd
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f1fdd.dir/link.txt --verbose=1
+        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=remove CMakeFiles/cmTC_f1fdd.dir/CheckFunctionExists.c.o -o cmTC_f1fdd
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-y2fzvB'
         
       exitCode: 0
   -
@@ -18088,8 +18088,8 @@ events:
     checks:
       - "Looking for shmat"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Hf9g3m"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Hf9g3m"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xz1Uos"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xz1Uos"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -18101,17 +18101,17 @@ events:
       variable: "CMAKE_HAVE_SHMAT"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Hf9g3m'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xz1Uos'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_b946f/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_b946f.dir/build.make CMakeFiles/cmTC_b946f.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Hf9g3m'
-        Building C object CMakeFiles/cmTC_b946f.dir/CheckFunctionExists.c.o
-        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=shmat -std=gnu99 -MD -MT CMakeFiles/cmTC_b946f.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_b946f.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_b946f.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Hf9g3m/CheckFunctionExists.c
-        Linking C executable cmTC_b946f
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b946f.dir/link.txt --verbose=1
-        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=shmat CMakeFiles/cmTC_b946f.dir/CheckFunctionExists.c.o -o cmTC_b946f
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Hf9g3m'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_63599/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_63599.dir/build.make CMakeFiles/cmTC_63599.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xz1Uos'
+        Building C object CMakeFiles/cmTC_63599.dir/CheckFunctionExists.c.o
+        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=shmat -std=gnu99 -MD -MT CMakeFiles/cmTC_63599.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_63599.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_63599.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xz1Uos/CheckFunctionExists.c
+        Linking C executable cmTC_63599
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_63599.dir/link.txt --verbose=1
+        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=shmat CMakeFiles/cmTC_63599.dir/CheckFunctionExists.c.o -o cmTC_63599
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-Xz1Uos'
         
       exitCode: 0
   -
@@ -18123,8 +18123,8 @@ events:
     checks:
       - "Looking for IceConnectionNumber in ICE"
     directories:
-      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-eiE1bH"
-      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-eiE1bH"
+      source: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-nwBXI4"
+      binary: "/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-nwBXI4"
     cmakeVariables:
       CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/usr/bin/clang-scan-deps-22"
       CMAKE_CXX_STDLIB_MODULES_JSON: ""
@@ -18136,17 +18136,17 @@ events:
       variable: "CMAKE_LIB_ICE_HAS_ICECONNECTIONNUMBER"
       cached: true
       stdout: |
-        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-eiE1bH'
+        Change Dir: '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-nwBXI4'
         
-        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7d8b7/fast
-        /usr/bin/gmake  -f CMakeFiles/cmTC_7d8b7.dir/build.make CMakeFiles/cmTC_7d8b7.dir/build
-        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-eiE1bH'
-        Building C object CMakeFiles/cmTC_7d8b7.dir/CheckFunctionExists.c.o
-        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber -std=gnu99 -MD -MT CMakeFiles/cmTC_7d8b7.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_7d8b7.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_7d8b7.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-eiE1bH/CheckFunctionExists.c
-        Linking C executable cmTC_7d8b7
-        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7d8b7.dir/link.txt --verbose=1
-        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber CMakeFiles/cmTC_7d8b7.dir/CheckFunctionExists.c.o -o cmTC_7d8b7  -lICE
-        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-eiE1bH'
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_da259/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_da259.dir/build.make CMakeFiles/cmTC_da259.dir/build
+        gmake[1]: Entering directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-nwBXI4'
+        Building C object CMakeFiles/cmTC_da259.dir/CheckFunctionExists.c.o
+        /usr/bin/clang   -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber -std=gnu99 -MD -MT CMakeFiles/cmTC_da259.dir/CheckFunctionExists.c.o -MF CMakeFiles/cmTC_da259.dir/CheckFunctionExists.c.o.d -o CMakeFiles/cmTC_da259.dir/CheckFunctionExists.c.o -c /home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-nwBXI4/CheckFunctionExists.c
+        Linking C executable cmTC_da259
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_da259.dir/link.txt --verbose=1
+        /usr/bin/clang -fno-strict-aliasing -Werror=implicit-function-declaration -Werror=pointer-arith  -DCHECK_FUNCTION_EXISTS=IceConnectionNumber CMakeFiles/cmTC_da259.dir/CheckFunctionExists.c.o -o cmTC_da259  -lICE
+        gmake[1]: Leaving directory '/home/nil/Projects/lsystems/build/CMakeFiles/CMakeScratch/TryCompile-nwBXI4'
         
       exitCode: 0
   -

@@ -467,6 +467,30 @@ src/turtle.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/src/turtle.cpp.s
 .PHONY : src/turtle.cpp.s
 
+test/json_test.o: test/json_test.cpp.o
+.PHONY : test/json_test.o
+
+# target to build an object file
+test/json_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/test/json_test.cpp.o
+.PHONY : test/json_test.cpp.o
+
+test/json_test.i: test/json_test.cpp.i
+.PHONY : test/json_test.i
+
+# target to preprocess a source file
+test/json_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/test/json_test.cpp.i
+.PHONY : test/json_test.cpp.i
+
+test/json_test.s: test/json_test.cpp.s
+.PHONY : test/json_test.s
+
+# target to generate assembly for a file
+test/json_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/lsystems_test.dir/build.make CMakeFiles/lsystems_test.dir/test/json_test.cpp.s
+.PHONY : test/json_test.cpp.s
+
 test/matrix_test.o: test/matrix_test.cpp.o
 .PHONY : test/matrix_test.o
 
@@ -556,6 +580,9 @@ help:
 	@echo "... src/turtle.o"
 	@echo "... src/turtle.i"
 	@echo "... src/turtle.s"
+	@echo "... test/json_test.o"
+	@echo "... test/json_test.i"
+	@echo "... test/json_test.s"
 	@echo "... test/matrix_test.o"
 	@echo "... test/matrix_test.i"
 	@echo "... test/matrix_test.s"

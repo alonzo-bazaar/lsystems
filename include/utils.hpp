@@ -8,6 +8,7 @@
 #include<iostream>
 #include<variant>
 #include<functional>
+#include<concepts>
 #include<algorithm>
 #include"raylib.h" // per Color
 
@@ -88,36 +89,46 @@ std::string serialize_vec(const std::vector<T> v,
 }
 
 // https://cppreference.com/cpp/language/pack
-template<typename Ret, typename... Args>
-std::function<Ret(Args... args)> complement
-(std::function<Ret(Args... args)> orig) {
-	return [orig](Args... args){ return !orig(args...); };
+// https://en.cppreference.com/cpp/experimental/constraints
+template<typename Cont, typename Elt>
+concept goddamn_container =
+	requires(Cont c)
+	{
+		{ c.size() } -> std::convertible_to<std::size_t>;
+		{ *(c.begin()) } -> std::convertible_to<Elt>;
+		{ *(c.cbegin()) } -> std::convertible_to<const Elt>;
+	};
+
+// reinterpretatio che me tornava meglio di
+// https://en.cppreference.com/cpp/concepts/invocable
+template<typename Fn, typename Res, typename... Args>
+concept invocable_with_res =
+	requires(Fn fn, Args... args) {
+		{ fn(args...) } -> std::same_as<Res>;
+	};
+
+template<typename Fn, typename Res, typename... Args>
+concept vaguely_invocable_with_res =
+	requires(Fn fn, Args... args) {
+		{ fn(args...) } -> std::convertible_to<Res>;
+	};
+
+template<typename Arg, typename Fn>
+Fn complement (Fn orig)
+	requires vaguely_invocable_with_res<Fn, bool, Arg> {
+	return static_cast<Fn>
+		([orig](Arg arg){ return !orig(arg); });
 }
 
-template<typename Ret, typename... Args>
-std::function<Ret(Args... args)> complement
-(Ret(*orig)(Args... args)) {
-	return [orig](Args... args){ return !orig(args...); };
-}
-
-// no clue wether std::transform works
-// https://en.cppreference.com/cpp/algorithm/transform
-// since res does initially contain 0 elements so... can't really
-// transform into it
-template<typename InElt, typename OutElt, typename Collection>
-std::vector<OutElt> mapcar(Collection in, std::function<OutElt(InElt)> fn) {
+template<typename InElt, typename OutElt, typename Fn, typename Cont>
+std::vector<OutElt> mapcar(Cont in_c, Fn fn)
+	requires
+	invocable_with_res<Fn, OutElt, InElt> &&
+	goddamn_container<Cont, InElt>
+{
 	std::vector<OutElt>res;
-	res.reserve(in.size());
-	for(const InElt& in_elt : in)
-		res.push_back(fn(in_elt));
-	return res;
-}
-
-template<typename InElt, typename OutElt, typename Collection>
-std::vector<OutElt> mapcar(Collection in, OutElt(*fn)(InElt)) {
-	std::vector<OutElt>res;
-	res.reserve(in.size());
-	for(const InElt& in_elt : in)
+	res.reserve(in_c.size());
+	for(const InElt& in_elt : in_c)
 		res.push_back(fn(in_elt));
 	return res;
 }
@@ -132,10 +143,12 @@ bool contains_if(const T t, const Fn fn) {
 	return std::find_if(t.cbegin(), t.cend(), fn) != t.cend();
 }
 
-// de morgen
 template<typename T, typename Fn>
 bool all(const T t, const Fn fn) {
-	return !contains_if(t, complement(fn));
+	for(const auto& elt : t)
+		if(!fn(t))
+			return false;
+	return true;
 }
 
 // indeed I am landfilling in the iota from std::views because for whatever
@@ -157,3 +170,27 @@ std::vector<T> suffix(size_t by, Container c) {
 		res.push_back(c[i]);
 	return res;
 }
+
+// fixme: y no work :(
+#define func(params, ...)										\
+	(std::function<decltype(__VA_ARGS__)params> ([=] params {	\
+		return __VA_ARGS__;										\
+	}))
+
+#define func_body(ret, params, ...)				\
+	(std::function<ret params> ([=] params		\
+								__VA_ARGS__		\
+							   ))
+
+/*
+// frfr
+#define func_nocap(params, ...)									\
+	(std::function<decltype(__VA_ARGS__)params>([] params  {	\
+		return __VA_ARGS__;										\
+	}))
+
+#define func_cap(params, ret ...)								\
+	(std::function<decltype(ret)params>([__VA_ARGS__] params  {	\
+		return ret;												\
+	}))
+*/

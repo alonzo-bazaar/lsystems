@@ -8,10 +8,10 @@ set(CMAKE_BUILD_TYPE DEBUG)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # usiamo gli standard C99 per C (raylib è in C quindi da specificare)
-# e C++ 17 per il nostro progetto
-# standard scelti un po' a caso
+# e C++ 23 per il nostro progetto
+# metterei C++ 26 ma non so quanto sia diffuso al momento
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 23)
 
 ### configura raylib
 #

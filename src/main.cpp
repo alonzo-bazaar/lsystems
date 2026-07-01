@@ -163,7 +163,7 @@ int main() {
     InitWindow(1280, 960, "L Systems");
     DisableCursor();
     int target_fps = 60;
-    SetTargetFPS(target_fps);
+    //SetTargetFPS(target_fps);
 
     // Setup camera
     Player player({0.0f, (0.5f + 1.0f), 0.0f});
@@ -322,9 +322,11 @@ int main() {
             ClearBackground(SKYBLUE);
             BeginMode3D(player.get_camera());
             {
+                player.update_frustum();
+
                 // Disegna terreno
-                for (auto &terrain: active_chunks)
-                    terrain.second.draw_terrain();
+                Terrain::draw_visible_chunk(active_chunks, player);
+
                 // Disegna sole
                 if (sunLight.enabled)
                     DrawSphere(sunLight.position, 100, sunColor);

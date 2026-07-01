@@ -443,7 +443,7 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 	};
 
 
-	const float cross_prod_norm = sqrt(cross_prod.x * cross_prod.x +
+	const float cross_prod_norm = sqrtf(cross_prod.x * cross_prod.x +
 									   cross_prod.y * cross_prod.y +
 									   cross_prod.z * cross_prod.z);
 	const Vector3 norm = {

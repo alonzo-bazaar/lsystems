@@ -4,6 +4,8 @@
 
 #include "player.hpp"
 
+#include "rlgl.h"
+
 // La logica della funzione la spostiamo qui
 void Player::update_shader_position(const Shader &shader) const {
     const float cameraPos[3] = {camera.position.x, camera.position.y, camera.position.z};
@@ -12,7 +14,7 @@ void Player::update_shader_position(const Shader &shader) const {
         shader.locs[SHADER_LOC_VECTOR_VIEW],
         cameraPos,
         SHADER_UNIFORM_VEC3
-        );
+    );
 }
 
 void Player::update(const int mode) { UpdateCamera(&camera, mode); }
@@ -146,4 +148,99 @@ void Player::update_camera_first_person() {
 
     camera.position = Vector3Add(camera.position, Vector3Scale(bobbing, walk_lerp));
     camera.target = Vector3Add(camera.position, pitch);
+}
+
+void Player::update_frustum() {
+    const Matrix view = GetCameraMatrix(this->camera);
+    const Matrix projection = rlGetMatrixProjection();
+
+    const Matrix vp = MatrixMultiply(view, projection);
+
+    // Estrazione dei piani per matrici Column-Major
+    // Right plane
+    frustum_planes[0].normal.x = vp.m3 - vp.m0;
+    frustum_planes[0].normal.y = vp.m7 - vp.m4;
+    frustum_planes[0].normal.z = vp.m11 - vp.m8;
+    frustum_planes[0].d        = vp.m15 - vp.m12;
+
+    // Left plane
+    frustum_planes[1].normal.x = vp.m3 + vp.m0;
+    frustum_planes[1].normal.y = vp.m7 + vp.m4;
+    frustum_planes[1].normal.z = vp.m11 + vp.m8;
+    frustum_planes[1].d        = vp.m15 + vp.m12;
+
+    // Bottom plane
+    frustum_planes[2].normal.x = vp.m3 + vp.m1;
+    frustum_planes[2].normal.y = vp.m7 + vp.m5;
+    frustum_planes[2].normal.z = vp.m11 + vp.m9;
+    frustum_planes[2].d        = vp.m15 + vp.m13;
+
+    // Top plane
+    frustum_planes[3].normal.x = vp.m3 - vp.m1;
+    frustum_planes[3].normal.y = vp.m7 - vp.m5;
+    frustum_planes[3].normal.z = vp.m11 - vp.m9;
+    frustum_planes[3].d        = vp.m15 - vp.m13;
+
+    // Far plane
+    frustum_planes[4].normal.x = vp.m3 - vp.m2;
+    frustum_planes[4].normal.y = vp.m7 - vp.m6;
+    frustum_planes[4].normal.z = vp.m11 - vp.m10;
+    frustum_planes[4].d        = vp.m15 - vp.m14;
+
+    // Near plane
+    frustum_planes[5].normal.x = vp.m3 + vp.m2;
+    frustum_planes[5].normal.y = vp.m7 + vp.m6;
+    frustum_planes[5].normal.z = vp.m11 + vp.m10;
+    frustum_planes[5].d        = vp.m15 + vp.m14;
+
+    // Normalizzazione manuale dei piani
+    for (auto &[normal, d] : frustum_planes) {
+        const float length = sqrtf(normal.x * normal.x +
+                             normal.y * normal.y +
+                             normal.z * normal.z);
+
+        if (length > 0.0f) {
+            normal.x /= length;
+            normal.y /= length;
+            normal.z /= length;
+            d /= length;
+        }
+    }
+}
+
+bool Player::can_see(const BoundingBox& box) const {
+    // Calcolo centro bbox del chunk
+    const Vector3 center = {
+        (box.min.x + box.max.x) * 0.5f,
+        (box.min.y + box.max.y) * 0.5f,
+        (box.min.z + box.max.z) * 0.5f
+    };
+
+    // Calcolo la mezza estensione del bbox
+    const Vector3 extents = {
+        box.max.x - center.x,
+        box.max.y - center.y,
+        box.max.z - center.z
+    };
+
+    // Testiamo il box contro i 6 piani del frustum
+    for (auto [normal, d] : frustum_planes) {
+        // Proiezione del raggio del bbox sulla normale del piano
+        const float r = extents.x * fabsf(normal.x) +
+                  extents.y * fabsf(normal.y) +
+                  extents.z * fabsf(normal.z);
+
+        // Distanza del centro dal piano
+        const float dot = (normal.x * center.x +
+                     normal.y * center.y +
+                     normal.z * center.z) + d;
+
+        // Se il centro è più lontano del raggio nella parte negativa del piano,
+        // bbox completamente fuori dal frustum
+        if (dot < -r) {
+            return false;
+        }
+    }
+
+    return true;
 }

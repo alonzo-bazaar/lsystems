@@ -7,12 +7,13 @@
 #include <cmath>
 
 #include "raylib.h"
+class Player;
 
 class Terrain {
 public:
     static constexpr int CHUNK_SIZE = 32;
     static constexpr int VERTEX_SIZE = CHUNK_SIZE + 1;
-    static constexpr int RENDER_DISTANCE = 4;
+    static constexpr int RENDER_DISTANCE = 5;
 
     Terrain(std::vector<Vector3>&& inputVertex, const float wx, const float wz)
         : terrain_vertex(std::move(inputVertex)), world_x(wx), world_z(wz) {
@@ -28,6 +29,8 @@ public:
                                  const Texture2D &albedoTexture, const Texture2D &normalTexture);
 
     void draw_terrain() const;
+
+    static void draw_visible_chunk(const std::map<std::pair<int, int>, Terrain> &active_chunks, const Player &player);
 
     static float get_height(float world_x, float world_z);
 
@@ -45,6 +48,7 @@ protected:
     std::vector<Vector3> terrain_vertex = {};
     float world_x, world_z;
     Model terrain_model{};
+    BoundingBox terrain_bbox{};
 };
 
 #endif //LSYSTEMS_TERRAIN_H

@@ -3,6 +3,12 @@
 //
 #include "terrain.hpp"
 
+#include <iostream>
+#include <locale>
+#include <ostream>
+
+#include "player.hpp"
+
 // Genera un chunk con coordinate che partono da offset con grandezza size usando perlin
 Terrain Terrain::gen_perlin_chunk(const float world_x, const float world_z) {
     std::vector<Vector3> vertices;
@@ -104,6 +110,9 @@ void Terrain::gen_chunk_mesh() {
     GenMeshTangents(&mesh);
     UploadMesh(&mesh, false);
     terrain_model = LoadModelFromMesh(mesh);
+    terrain_bbox = GetModelBoundingBox(terrain_model);
+    this->terrain_bbox.min = Vector3Add(terrain_bbox.min, {world_x, 0.0f, world_z});
+    this->terrain_bbox.max = Vector3Add(terrain_bbox.max, {world_x, 0.0f, world_z});
 }
 
 
@@ -246,6 +255,14 @@ void Terrain::chunk_management(std::map<std::pair<int, int>, Terrain> &active_ch
 
 void Terrain::draw_terrain() const {
     DrawModel(terrain_model, (Vector3){world_x, 0.0f, world_z}, 1.0f, WHITE);
+}
+
+void Terrain::draw_visible_chunk(const std::map<std::pair<int, int>, Terrain>& active_chunks, const Player& player) {
+    for (const auto& [coords, chunk] : active_chunks) {
+        if (player.can_see(chunk.terrain_bbox)) {
+            chunk.draw_terrain();
+        }
+    }
 }
 
 float Terrain::get_height(const float world_x, const float world_z) {

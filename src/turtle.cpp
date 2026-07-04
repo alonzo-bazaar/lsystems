@@ -331,11 +331,13 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 
 	// prima di fare lo scaling e traslazione, par_shapes_create_cylinder
 	// non ti aggiunge i "tappi" al cilindro, quindi vanno aggiunti noi
+	const float diskCenter[] = {0.0f, 0.0f, 0.0f};
+	const float diskNormal[] = {0.0, 0.0, 1.0};
+
 	par_shapes_mesh* cap_top = par_shapes_create_disk
 		(1.0f, slices,
-		 (float[]){0.0, 0.0, 1.0},  // centro del disco
-		 (float[]){0.0, 0.0, 1.0}); // normale del disco
-
+		 diskCenter,  // centro del disco
+		 diskNormal); // normale del disco
 	// par_shapes_create_disk non crea/alloca spazio per le texture coordinate
 	// del disco, l'array tcoords sarà quindi di default un puntatore nullo
 	// per settare le texture del disco dobbiamo prima allocare della memoria
@@ -345,10 +347,13 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 		cap_top->tcoords[i] = 0.0f;
 
 	// fatto  il tappo sopra, idem con patate per il tappo sotto
+	const float diskCenterBottom[] = {0.0, 0.0, 0.0};
+	const float diskNormalbottom[] = {0.0, 0.0, -1.0};
+
 	par_shapes_mesh* cap_bot = par_shapes_create_disk
 		(1.0f, slices,
-		 (float[]){0.0, 0.0, 0.0},
-		 (float[]){0.0, 0.0, -1.0});
+		 diskCenterBottom,
+		 diskNormalbottom);
 	cap_bot->tcoords = PAR_MALLOC(float, 2*cap_bot->npoints);
 	for (size_t i = 0; i < 2*cap_bot->npoints; ++i)
 		cap_bot->tcoords[i] = 0.95f;
@@ -380,7 +385,9 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 	// giace sulla bisettrice tra questo, poi normalizziamo poi la somma
 	// e abbiamo ottenuto il versore bisettrice tra diff e il versore z
 	const Vector3 bisec = normalized(add(normalized(diff), {0, 0, 1}));
-	par_shapes_rotate(cylinder, PI, (float[]){bisec.x, bisec.y, bisec.z});
+	const float bisecCor [] = {bisec.x, bisec.y, bisec.z};
+
+	par_shapes_rotate(cylinder, PI, bisecCor);
 
 	// ora che ce l'abbiamo alla lunghezza e direzione desiderata
 	// lo trasliamo alla posizione desiderata
@@ -443,7 +450,8 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 		AB.x * BC.y - AB.y * BC.x
 	};
 
-	const float cross_prod_norm = sqrt(cross_prod.x * cross_prod.x +
+
+	const float cross_prod_norm = sqrtf(cross_prod.x * cross_prod.x +
 									   cross_prod.y * cross_prod.y +
 									   cross_prod.z * cross_prod.z);
 	const Vector3 norm = {

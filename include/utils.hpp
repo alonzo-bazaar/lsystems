@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LSYSTEM_UTILS_HPP_
+#define LSYSTEM_UTILS_HPP_
 
 #include<vector>
 #include<initializer_list>
@@ -223,3 +224,5 @@ std::vector<T> suffix(size_t by, Container c) {
 		return ret;												\
 	}))
 */
+
+#endif // LSYSTEM_UTILS_HPP_

@@ -5,10 +5,11 @@
 #include<cmath>
 #include<cassert>
 #include<initializer_list>
+#include<exception>
 
 #include "raylib.h"
-
 #include "raymath.h"
+
 #include "rewrite.hpp"
 #include "turtle.hpp"
 #include "light.hpp"
@@ -25,6 +26,24 @@ int main() {
     //SetTargetFPS(target_fps);
 
     // get trees from json
+    auto parsed_trees_r = from_json_file("the_json.json");
+    if(parsed_trees_r.is_err())
+        throw std::runtime_error("error occured while reading json file:\n"
+                                 + parsed_trees_r.string_trace());
+
+    std::map<std::string, ParsedTree> parsed_trees = parsed_trees_r.get();
+    std::vector<std::string> lsystem_names;
+    std::map<std::string, Lsystem> lsystems;
+    for(const auto& [k, v]: parsed_trees) {
+        lsystem_names.push_back(k);
+        lsystems.insert({k, Lsystem::from_parsed_tree(v, BROWN, LIME)});
+    }
+
+    auto found = lsystems.find(lsystem_names[0]);
+    if(found == lsystems.end())
+        throw std::runtime_error("no trees were provided, unable to do anything");
+
+    Lsystem first_tree = found->second;
 
     // Setup camera
     Player player({0.0f, (0.5f + 1.0f), 0.0f});
@@ -145,7 +164,8 @@ int main() {
         player.update_shader_position(shader);
 
         // Generazione terreno
-        Terrain::chunk_management(active_chunks, player.get_camera(), shader, mraTexture, albedoTexture, normalTexture);
+        Terrain::chunk_management(active_chunks, player.get_camera(),
+                                  shader, mraTexture, albedoTexture, normalTexture);
 
         // Reset target camera
         if (IsKeyPressed(KEY_Z))
@@ -153,11 +173,13 @@ int main() {
 
         // Controlla click mouse sinistro per aggiungere albero
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-            Vector2 screenCenter = {static_cast<float>(centerX), static_cast<float>(centerY)};
+            Vector2 screenCenter = {static_cast<float>(centerX),
+                                    static_cast<float>(centerY)};
             Ray crosshairRay = GetMouseRay(screenCenter, player.get_camera());
             // Verifica se raggio colpisce bbox del chunk
             for (auto &chunk: active_chunks) {
-                BoundingBox box = GetMeshBoundingBox(chunk.second.get_model().meshes[0]);
+                BoundingBox box = GetMeshBoundingBox
+                    (chunk.second.get_model().meshes[0]);
 
                 box.min.x += chunk.second.get_world_x();
                 box.min.z += chunk.second.get_world_z();
@@ -165,13 +187,17 @@ int main() {
                 box.max.z += chunk.second.get_world_z();
 
                 if (GetRayCollisionBox(crosshairRay, box).hit) {
-                    Matrix chunkTransform = MatrixTranslate(chunk.second.get_world_x(), 0.0f,
-                                                            chunk.second.get_world_z());
-                    RayCollision col = GetRayCollisionMesh(crosshairRay,
-                                                           chunk.second.get_model().meshes[0], chunkTransform);
+                    Matrix chunkTransform = MatrixTranslate
+                        (chunk.second.get_world_x(), 0.0f,
+                         chunk.second.get_world_z());
+                    RayCollision col = GetRayCollisionMesh
+                        (crosshairRay,
+                         chunk.second.get_model().meshes[0], chunkTransform);
                     // Se colpisce terreno entro minDistance aggiunge albero
-                    if (float minDistance = 15.0f; col.hit && col.distance < minDistance) {
-                        tree_positions.emplace_back(col.point, gen_tree_model(time(0), shader));
+                    if (float minDistance = 15.0f; col.hit
+                        && col.distance < minDistance) {
+                        tree_positions.emplace_back
+                            (col.point, first_tree.gen_model(time(0), shader));
                         break;
                     }
                 }

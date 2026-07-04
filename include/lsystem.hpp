@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LSYSTEMS_HPP_
+#define LSYSTEMS_HPP_
 
 #include "lsystem_json.hpp" // for ParsedTree struct
 #include "turtle.hpp"       // for Turtle class
@@ -218,3 +219,5 @@ Lsystem basic_tree_lsystem() {
                    {{'A', {}}},
                    rewrite_rules);
 }
+
+#endif // LSYSTEMS_HPP_

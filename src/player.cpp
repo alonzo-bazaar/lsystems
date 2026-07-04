@@ -3,6 +3,7 @@
 //
 
 #include "player.hpp"
+#include "terrain.hpp"
 
 #include "rlgl.h"
 

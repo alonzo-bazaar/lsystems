@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LSYSTEMS_JSON_HPP_
+#define LSYSTEMS_JSON_HPP_
 
 #include <fstream>
 #include <exception>
@@ -1054,3 +1055,5 @@ res_fn(from_json_file, (const char* json_filename),
 	const auto j = jr.get();
 	return from_json(j);
 }
+
+#endif // LSYSTEMS_JSON_HPP_

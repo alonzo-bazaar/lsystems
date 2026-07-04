@@ -34,18 +34,7 @@
 *   OPTIONAL DEPENDENCIES (included):
 *       [rcore] sinfl (Micha Mettke) for DEFLATE decompression algorithm
 *       [rcore] sdefl (Micha Mettke) for DEFLATE compression algorithm
-*       [rcore] rprand (Ramon Santamaria) for pseudo-random numbers generation
-*       [rtextures] qoi (Dominic Szablewski - https://phoboslab.org) for QOI image management
-*       [rtextures] stb_image (Sean Barrett) for images loading (BMP, TGA, PNG, JPEG, HDR...)
-*       [rtextures] stb_image_write (Sean Barrett) for image writing (BMP, TGA, PNG, JPG)
-*       [rtextures] stb_image_resize2 (Sean Barrett) for image resizing algorithms
-*       [rtextures] stb_perlin (Sean Barrett) for Perlin Noise image generation
-*       [rtextures] rltexgpu (Ramon Santamaria) for GPU-compressed texture formats
-*       [rtext] stb_truetype (Sean Barrett) for ttf fonts loading
-*       [rtext] stb_rect_pack (Sean Barrett) for rectangles packing
-*       [rmodels] par_shapes (Philip Rideout) for parametric 3d shapes generation
-*       [rmodels] tinyobj_loader_c (Syoyo Fujita) for models loading (OBJ, MTL)
-*       [rmodels] cgltf (Johannes Kuhlmann) for models loading (glTF)
+*       [rchannes Kuhlmann) for models loading (glTF)
 *       [rmodels] m3d (bzt) for models loading (M3D, https://bztsrc.gitlab.io/model3d)
 *       [rmodels] vox_loader (Johann Nadalutti) for models loading (VOX)
 *       [raudio] dr_wav (David Reid) for WAV audio file loading

@@ -30,38 +30,46 @@ set(RAYLIB_DIR "${CMAKE_CURRENT_LIST_DIR}/thirdparty/raylib-6.0")
 add_subdirectory(${RAYLIB_DIR})
 
 ### crea l'eseguibile lsystems
-#
-# sources = tutti i file che finiscono in .cpp presenti in in ./src
-# sarebbe a dire, tutti i (nostri) file c++ da compilare per il main
-# tranne main.cpp
-# 
-# nella stringa alla fine della chiamata a file
-# "... src/[!main]*.cpp" vuol dire matcha tutti i file .cpp in src/
-# che non iniziano con "main", è un po' un azzigogolo.
-# escludiamo il main dalla variabile LSYSTEMS_SOURCES
-# così possiamo usarla anche per il target di test
-# (penso che s'incazzi se proviamo a dargli un main tra i test
-#  ma non ho controllato)
 file(GLOB
   LSYSTEMS_SOURCES       # nome della variabile dove mettere i file
   CONFIGURE_DEPENDS      # ricrea il file make quando vengono aggiunti file
   LIST_DIRECTORIES FALSE # non mettere cartelle alla lista di file
-  "${CMAKE_CURRENT_LIST_DIR}/src/*[!main].cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp"
 )
 set(LSYSTEMS_MAIN "${CMAKE_CURRENT_LIST_DIR}/src/main.cpp")
+# main di test per la parte di json
+set(LSYSTEMS_JSON_MAIN "${CMAKE_CURRENT_LIST_DIR}/src/json_main.cpp")
+# main di test per la parte di menu
+set(LSYSTEMS_MENU_MAIN "${CMAKE_CURRENT_LIST_DIR}/src/menu_main.cpp")
+
+# rimuovi i file di main da lsystem_sources che sarebbero più file di libreria
+list(REMOVE_ITEM
+  LSYSTEMS_SOURCES
+  "${LSYSTEMS_MAIN}"
+)
+list(REMOVE_ITEM
+  LSYSTEMS_SOURCES
+  "${LSYSTEMS_JSON_MAIN}"
+)
+list(REMOVE_ITEM
+  LSYSTEMS_SOURCES
+  "${LSYSTEMS_MENU_MAIN}"
+)
+
+
 set(
-    LSYSTEMS_INCLUDES
-    "${CMAKE_CURRENT_LIST_DIR}/include"
-    "${CMAKE_CURRENT_LIST_DIR}/thirdparty/nlohmann-json/single_include/nlohmann"
+  LSYSTEMS_INCLUDES
+  "${CMAKE_CURRENT_LIST_DIR}/include"
+  "${CMAKE_CURRENT_LIST_DIR}/thirdparty/nlohmann-json/single_include/nlohmann"
 )
 set(RAYLIB_INCLUDES "${RAYLIB_DIR}/src")
 
+message("LSYSTEMS_MAIN=${LSYSTEMS_MAIN}")
+message("LSYSTEMS_JSON_MAIN=${LSYSTEMS_JSON_MAIN}")
+message("LSYSTEMS_SOURCES=${LSYSTEMS_SOURCES}")
+
 # crea target eseguibile con quanto descritto sopra
-add_executable("${PROJECT_NAME}_main"
-        include/terrain.hpp
-        src/terrain.cpp
-        include/player.hpp
-        src/player.cpp)
+add_executable("${PROJECT_NAME}_main")
 target_sources(
   "${PROJECT_NAME}_main"
   PUBLIC ${LSYSTEMS_MAIN} ${LSYSTEMS_SOURCES}
@@ -75,8 +83,7 @@ target_link_libraries(
   PUBLIC raylib
 )
 
-# target eseguibile a parte per l'editor di json
-set(LSYSTEMS_JSON_MAIN "${CMAKE_CURRENT_LIST_DIR}/src/json_main.cpp")
+# target eseguibile a parte di test per il json
 add_executable("${PROJECT_NAME}_json")
 target_sources(
   "${PROJECT_NAME}_json"
@@ -88,6 +95,21 @@ target_include_directories(
 )
 target_link_libraries(
   "${PROJECT_NAME}_json"
+  PUBLIC raylib
+)
+
+# target eseguibile a parte di test per il mnu
+add_executable("${PROJECT_NAME}_menu")
+target_sources(
+  "${PROJECT_NAME}_menu"
+  PUBLIC ${LSYSTEMS_MENU_MAIN} ${LSYSTEMS_SOURCES}
+)
+target_include_directories(
+  "${PROJECT_NAME}_menu"
+  PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
+)
+target_link_libraries(
+  "${PROJECT_NAME}_menu"
   PUBLIC raylib
 )
 
@@ -112,8 +134,7 @@ enable_testing()
 add_executable("${PROJECT_NAME}_test")
 target_sources(
   "${PROJECT_NAME}_test"
-  PUBLIC ${LSYSTEMS_SOURCES}
-  PUBLIC ${TEST_SOURCES}
+  PUBLIC ${LSYSTEMS_SOURCES} ${TEST_SOURCES}
 )
 target_include_directories(
   "${PROJECT_NAME}_test"

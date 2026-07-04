@@ -24,6 +24,8 @@ int main() {
     int target_fps = 60;
     //SetTargetFPS(target_fps);
 
+    // get trees from json
+
     // Setup camera
     Player player({0.0f, (0.5f + 1.0f), 0.0f});
 

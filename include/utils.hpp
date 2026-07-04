@@ -99,10 +99,20 @@ concept goddamn_container =
 		{ *(c.cbegin()) } -> std::convertible_to<const Elt>;
 	};
 
+template<typename It, typename Elt>
+concept goddamn_iterable =
+	requires(It i)
+	{
+		{ *(i.begin()) } -> std::convertible_to<Elt>;
+		{ *(i.cbegin()) } -> std::convertible_to<const Elt>;
+		{ i.end() };
+		{ i.cend() };
+	};
+
 // reinterpretatio che me tornava meglio di
 // https://en.cppreference.com/cpp/concepts/invocable
 template<typename Fn, typename Res, typename... Args>
-concept invocable_with_res =
+concept exactly_invocable_with_res =
 	requires(Fn fn, Args... args) {
 		{ fn(args...) } -> std::same_as<Res>;
 	};
@@ -123,7 +133,7 @@ Fn complement (Fn orig)
 template<typename InElt, typename OutElt, typename Fn, typename Cont>
 std::vector<OutElt> mapcar(Cont in_c, Fn fn)
 	requires
-	invocable_with_res<Fn, OutElt, InElt> &&
+	exactly_invocable_with_res<Fn, OutElt, InElt> &&
 	goddamn_container<Cont, InElt>
 {
 	std::vector<OutElt>res;
@@ -133,23 +143,42 @@ std::vector<OutElt> mapcar(Cont in_c, Fn fn)
 	return res;
 }
 
-template<typename T>
-bool contains(const std::vector<T> t, const T elt) {
-	return std::find(t.cbegin(), t.cend(), elt) != t.cend();
+template<typename Elt>
+bool contains(std::vector<Elt> cont, const Elt elt) {
+	return std::find(cont.cbegin(), cont.cend(), elt) != cont.cend();
 }
 
-template<typename T, typename Fn>
-bool contains_if(const T t, const Fn fn) {
-	return std::find_if(t.cbegin(), t.cend(), fn) != t.cend();
+template<typename Elt, typename Fn>
+bool contains_if(std::vector<Elt> cont, const Fn fn)
+	requires vaguely_invocable_with_res<Fn, bool, Elt> {
+	return std::find_if(cont.cbegin(), cont.cend(), fn) != cont.cend();
 }
 
-template<typename T, typename Fn>
-bool all(const T t, const Fn fn) {
-	for(const auto& elt : t)
-		if(!fn(t))
+template<typename Elt, typename Cont, typename Fn>
+bool all(const Cont& cont, const Fn fn)
+	requires
+	goddamn_iterable<Cont, Elt>
+	&& vaguely_invocable_with_res<Fn, bool, Elt> {
+	for(const Elt& elt : cont)
+		if(!fn(elt))
 			return false;
 	return true;
 }
+
+Texture load_and_free_image(Image image) {
+    Texture t = LoadTextureFromImage(image);
+    UnloadImage(image);
+    return t;
+}
+
+Texture vertical_gradient(const int length, const Color& start, const Color& end) {
+    return load_and_free_image(GenImageGradientLinear(10, 10, 0, start, end));
+}
+
+Texture flat_color(const int sidelen, const Color& color) {
+    return load_and_free_image(GenImageColor(10, 10, color));
+}
+
 
 // indeed I am landfilling in the iota from std::views because for whatever
 // goddamn reason I decided to do this project in the completely arbitrary

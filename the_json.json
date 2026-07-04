@@ -1,0 +1,41 @@
+{
+    "version" : 1,
+    
+    "basic_tree" : {
+        "stride" : 0.3,
+        "angle_deg" : 22.5,
+        
+        "thickness_table" : {
+            "start" : 0.06,
+            "end"   : 0.015,
+            "steps" : 7
+        },
+        
+        "texcoords_table" : {
+            "start" : [0.05, 0.05],
+            "end"   : [0.95, 0.95],
+            "steps" : 7
+        },
+        
+        "axiom" : "A",
+        "rewrite_times" : 7,
+        
+        "rewrite_rules" : {
+            "A" : ["[&FL!A]",
+                   ["/", ["*", 5, "angle"]], "'",
+                   "[&FL!A]",
+                   ["/", ["*", 7, "angle"]], "'",
+                   "[&FL!A]"],
+            "F" : [[0.1, "S", ["/", ["*", 4, "angle"]],
+                    ["F", ["*", 2, "stride"]]],
+                   [0.9, "S", ["/", ["*", 5, "angle"]],
+                    ["F", ["*", 1, "stride"]]]],
+            "S" : "FL",
+            "L" : ["[ '''^^",
+                      "    {",
+                            "        -f+f+f-|-f+f+f",
+                            "    }",
+                      "]"]
+        }
+    }
+}

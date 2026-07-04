@@ -3,8 +3,9 @@
 
 #include "raylib.h"
 
-#include "lsystem_json.hpp"
-#include "turtle.hpp"
+//#include "lsystem_json.hpp"
+//#include "turtle.hpp"
+#include "lsystem.hpp"
 #include "utils.hpp"
 
 Model gen_floor_model() {
@@ -59,130 +60,51 @@ Model gen_floor_model() {
 
 // versione ridotta e leggermente aggiornata rispetto a quella
 // presente nel main main
-Model
-gen_tree_model(unsigned int r_seed, std::map<char, RewriteTarget> rewrites) {
-    srand(r_seed);
-    std::vector<instruction> turtle_instructions =
-        rewrite_times(7, {{'A',{}}}, rewrites);
-    Turtle turtle
-        (map_range<float>(0.06f, 0.015f, 7),
-         map_range(std::array{0.05f, 0.05f},
-             std::array{0.95f, 0.95f},
-             7));	
-    Model tree_model =
-        turtle.follow_instruction_vector(turtle_instructions);
-    Image tree_col_im =
-        GenImageGradientLinear(10, 10, 0,
-                BROWN,
-                LIME);
-    Texture tree_col_tex = LoadTextureFromImage(tree_col_im);
-    UnloadImage(tree_col_im);
-    tree_model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture =
-        tree_col_tex;
-    GenTextureMipmaps(&tree_model
-            .materials[0]
-            .maps[MATERIAL_MAP_ALBEDO]
-            .texture);
-    SetTextureFilter(tree_model.materials[0]
-            .maps[MATERIAL_MAP_ALBEDO]
-            .texture,
-            TEXTURE_FILTER_TRILINEAR);
 
-    return tree_model;
+Model gen_tree_model(unsigned int r_seed, std::map<char, RewriteTarget> rewrites) {
+    Lsystem tree = Lsystem
+        (map_range<float>(0.06f, 0.015f, 7),
+         map_range<std::array<float, 2>>({0.05f, 0.05f}, {0.95f, 0.95f}, 7),
+         vertical_gradient(20, WHITE, BLUE),
+         7,
+         {{'A', {}}},
+         rewrites);
+
+    return tree.gen_model(r_seed);
+}
+
+Model gen_tree_model(unsigned int r_seed,
+               std::map<char, RewriteTarget> rewrites,
+               Shader shader) {
+    Model model = gen_tree_model(r_seed, rewrites);
+    model.materials[0].shader = shader;
+    return model;
 }
 
 int main() {
-    constexpr float stride = 0.3f;
-    constexpr float angle = deg_to_rad(22.5);
-
-    const std::map<char, RewriteTarget> tree_rewrite_rules = {
-        RWP('A', [stride, angle](const std::vector<float>& ignored) {
-                (void)ignored;
-                return std::vector<instruction>
-                {{'[',{}},
-                {'&',{angle}},
-                {'F',{stride}},
-                {'L',{}},
-                {'!',{}},
-                {'A',{}},
-                {']',{}},
-
-                {'/',{angle*5}},
-                {'\'',{}},
-
-                {'[',{}},
-                {'&',{angle}},
-                {'F',{stride}},
-                {'L',{}},
-                {'!',{}},
-                {'A',{}},
-                {']',{}},
-
-                {'/',{7*angle}},
-                {'\'',{}},
-
-                {'[',{}},
-                {'&',{angle}},
-                {'F',{stride}},
-                {'L',{}},
-                {'!',{}},
-                {'A',{}},
-                {']',{}}};
-        }),
-        RWP('F',
-                {{0.9,
-                [stride, angle](const std::vector<float>&ignored) {
-                (void)ignored;
-                return std::vector<instruction>
-                {{'S', {}},
-                {'/', {4*angle}},
-                {'F', {2*stride}}};
-                }},
-                {0.1,
-                [stride, angle](const std::vector<float>&ignored) {
-                (void)ignored;
-                return std::vector<instruction>
-                {{'S', {}},
-                {'/', {5*angle}},
-                {'F', {stride}}};
-                }}}),
-        RWP('S',
-                [stride, angle](const std::vector<float>&ignored) {
-                (void)ignored;
-                return std::vector<instruction>
-                {{'F', {stride}},
-                {'L', {}}};
-                }),
-        RWP('L',
-                [stride, angle](const std::vector<float>&ignored) {
-                (void)ignored;
-                return std::vector<instruction>
-                {{'[',{}},
-                {'\'',{}},
-                {'\'',{}},
-                {'\'',{}},
-                {'^', {2*angle}},
-                {'{',{}},
-                {'-',{angle}},
-                {'f',{stride}},
-                {'+',{angle}},
-                {'f',{stride}},
-                {'+',{angle}},
-                {'f',{stride}},
-                {'-',{angle}},
-                {'|',{}},
-                {'-',{angle}},
-                {'f',{stride}},
-                {'+',{angle}},
-                {'f',{stride}},
-                {'+',{angle}},
-                {'f',{stride}},
-                {'}',{}},
-                {']',{}}};
-                })};
-
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(1280, 960, "L Systems");
+
+    auto parsed_r = from_json_file("the_json.json");
+    if(parsed_r.is_err())
+        throw std::runtime_error(parsed_r.string_trace());
+
+    std::map<std::string, ParsedTree> parsed = parsed_r.get();
+    std::map<std::string, Lsystem> trees;
+    for(const auto& [k, v] : parsed)
+        trees.insert({k, Lsystem::from_parsed_tree(v, WHITE, BLUE)});
+
+    auto f = std::ranges::find_if
+        (trees,
+         [](const std::pair<std::string, Lsystem>& kv) {
+             return kv.first != "version";
+         });
+    
+    if(f == trees.end())
+        throw std::runtime_error
+            ("no trees were provided, the fuck am I supposed to do?");
+
+    auto [name, tree] = *f;
 
     int target_fps = 60;
     SetTargetFPS(target_fps);
@@ -196,10 +118,8 @@ int main() {
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
 
-    auto l = from_json("resources/systems/tree.json");
-
     Model floor_model = gen_floor_model();
-    Model tree_model = gen_tree_model(time(0), tree_rewrite_rules);
+    Model tree_model = tree.gen_model(time(0));
 
     while(!WindowShouldClose()) {
         // horizontally spinning camera

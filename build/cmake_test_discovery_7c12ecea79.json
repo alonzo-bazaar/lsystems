@@ -1,15 +1,30 @@
 {
-  "tests": 16,
+  "tests": 19,
   "name": "AllTests",
   "testsuites": [
     {
       "name": "JsonTest",
-      "tests": 1,
+      "tests": 4,
       "testsuite": [
         {
           "name": "DoesntBlowUp",
           "file": "\/home\/nil\/Projects\/lsystems\/test\/json_test.cpp",
-          "line": 8
+          "line": 39
+        },
+        {
+          "name": "BasicRewrite",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/json_test.cpp",
+          "line": 69
+        },
+        {
+          "name": "ArithRewrite",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/json_test.cpp",
+          "line": 95
+        },
+        {
+          "name": "EverythingTest",
+          "file": "\/home\/nil\/Projects\/lsystems\/test\/json_test.cpp",
+          "line": 123
         }
       ]
     },

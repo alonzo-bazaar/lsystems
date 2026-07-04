@@ -5,6 +5,10 @@ project(lsystems)
 
 #set(CMAKE_BUILD_TYPE RELEASE)
 set(CMAKE_BUILD_TYPE DEBUG)
+# https://stackoverflow.com/questions/66147941
+# How to enabled gdb -g3 debug level with CMake?
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3 -ggdb")
+# (questo per clangd)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # usiamo gli standard C99 per C (raylib è in C quindi da specificare)

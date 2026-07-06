@@ -102,7 +102,7 @@ struct Lsystem {
                        parsed_tree.rewrite_rules);
     }
 
-    Model gen_model(unsigned int seed) {
+    Model gen_model(const unsigned int seed) const {
         const std::vector<instruction> turtle_instructions =
             rewrite_times(times_to_rewrite, axiom, rules_for_rewriting);
         Turtle turtle (thickness_table, texcoords_table);	
@@ -115,7 +115,7 @@ struct Lsystem {
         return model;
     }
 
-    Model gen_model(unsigned int seed, Shader shader) {
+    Model gen_model(const unsigned int seed, const Shader shader) const {
         Model model = gen_model(seed);
         model.materials[0].shader = shader;
         return model;

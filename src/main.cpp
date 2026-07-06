@@ -17,39 +17,59 @@
 #include "terrain.hpp"
 #include "utils.hpp"
 #include "lsystem.hpp"
+#include "menu.hpp"
+
+std::pair<std::vector<std::string>, std::map<std::string, Lsystem>>
+read_the_json(const char* json_filename) {
+    // get trees
+    auto parsed_r = from_json_file(json_filename);
+    if(parsed_r.is_err())
+        throw std::runtime_error
+            ("error while parsing the json file:\n" + parsed_r.string_trace());
+
+    std::map<std::string, ParsedTree> parsed = parsed_r.get();
+
+    std::vector<std::string> tree_names;
+    std::map<std::string, Lsystem> trees;
+    for(const auto& [k, v] : parsed) {
+        trees.insert({k, Lsystem::from_parsed_tree(v, BROWN, LIME)});
+        tree_names.push_back(k);
+    }
+
+    if(tree_names.size() == 0)
+        throw std::runtime_error
+            ("json file contained no trees, no idea what to render now");
+    return {tree_names, trees};
+}
 
 int main() {
     SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(1280, 960, "L Systems");
     DisableCursor();
     int target_fps = 60;
+    // comment to set unlimited fps for testing purposes
     //SetTargetFPS(target_fps);
 
     // get trees from json
-    auto parsed_trees_r = from_json_file("the_json.json");
-    if(parsed_trees_r.is_err())
-        throw std::runtime_error("error occured while reading json file:\n"
-                                 + parsed_trees_r.string_trace());
+    auto [tree_names, lsystems_map] = read_the_json("the_json.json");
+    Menu menu = Menu(tree_names);
 
-    std::map<std::string, ParsedTree> parsed_trees = parsed_trees_r.get();
-    std::vector<std::string> lsystem_names;
-    std::map<std::string, Lsystem> lsystems;
-    for(const auto& [k, v]: parsed_trees) {
-        lsystem_names.push_back(k);
-        lsystems.insert({k, Lsystem::from_parsed_tree(v, BROWN, LIME)});
-    }
-
-    auto found = lsystems.find(lsystem_names[0]);
-    if(found == lsystems.end())
-        throw std::runtime_error("no trees were provided, unable to do anything");
-
-    Lsystem first_tree = found->second;
+    auto curr_lsystem = [&lsystems_map, &menu] () {
+        const auto it = lsystems_map.find(menu.current_pick());
+        if(it == lsystems_map.end())
+            throw std::runtime_error("current tree "
+                                     + menu.current_pick()
+                                     + " does not exist, cannot draw it");
+        Lsystem v = it->second;
+        return v;
+    };
 
     // Setup camera
     Player player({0.0f, (0.5f + 1.0f), 0.0f});
 
     // Setup shader
-    Shader shader = LoadShader(TextFormat("resources/shaders/pbr.vs"), TextFormat("resources/shaders/pbr.fs"));
+    Shader shader = LoadShader(TextFormat("resources/shaders/pbr.vs"),
+                               TextFormat("resources/shaders/pbr.fs"));
     shader.locs[SHADER_LOC_MAP_NORMAL] = GetShaderLocation(shader, "normalMap");
     shader.locs[SHADER_LOC_COLOR_DIFFUSE] = GetShaderLocation(shader, "albedoColor");
     shader.locs[SHADER_LOC_VECTOR_VIEW] = GetShaderLocation(shader, "viewPos");
@@ -84,8 +104,10 @@ int main() {
     UnloadImage(imgAO);
 
     // Setup texture terreno
-    Texture2D albedoTexture = LoadTexture("resources/textures/Grass007_2K-PNG_Color.png");
-    Texture2D normalTexture = LoadTexture("resources/textures/Grass007_2K-PNG_NormalGL.png");
+    Texture2D albedoTexture = LoadTexture
+        ("resources/textures/Grass007_2K-PNG_Color.png");
+    Texture2D normalTexture = LoadTexture
+        ("resources/textures/Grass007_2K-PNG_NormalGL.png");
 
     auto setupTexture = [](Texture2D &tex) {
         GenTextureMipmaps(&tex);
@@ -163,6 +185,8 @@ int main() {
         // Aggiorna la posizione della camera nello shader
         player.update_shader_position(shader);
 
+        menu.process_input();
+
         // Generazione terreno
         Terrain::chunk_management(active_chunks, player.get_camera(),
                                   shader, mraTexture, albedoTexture, normalTexture);
@@ -197,7 +221,7 @@ int main() {
                     if (float minDistance = 15.0f; col.hit
                         && col.distance < minDistance) {
                         tree_positions.emplace_back
-                            (col.point, first_tree.gen_model(time(0), shader));
+                            (col.point, curr_lsystem().gen_model(time(0), shader));
                         break;
                     }
                 }
@@ -232,11 +256,17 @@ int main() {
             }
             EndMode3D();
 
+            // hud
+            // crosshair
             DrawLine(centerX - 20, centerY, centerX + 20, centerY, BLACK);
             DrawLine(centerX, centerY - 20, centerX, centerY + 20, BLACK);
+            // fps display
             DrawText(TextFormat("FPS: %i (target %i)", GetFPS(), target_fps),
                      10, 10, 20, DARKGRAY);
+            // menu
+            menu.draw();
         }
+
         EndDrawing();
     }
 

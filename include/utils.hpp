@@ -180,10 +180,11 @@ Texture flat_color(const int sidelen, const Color& color) {
     return load_and_free_image(GenImageColor(10, 10, color));
 }
 
-
-// indeed I am landfilling in the iota from std::views because for whatever
-// goddamn reason I decided to do this project in the completely arbitrary
-// standard of c++ 17, why do you ask?
+// mainly meant to be used with mapcar
+// not that efficient, don't use for large input sizes
+// but convenient enough for small input sizes and one-off tasks that
+// don't need to be optimized to the bone 
+// (this code started out in c++17 so I couldn't use std::ranges::iota
 std::vector<size_t>iota(size_t to, size_t from=0) {
 	assert(from <= to);
 	std::vector<size_t> res;

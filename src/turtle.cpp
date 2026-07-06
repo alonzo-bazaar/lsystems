@@ -162,6 +162,9 @@ void Turtle::follow_instruction(const instruction& i) {
     case ']':
 		assert(i.second.size() == 0
 			   && "']' instruction should not have accompanying parameters!");
+        assert (!state_stack.empty()
+                && "stack must not be empty while trying to retrieve last "
+                "state from stack");
 		current_state = state_stack.back();
 		state_stack.pop_back();
 		break;
@@ -169,12 +172,20 @@ void Turtle::follow_instruction(const instruction& i) {
     case '{':
 		assert(i.second.size() == 0
 			   && "'{' instruction should not have accompanying parameters!");
+        assert (!polygon_mode
+                && "polygon_mode must be set from an initial state where "
+                "polygon mode is not set");
+
 		polygon_mode = true;
         current_polygon.push_back(current_state.pos);
 		break;
     case '}':
 		assert(i.second.size() == 0
 			   && "'}' instruction should not have accompanying parameters!");
+        assert (polygon_mode
+                && "polygon_mode must be unset from an initial state where "
+                "polygon mode is set");
+
 		polygon_mode = false;
 		mesh_builder.add_polygon(current_polygon);
 		current_polygon.clear();

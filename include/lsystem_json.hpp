@@ -677,18 +677,18 @@ instruction interpret_json_char
     }
 }
 
-// takes a json transition
+// take a json transition
 // (ie: a deterministic rewrite target, or a "branch" of a stochastic
 //  rewrite target)
 // 
-// and returns a transition function (transition defined in rewrite.hpp)
+// and return a transition function (transition defined in rewrite.hpp)
 // that applies the instructions encoded in that json to a
 // given parameter vector (in the context of a given globals map)
 // 
 // (a transition is a function that accepts a parameter vector and returns
 //  a rewritten array of instructions)
 
-// first of all we define these two functions whose job is to evaluate
+// to do so, we first we define these two functions whose job is to evaluate
 // the different kinds of json transition "code"
 // 
 // these two functions are defined not quite for convenience or code cleanliness,
@@ -724,7 +724,7 @@ std::vector<instruction> json_eval_array(const json& j,
             // instruction {elt_c, elt_params} to the res vector
 
             // we have extracted elt_c, now to populate the
-            // params array with the values of all param expressions
+            // elt_params array with the values of all elt_param expressions
             // present in <params>...
             // (ie every subelement of the elt array except for the first string)
             for(size_t i = 1; i<elt.size(); ++i) {

@@ -84,7 +84,7 @@ Turtle::Turtle(const std::vector<float>& thickness_table,
      texcoords_table(texcoords_table),
 	 mesh_builder{this, {}, {}, {}} {}
 
-Model Turtle::follow_instruction_vector(const std::vector<instruction>& iv) {
+TreeModel Turtle::follow_instruction_vector(const std::vector<instruction>& iv) {
     for(const auto& i : iv)
 		// follow_instruction() modifica lo stato e/o il mesh_builder
 		// interno della della tartaruga, sponsatndo la tartaruga e/o
@@ -96,8 +96,8 @@ Model Turtle::follow_instruction_vector(const std::vector<instruction>& iv) {
 	// interno della tartaruga conterrà un modello completo dell'albero che
 	// volevamo andare a creare, per ottenere questo come Model di raylib,
 	// utilizzabile per fare le chiamate poi a DrawModel e quant'altro, chiamiamo 
-	Model tree = LoadModelFromMesh(mesh_builder.get());
-	return tree;
+	Model model = LoadModelFromMesh(mesh_builder.get());
+	return TreeModel(model);
 }
 
 void Turtle::log_state() {

@@ -35,33 +35,7 @@ read_the_json(const char* json_filename) {
     return {tree_names, trees};
 }
 
-struct BoundedModel {
-    Model model;
-    BoundingBox bounding_box;
-    static BoundedModel from_model(Model m) {
-        return {m, GetModelBoundingBox(m)};
-    };
-};
-
 int drawn_this_frame = 0;
-void draw_bm_if_visible(Player& p,
-                        const Vector3& pos,
-                        const BoundedModel& bm) {
-    BoundingBox bb = bm.bounding_box;
-
-    bb.min.x += pos.x;
-    bb.min.y += pos.y;
-    bb.min.z += pos.z;
-
-    bb.max.x += pos.x;
-    bb.max.y += pos.y;
-    bb.max.z += pos.z;
-
-    if(p.can_see(bb)) {
-        drawn_this_frame++;
-        DrawModel(bm.model, pos, 1.0f, WHITE);
-    }
-}
 
 int main() {
     SetConfigFlags(FLAG_MSAA_4X_HINT);
@@ -187,7 +161,7 @@ int main() {
                                  {0.0f, 0.0f, 0.0f}, sunColor, 5.0f, shader);
 
     std::map<std::pair<int, int>, Terrain> active_chunks;
-    std::vector<std::pair<Vector3, BoundedModel>> tree_positions;
+    std::vector<std::pair<Vector3, TreeModel>> tree_positions;
 
     while (!WindowShouldClose()) {
         drawn_this_frame = 0;
@@ -242,9 +216,7 @@ int main() {
                     if (float minDistance = 15.0f; col.hit
                         && col.distance < minDistance) {
                         tree_positions.emplace_back
-                            (col.point,
-                             BoundedModel::from_model
-                             (curr_lsystem().gen_model(time(0), shader)));
+                            (col.point, curr_lsystem().gen_model(time(0), shader));
                         break;
                     }
                 }
@@ -273,7 +245,7 @@ int main() {
                     };
                     // Se il chunk calcolato è attivo, disegna l'albero
                     if (active_chunks.find(tree_chunk) != active_chunks.end()) {
-                        draw_bm_if_visible(player, tree_pos, p.second);
+                        p.second.draw(tree_pos, player);
                     }
                 }
             }

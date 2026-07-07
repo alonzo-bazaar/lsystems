@@ -1,4 +1,5 @@
 build/
+*.log
 
 # additionally (per fare figo)
 # 

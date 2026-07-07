@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <array>
+#include <utility>
 #include <cmath>
 
 #include "raylib.h"
@@ -18,6 +19,7 @@
 #include "external/par_shapes.h"
 // per instruction
 #include "rewrite.hpp"
+#include "player.hpp"
 
 void DrawTriangleFan3D(const Vector3* points, int point_count, Color color);
 
@@ -55,12 +57,34 @@ private:
     float f[3][3];
 };
 
+struct TreeModel {
+    const BoundingBox bounding_box;
+    const Model model;
+
+    TreeModel(Model m):
+        model(m),
+        bounding_box(GetModelBoundingBox(m)) {}
+
+    static BoundingBox bb_shift(const BoundingBox bb, const Vector3 p) {
+        return {Vector3Add(bb.min, p), Vector3Add(bb.max, p)};
+    }
+
+    void draw(const Vector3 pos) const {
+        DrawModel(model, pos, 1.0f, WHITE);
+    }
+
+    void draw(const Vector3 pos, const Player& player) const {
+        if(player.can_see(bounding_box))
+            draw(pos);
+    }
+};
+
 class Turtle {
 public:
 	Turtle(const std::vector<float>& thickness_table,
 		   const std::vector<std::array<float, 2>>& texcoords_table);
 
-	Model follow_instruction_vector(const std::vector<instruction>& iv);
+	TreeModel follow_instruction_vector(const std::vector<instruction>& iv);
 	void log_state();
 
 private:
@@ -142,5 +166,6 @@ private:
 	const std::array<float, 2> current_texcoords() const;
 	const float current_thickness() const;
 };
+
 
 #endif // LSYSTEMS_TURTLE_HPP_

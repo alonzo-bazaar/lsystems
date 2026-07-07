@@ -72,23 +72,23 @@ Lsystem Lsystem::from_parsed_tree(const ParsedTree& parsed_tree,
                    parsed_tree.rewrite_rules);
 }
 
-Model Lsystem::gen_model(const unsigned int seed) const {
+TreeModel Lsystem::gen_model(const unsigned int seed) const {
     const std::vector<instruction> turtle_instructions =
         rewrite_times(times_to_rewrite, axiom, rules_for_rewriting);
     Turtle turtle (thickness_table, texcoords_table);	
     for(auto ttc : texcoords_table)
         std::cout<<ttc[0] << ", " << ttc[1] << "\n";
-    Model model = turtle.follow_instruction_vector(turtle_instructions);
+    TreeModel tmodel = turtle.follow_instruction_vector(turtle_instructions);
 
-    model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = texture;
+    tmodel.model.materials[0].maps[MATERIAL_MAP_ALBEDO].texture = texture;
 
-    return model;
+    return tmodel;
 }
 
-Model Lsystem::gen_model(const unsigned int seed, const Shader shader) const {
-    Model model = gen_model(seed);
-    model.materials[0].shader = shader;
-    return model;
+TreeModel Lsystem::gen_model(const unsigned int seed, const Shader shader) const {
+    TreeModel tmodel = gen_model(seed);
+    tmodel.model.materials[0].shader = shader;
+    return tmodel;
 }
 
 Lsystem basic_tree_lsystem() {

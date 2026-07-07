@@ -74,10 +74,10 @@ read_the_json(const char* json_filename) {
     return {tree_names, trees};
 }
 
-std::map<std::string, Model>
+std::map<std::string, TreeModel>
 gen_models_map(const std::map<std::string, Lsystem>& lsystems_map,
                const unsigned int seed) {
-    std::map<std::string, Model> models;
+    std::map<std::string, TreeModel> models;
     for(const auto& [k, v] : lsystems_map)
         models.insert({k, v.gen_model(seed)});
     return models;
@@ -93,7 +93,8 @@ int main() {
 
     // get trees and tree models
     auto [tree_names, lsystems_map] = read_the_json("the_json.json");
-    std::map<std::string, Model> models_map = gen_models_map(lsystems_map, time(0));
+    std::map<std::string, TreeModel> models_map =
+        gen_models_map(lsystems_map, time(0));
     Menu menu = Menu(tree_names);
     // we should also get the floor model
     Model floor_model = gen_floor_model();
@@ -142,10 +143,8 @@ int main() {
 
             // spinning tree
             BeginMode3D(camera); {
-                const Model& current_tree_model = models_map[menu.current_pick()];
+                models_map.find(menu.current_pick())->second.draw({0.0f, 0.0f, 0.0f});
                 DrawModel(floor_model, {0.0f, 0.0f, 0.0f},
-                        1.0f, WHITE);
-                DrawModel(current_tree_model, {0.0f, 0.0f, 0.0f},
                         1.0f, WHITE);
             } EndMode3D();
 

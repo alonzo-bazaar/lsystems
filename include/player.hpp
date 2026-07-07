@@ -60,7 +60,7 @@ public:
 
     void update_frustum();
 
-    [[nodiscard]] bool can_see(const BoundingBox &box) const;
+    [[nodiscard]] bool can_see(const BoundingBox& box) const;
 
     void update_body(char side, char forward, bool is_jumping, bool is_crouching);
 

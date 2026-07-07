@@ -46,8 +46,8 @@ struct Lsystem {
     static Lsystem from_parsed_tree(const ParsedTree& parsed_tree,
                                     const std::vector<Color>& colors);
 
-    Model gen_model(const unsigned int seed) const;
-    Model gen_model(const unsigned int seed, const Shader shader) const;
+    TreeModel gen_model(const unsigned int seed) const;
+    TreeModel gen_model(const unsigned int seed, const Shader shader) const;
 };
 
 Lsystem basic_tree_lsystem();

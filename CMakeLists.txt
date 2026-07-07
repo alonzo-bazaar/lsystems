@@ -75,8 +75,8 @@ target_link_libraries(
 
 set(COMPILE_MAIN_EXE ON)
 set(COMPILE_JSON_EXE OFF)
-set(COMPILE_MENU_EXE OFF)
-set(COMPILE_TEST_EXE ON)
+set(COMPILE_MENU_EXE ON)
+set(COMPILE_TEST_EXE OFF)
 
 if(COMPILE_MAIN_EXE)
   add_executable("${PROJECT_NAME}_main" "${LSYSTEMS_MAIN}")

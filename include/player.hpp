@@ -34,7 +34,7 @@ public:
     static constexpr float MAX_SPEED = 20.0f;
     static constexpr float CONTROL = 15.0f;
     // Grounded drag
-    static constexpr float FRICTION = 0.86f;
+    static constexpr float FRICTION = 0.92f;
     // Increasing air drag, increases strafing speed
     static constexpr float AIR_DRAG = 0.98f;
     static constexpr float MAX_ACCEL = 150.0f;

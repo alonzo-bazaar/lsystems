@@ -429,7 +429,7 @@ void Turtle::MeshBuilder::add_cylinder(Vector3 startpos, Vector3 endpos) {
 		// push di vertex normal(xyz) nelle vertex normals del builder
 		for(size_t j = 0; j<3; ++j)
 			normals.push_back
-				(cylinder->normals[cylinder->triangles[i]*3 + j]);
+				(-cylinder->normals[cylinder->triangles[i]*3 + j]);
 
 		// push di vertex texcoords(uv) nelle vertex texcoords del builder 
 		for(size_t j = 0; j<2; ++j)
@@ -497,9 +497,9 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 			points.push_back(v.y + (norm.y * leaf_thickness));
 			points.push_back(v.z + (norm.z * leaf_thickness));
 
-			normals.push_back(norm.x);
-			normals.push_back(norm.y);
-			normals.push_back(norm.z);
+			normals.push_back(-norm.x);
+			normals.push_back(-norm.y);
+			normals.push_back(-norm.z);
 
 			texcoords.push_back(tc[0]);
 			texcoords.push_back(tc[1]);
@@ -512,9 +512,9 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 			points.push_back(v.y - (norm.y * leaf_thickness));
 			points.push_back(v.z - (norm.z * leaf_thickness));
 
-			normals.push_back(-norm.x);
-			normals.push_back(-norm.y);
-			normals.push_back(-norm.z);
+			normals.push_back(norm.x);
+			normals.push_back(norm.y);
+			normals.push_back(norm.z);
 
 			texcoords.push_back(tc[0]);
 			texcoords.push_back(tc[1]);
@@ -534,6 +534,7 @@ Mesh Turtle::MeshBuilder::get() {
 	mesh.texcoords = texcoords.data();
 	mesh.texcoords2 = texcoords.data();
 
+	GenMeshTangents(&mesh);
 	UploadMesh(&mesh, false); // false è per dire static mesh
 	return mesh;
 }

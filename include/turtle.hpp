@@ -74,7 +74,7 @@ struct TreeModel {
     }
 
     void draw(const Vector3 pos, const Player& player) const {
-        if(player.can_see(bounding_box))
+        if(player.can_see(bb_shift(bounding_box, pos)))
             draw(pos);
     }
 };

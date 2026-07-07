@@ -122,7 +122,7 @@ int main() {
     float floorRoughness = 0.8f;
     float floorAo = 0.5f;
     float floorEmissivePower = 0.0f;
-    float ambientIntensity = 0.1f;
+    float ambientIntensity = 0.9f;
     Color ambientColor = {26, 32, 135, 255};
     Vector3 ambientColorNormalized = {
         ambientColor.r / 255.0f,
@@ -246,6 +246,8 @@ int main() {
                     // Se il chunk calcolato è attivo, disegna l'albero
                     if (active_chunks.find(tree_chunk) != active_chunks.end()) {
                         p.second.draw(tree_pos, player);
+                        if(player.can_see(TreeModel::bb_shift(p.second.bounding_box, p.first)))
+                            drawn_this_frame++;
                     }
                 }
             }

@@ -40,11 +40,12 @@ public:
             break;
         }
     }
+
     void draw() const {
         switch(state) {
         case STATE::INACTIVE:
             break; // if the menu is inactive do nothing
-        case STATE::ACTIVE: {
+        case STATE::ACTIVE:
             for(size_t i = 0; i<entries.size(); ++i) {
                 const auto [rect_x, rect_y, text_x, text_y] = entry_coords(i);
                 const auto [rect_color, text_color] = entry_colors(i);
@@ -52,7 +53,6 @@ public:
                 DrawRectangle(rect_x, rect_y, rect_width, rect_height, rect_color);
                 DrawText(entries[i].c_str(), text_x, text_y, font_size, text_color);
             }
-        }
         }
     }
     std::string current_pick() const {
@@ -97,6 +97,7 @@ private:
     static int text_width(const std::string& s) {
         return MeasureText(s.c_str(), font_size);
     }
+
     template<typename T>
     static int max_text_width(const T& sl)
         requires goddamn_container<T, std::string>

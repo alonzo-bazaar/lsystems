@@ -1,21 +1,14 @@
-#include<iostream>
 #include<vector>
 #include<string>
-#include<stack>
 #include<cmath>
 #include<cassert>
-#include<initializer_list>
-#include<exception>
 
 #include "raylib.h"
 #include "raymath.h"
 
-#include "rewrite.hpp"
-#include "turtle.hpp"
 #include "light.hpp"
 #include "player.hpp"
 #include "terrain.hpp"
-#include "utils.hpp"
 #include "lsystem.hpp"
 #include "menu.hpp"
 
@@ -40,6 +33,20 @@ read_the_json(const char* json_filename) {
         throw std::runtime_error
             ("json file contained no trees, no idea what to render now");
     return {tree_names, trees};
+}
+
+struct BoundedModel {
+    Model model;
+    BoundingBox bounding_box;
+    static BoundedModel from_model(Model m) {
+        return {m, GetModelBoundingBox(m)};
+    };
+};
+void draw_bm_if_visible(Player& p,
+                        const Vector3& pos,
+                        const BoundedModel& bm) {
+    if(p.can_see(bm.bounding_box))
+        DrawModel(bm.model, pos, 1.0f, WHITE);
 }
 
 int main() {
@@ -165,9 +172,8 @@ int main() {
     Light sunLight = CreateLight(LIGHT_DIRECTIONAL, {0.0f, 1050.0f, 1050.0f},
                                  {0.0f, 0.0f, 0.0f}, sunColor, 5.0f, shader);
 
-    std::vector<std::pair<Vector3, Model> > tree_positions;
-
     std::map<std::pair<int, int>, Terrain> active_chunks;
+    std::vector<std::pair<Vector3, BoundedModel>> tree_positions;
 
     while (!WindowShouldClose()) {
         int centerX = GetScreenWidth() / 2;
@@ -221,7 +227,9 @@ int main() {
                     if (float minDistance = 15.0f; col.hit
                         && col.distance < minDistance) {
                         tree_positions.emplace_back
-                            (col.point, curr_lsystem().gen_model(time(0), shader));
+                            (col.point,
+                             BoundedModel::from_model
+                             (curr_lsystem().gen_model(time(0), shader)));
                         break;
                     }
                 }
@@ -250,7 +258,7 @@ int main() {
                     };
                     // Se il chunk calcolato è attivo, disegna l'albero
                     if (active_chunks.find(tree_chunk) != active_chunks.end()) {
-                        DrawModel(p.second, tree_pos, 1.0f, WHITE);
+                        draw_bm_if_visible(player, tree_pos, p.second);
                     }
                 }
             }

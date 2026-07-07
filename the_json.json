@@ -128,21 +128,26 @@
         "rewrite_times" : 7,
         
         "rewrite_rules" : {
+
             "A" : ["[&FL!A]",
                    ["/", ["*", 5, "angle"]], "'",
                    "[&FL!A]",
                    ["/", ["*", 7, "angle"]], "'",
                    "[&FL!A]"],
+
             "F" : [[0.1, "S", ["/", ["*", 4, "angle"]],
                     ["F", ["*", 2, "stride"]]],
                    [0.9, "S", ["/", ["*", 5, "angle"]],
                     ["F", ["*", 1, "stride"]]]],
+
             "S" : "FL",
+
             "L" : ["[ '''^^",
-                      "    {",
-                            "        -f+f+f-|-f+f+f",
-                            "    }",
-                      "]"]
+                   "    {",
+                   "        -f+f+f-|-f+f+f",
+                   "    }",
+                   "]"]
+
         }
     },
 
@@ -159,19 +164,18 @@
         "texcoords_table" : {
             "start" : [0.05, 0.05],
             "end"   : [0.95, 0.95],
-            "steps" : 10 
+            "steps" : 1000
         },
 
         "axiom" : "A",
-        "rewrite_times" : 3,
+        "rewrite_times" : 4,
 
         "rewrite_rules" : {
             "A" : "B-F+CFC+F-D&F^D-F+&&CFC+F+B//",
             "B" : "A&F^CFB^F^D^^-F-D^|F^B|FC^F^A//",
             "C" : "|D^|F^B-F+C^F^A&&FA&F^C+F+B^F^D//",
             "D" : "|CFB-F+B|FA&F^A&&FB-F+B|FC//",
-            "F" : [[0.05, "F'"],
-                   [0.9, "F"]]
+            "F" : ["F'"]
         }
     }
 }

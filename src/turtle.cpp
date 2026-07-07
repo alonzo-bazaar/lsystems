@@ -525,12 +525,11 @@ void Turtle::MeshBuilder::add_polygon(std::vector<Vector3> poly) {
 }
 
 Mesh Turtle::MeshBuilder::get() {
-	// TODO: no error checking lol
 	Mesh mesh = {0};
 	mesh.vertexCount = points.size()/3;
 	mesh.triangleCount = mesh.vertexCount/3;
 
-	mesh.vertices = points.data();
+	mesh.vertices = points.data(); // xyzxyzxyz
 	mesh.normals = normals.data();
 	mesh.texcoords = texcoords.data();
 	mesh.texcoords2 = texcoords.data();

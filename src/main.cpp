@@ -42,11 +42,25 @@ struct BoundedModel {
         return {m, GetModelBoundingBox(m)};
     };
 };
+
+int drawn_this_frame = 0;
 void draw_bm_if_visible(Player& p,
                         const Vector3& pos,
                         const BoundedModel& bm) {
-    if(p.can_see(bm.bounding_box))
+    BoundingBox bb = bm.bounding_box;
+
+    bb.min.x += pos.x;
+    bb.min.y += pos.y;
+    bb.min.z += pos.z;
+
+    bb.max.x += pos.x;
+    bb.max.y += pos.y;
+    bb.max.z += pos.z;
+
+    if(p.can_see(bb)) {
+        drawn_this_frame++;
         DrawModel(bm.model, pos, 1.0f, WHITE);
+    }
 }
 
 int main() {
@@ -176,6 +190,7 @@ int main() {
     std::vector<std::pair<Vector3, BoundedModel>> tree_positions;
 
     while (!WindowShouldClose()) {
+        drawn_this_frame = 0;
         int centerX = GetScreenWidth() / 2;
         int centerY = GetScreenHeight() / 2;
 
@@ -271,6 +286,8 @@ int main() {
             // fps display
             DrawText(TextFormat("FPS: %i (target %i)", GetFPS(), target_fps),
                      10, 10, 20, DARKGRAY);
+            DrawText(TextFormat("Trees drawn this frame: %i", drawn_this_frame),
+                     10, 40, 20, DARKGRAY);
             // menu
             menu.draw();
         }

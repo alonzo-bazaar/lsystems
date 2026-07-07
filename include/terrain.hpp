@@ -1,5 +1,6 @@
-#ifndef LSYSTEMS_TERRAIN_H
-#define LSYSTEMS_TERRAIN_H
+#pragma once
+#ifndef LSYSTEMS_TERRAIN_HPP_
+#define LSYSTEMS_TERRAIN_HPP_
 
 #include <vector>
 #include <map>
@@ -50,4 +51,4 @@ protected:
     BoundingBox terrain_bbox{};
 };
 
-#endif //LSYSTEMS_TERRAIN_H
+#endif //LSYSTEMS_TERRAIN_HPP_

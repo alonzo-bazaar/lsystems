@@ -43,19 +43,9 @@ set(LSYSTEMS_JSON_MAIN "${CMAKE_CURRENT_LIST_DIR}/src/json_main.cpp")
 set(LSYSTEMS_MENU_MAIN "${CMAKE_CURRENT_LIST_DIR}/src/menu_main.cpp")
 
 # rimuovi i file di main da lsystem_sources che sarebbero più file di libreria
-list(REMOVE_ITEM
-  LSYSTEMS_SOURCES
-  "${LSYSTEMS_MAIN}"
-)
-list(REMOVE_ITEM
-  LSYSTEMS_SOURCES
-  "${LSYSTEMS_JSON_MAIN}"
-)
-list(REMOVE_ITEM
-  LSYSTEMS_SOURCES
-  "${LSYSTEMS_MENU_MAIN}"
-)
-
+list(REMOVE_ITEM LSYSTEMS_SOURCES "${LSYSTEMS_MAIN}")
+list(REMOVE_ITEM LSYSTEMS_SOURCES "${LSYSTEMS_JSON_MAIN}")
+list(REMOVE_ITEM LSYSTEMS_SOURCES "${LSYSTEMS_MENU_MAIN}")
 
 set(
   LSYSTEMS_INCLUDES
@@ -64,89 +54,109 @@ set(
 )
 set(RAYLIB_INCLUDES "${RAYLIB_DIR}/src")
 
+message("-> -> -> begin some debug information <- <- <-")
 message("LSYSTEMS_MAIN=${LSYSTEMS_MAIN}")
 message("LSYSTEMS_JSON_MAIN=${LSYSTEMS_JSON_MAIN}")
+message("LSYSTEMS_MENU_MAIN=${LSYSTEMS_MENU_MAIN}")
+message("")
 message("LSYSTEMS_SOURCES=${LSYSTEMS_SOURCES}")
+message("--> -> -> end some debug information <- <- <--")
 
 # crea target eseguibile con quanto descritto sopra
-add_executable("${PROJECT_NAME}_main")
-target_sources(
-  "${PROJECT_NAME}_main"
-  PUBLIC ${LSYSTEMS_MAIN} ${LSYSTEMS_SOURCES}
-)
+add_library("${PROJECT_NAME}_lib" "${LSYSTEMS_SOURCES}")
 target_include_directories(
-  "${PROJECT_NAME}_main"
-  PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
+  "${PROJECT_NAME}_lib"
+  PUBLIC "${LSYSTEMS_INCLUDES}" "${RAYLIB_INCLUDES}"
 )
 target_link_libraries(
-  "${PROJECT_NAME}_main"
+  "${PROJECT_NAME}_lib"
   PUBLIC raylib
 )
 
-# target eseguibile a parte di test per il json
-add_executable("${PROJECT_NAME}_json")
-target_sources(
-  "${PROJECT_NAME}_json"
-  PUBLIC ${LSYSTEMS_JSON_MAIN} ${LSYSTEMS_SOURCES}
-)
-target_include_directories(
-  "${PROJECT_NAME}_json"
-  PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
-)
-target_link_libraries(
-  "${PROJECT_NAME}_json"
-  PUBLIC raylib
-)
+set(COMPILE_MAIN_EXE ON)
+set(COMPILE_JSON_EXE OFF)
+set(COMPILE_MENU_EXE OFF)
+set(COMPILE_TEST_EXE OFF)
 
-# target eseguibile a parte di test per il mnu
-add_executable("${PROJECT_NAME}_menu")
-target_sources(
-  "${PROJECT_NAME}_menu"
-  PUBLIC ${LSYSTEMS_MENU_MAIN} ${LSYSTEMS_SOURCES}
-)
-target_include_directories(
-  "${PROJECT_NAME}_menu"
-  PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
-)
-target_link_libraries(
-  "${PROJECT_NAME}_menu"
-  PUBLIC raylib
-)
+if(COMPILE_MAIN_EXE)
+  add_executable("${PROJECT_NAME}_main" "${LSYSTEMS_MAIN}")
+  target_include_directories(
+    "${PROJECT_NAME}_main"
+    PUBLIC "${LSYSTEMS_INCLUDES}" "${RAYLIB_INCLUDES}"
+  )
 
-### crea l'eseguibile lsystems_test
-# usiamo googletest, anch'esso scaricato direttamente in thirdparty
-# codice fottuto e riadattato da:
-# https://google.github.io/googletest/quickstart-cmake.html
+  target_link_libraries(
+    "${PROJECT_NAME}_main"
+    PUBLIC raylib
+    PUBLIC "${PROJECT_NAME}_lib"
+  )
+endif()
 
-# roba per windows
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+if(COMPILE_JSON_EXE)
+  add_executable("${PROJECT_NAME}_json")
+  target_sources(
+    "${PROJECT_NAME}_json"
+    PUBLIC ${LSYSTEMS_JSON_MAIN} ${LSYSTEMS_SOURCES}
+  )
+  target_include_directories(
+    "${PROJECT_NAME}_json"
+    PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
+  )
+  target_link_libraries(
+    "${PROJECT_NAME}_json"
+    PUBLIC raylib
+  )
+endif()
 
-set(GTEST_DIR "${CMAKE_CURRENT_LIST_DIR}/thirdparty/googletest-1.17.0")
-add_subdirectory(${GTEST_DIR})
-file(GLOB
-  TEST_SOURCES
-  CONFIGURE_DEPENDS
-  LIST_DIRECTORIES FALSE
-  "${CMAKE_CURRENT_LIST_DIR}/test/*.cpp"
-)
+if(COMPILE_MENU_EXE)
+  add_executable("${PROJECT_NAME}_menu")
+  target_sources(
+    "${PROJECT_NAME}_menu"
+    PUBLIC ${LSYSTEMS_MENU_MAIN} ${LSYSTEMS_SOURCES}
+  )
+  target_include_directories(
+    "${PROJECT_NAME}_menu"
+    PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
+  )
+  target_link_libraries(
+    "${PROJECT_NAME}_menu"
+    PUBLIC raylib
+  )
+endif()
 
-enable_testing()
-add_executable("${PROJECT_NAME}_test")
-target_sources(
-  "${PROJECT_NAME}_test"
-  PUBLIC ${LSYSTEMS_SOURCES} ${TEST_SOURCES}
-)
-target_include_directories(
-  "${PROJECT_NAME}_test"
-  PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
-)
-# link test target againt raylib since we're probably gonna use
-# raylib math stuff within tests as well
-target_link_libraries(
-  "${PROJECT_NAME}_test"
-  PUBLIC raylib
-  PUBLIC GTest::gtest_main
-)
+if(COMPILE_TEST_EXE)
+  ### crea l'eseguibile lsystems_test
+  # usiamo googletest, anch'esso scaricato direttamente in thirdparty
+  # codice fottuto e riadattato da:
+  # https://google.github.io/googletest/quickstart-cmake.html
 
-include(GoogleTest)
-gtest_discover_tests("${PROJECT_NAME}_test")
+  # roba per windows
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+  set(GTEST_DIR "${CMAKE_CURRENT_LIST_DIR}/thirdparty/googletest-1.17.0")
+  add_subdirectory(${GTEST_DIR})
+  file(GLOB
+    TEST_SOURCES
+    CONFIGURE_DEPENDS
+    LIST_DIRECTORIES FALSE
+    "${CMAKE_CURRENT_LIST_DIR}/test/*.cpp"
+  )
+
+  enable_testing()
+  add_executable("${PROJECT_NAME}_test" "${TEST_SOURCES}")
+  target_include_directories(
+    "${PROJECT_NAME}_test"
+    PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
+  )
+  # link test target againt raylib since we're probably gonna use
+  # raylib math stuff within tests as well
+  target_link_libraries(
+    "${PROJECT_NAME}_test"
+    PUBLIC raylib
+    PUBLIC "${PROJECT_NAME}_lib"
+    PUBLIC GTest::gtest_main
+  )
+
+  include(GoogleTest)
+  gtest_discover_tests("${PROJECT_NAME}_test")
+endif()

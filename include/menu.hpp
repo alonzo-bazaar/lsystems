@@ -1,4 +1,6 @@
 #pragma once
+#ifndef LSYSTEMS_MENU_HPP_
+#define LSYSTEMS_MENU_HPP_
 
 // logic around the intializing and the string picker
 #include<initializer_list>
@@ -24,40 +26,9 @@ public:
         assert(entries.size() > 0);
     }
 
-    void process_input() {
-        switch(state) {
-        case STATE::INACTIVE:
-            if(IsKeyPressed(KEY_M))
-                state = STATE::ACTIVE;
-            break;
-        case STATE::ACTIVE:
-            if(IsKeyPressed(KEY_J))
-                next_pick();
-            else if(IsKeyPressed(KEY_K))
-                prev_pick();
-            else if(IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_M))
-                state = STATE::INACTIVE;
-            break;
-        }
-    }
-
-    void draw() const {
-        switch(state) {
-        case STATE::INACTIVE:
-            break; // if the menu is inactive do nothing
-        case STATE::ACTIVE:
-            for(size_t i = 0; i<entries.size(); ++i) {
-                const auto [rect_x, rect_y, text_x, text_y] = entry_coords(i);
-                const auto [rect_color, text_color] = entry_colors(i);
-
-                DrawRectangle(rect_x, rect_y, rect_width, rect_height, rect_color);
-                DrawText(entries[i].c_str(), text_x, text_y, font_size, text_color);
-            }
-        }
-    }
-    std::string current_pick() const {
-        return entries[picked_index];
-    }
+    void process_input();
+    void draw() const;
+    std::string current_pick() const;
 
 private:
     enum STATE {INACTIVE, ACTIVE};
@@ -84,19 +55,9 @@ private:
     static constexpr Color text_unpicked_color = BLACK;
     static constexpr Color text_picked_color = WHITE;
 
-    void next_pick() {
-        picked_index++;
-        picked_index%=entries.size();
-    }
-    void prev_pick() {
-        picked_index--;
-        picked_index+=entries.size();
-        picked_index%=entries.size();
-    }
-
-    static int text_width(const std::string& s) {
-        return MeasureText(s.c_str(), font_size);
-    }
+    void next_pick();
+    void prev_pick();
+    static int text_width(const std::string& s);
 
     template<typename T>
     static int max_text_width(const T& sl)
@@ -110,23 +71,8 @@ private:
         return res;
     }
 
-    std::tuple<int, int, int, int> entry_coords(int entry_index) const {
-        const int i = entry_index;
-
-        int rect_x = initial_x;
-        int rect_y = initial_y + (i*rect_height) + ((i-1)*inter_rect_vpad);
-
-        int text_x = rect_x + text_hpad;
-        int text_y = rect_y + text_vpad;
-
-        return std::tuple<int, int, int, int>({rect_x, rect_y, text_x, text_y});
-    }
-
-    std::tuple<Color, Color> entry_colors(int entry_index) const {
-        const bool is_current_pick = entry_index==picked_index;
-        return std::tuple<Color, Color>({
-                (is_current_pick?rect_picked_color:rect_unpicked_color),
-                (is_current_pick?text_picked_color:text_unpicked_color),
-            });
-    }
+    std::tuple<int, int, int, int> entry_coords(int entry_index) const;
+    std::tuple<Color, Color> entry_colors(int entry_index) const;
 };
+
+#endif // LSYSTEMS_MENU_HPP_

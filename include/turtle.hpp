@@ -1,4 +1,6 @@
 #pragma once
+#ifndef LSYSTEMS_TURTLE_HPP_
+#define LSYSTEMS_TURTLE_HPP_
 
 #include <iostream>
 #include <string>
@@ -140,3 +142,5 @@ private:
 	const std::array<float, 2> current_texcoords() const;
 	const float current_thickness() const;
 };
+
+#endif // LSYSTEMS_TURTLE_HPP_

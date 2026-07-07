@@ -1,9 +1,6 @@
-//
-// Created by Notebook on 29/06/2026.
-//
-
-#ifndef LSYSTEMS_PLAYER_HPP
-#define LSYSTEMS_PLAYER_HPP
+#pragma once
+#ifndef LSYSTEMS_PLAYER_HPP_
+#define LSYSTEMS_PLAYER_HPP_
 
 #include "raylib.h"
 #include "raymath.h"
@@ -85,4 +82,4 @@ private:
     float head_lerp = 1.0f;
 };
 
-#endif //LSYSTEMS_PLAYER_HPP
+#endif //LSYSTEMS_PLAYER_HPP_

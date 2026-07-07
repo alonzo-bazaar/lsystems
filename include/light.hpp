@@ -1,9 +1,7 @@
-//
-// Created by bocci on 16/06/2026.
-//
+#pragma once
 
-#ifndef LSYSTEMS_LIGHT_HPP
-#define LSYSTEMS_LIGHT_HPP
+#ifndef LSYSTEMS_LIGHT_HPP_
+#define LSYSTEMS_LIGHT_HPP_
 #include "raylib.h"
 
 typedef enum {
@@ -37,4 +35,4 @@ Light CreateLight(int type, Vector3 position, Vector3 target, Color color, float
 // NOTE: Light shader locations should be available
 void UpdateLight(Shader shader, Light light);
 
-#endif //LSYSTEMS_LIGHT_HPP
+#endif //LSYSTEMS_LIGHT_HPP_

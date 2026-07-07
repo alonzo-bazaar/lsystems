@@ -1,4 +1,6 @@
 #pragma once
+#ifndef LSYSTEMS_RESULT_HPP_
+#define LSYSTEMS_RESULT_HPP_
 
 #include<iostream>
 #include<variant>
@@ -64,15 +66,34 @@ struct Result {
 	}
 };
 
-#define res_fn(name, params, ...)										\
-	struct name ## __hack {												\
-		typedef Result<__VA_ARGS__> ret_t;								\
-		static ret_t name params ;										\
-	};																	\
-	const std::function<name##__hack::ret_t params> name =				\
-		name##__hack::name;												\
+// define a res_fn
+#define res_fn(name, params, ...)                           \
+	struct name ## __hack {                                 \
+		typedef Result<__VA_ARGS__> ret_t;                  \
+		static ret_t name params ;                          \
+	};                                                      \
+	const std::function<name##__hack::ret_t params> name =  \
+		name##__hack::name;                                 \
 	name##__hack::ret_t name##__hack::name params
+
+// can also be separated in two different macros to
+// forward declare a res_fn
+#define res_fn_decl(name, params, ...)                              \
+	struct name ## __hack {                                         \
+		typedef Result<__VA_ARGS__> ret_t;                          \
+		static ret_t name params ;                                  \
+	};                                                              \
+    const extern std::function<name##__hack::ret_t params> name;
+
+// define a res_fn
+#define res_fn_defn(name, params, ...)                      \
+	const std::function<name##__hack::ret_t params> name =  \
+		name##__hack::name;                                 \
+	name##__hack::ret_t name##__hack::name params
+
 
 #define OK ret_t::OK
 #define ERR ret_t::ERR
 #define ERR_FURTHER ret_t::ERR_FURTHER
+
+#endif // LSYSTEMS_RESULT_HPP_

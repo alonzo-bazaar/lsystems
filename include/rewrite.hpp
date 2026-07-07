@@ -1,4 +1,6 @@
 #pragma once
+#ifndef LSYSTEMS_REWRITE_HPP_
+#define LSYSTEMS_REWRITE_HPP_
 
 #include<map>
 #include<string>
@@ -95,3 +97,5 @@ std::vector<instruction>
 rewrite_times (unsigned int times,
 			   const std::vector<instruction>& axiom,
 			   const std::map<char, RewriteTarget>& transformations);
+
+#endif // LSYSTEMS_REWRITE_HPP_

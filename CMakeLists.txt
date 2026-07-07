@@ -76,7 +76,7 @@ target_link_libraries(
 set(COMPILE_MAIN_EXE ON)
 set(COMPILE_JSON_EXE OFF)
 set(COMPILE_MENU_EXE OFF)
-set(COMPILE_TEST_EXE OFF)
+set(COMPILE_TEST_EXE ON)
 
 if(COMPILE_MAIN_EXE)
   add_executable("${PROJECT_NAME}_main" "${LSYSTEMS_MAIN}")
@@ -93,34 +93,30 @@ if(COMPILE_MAIN_EXE)
 endif()
 
 if(COMPILE_JSON_EXE)
-  add_executable("${PROJECT_NAME}_json")
-  target_sources(
-    "${PROJECT_NAME}_json"
-    PUBLIC ${LSYSTEMS_JSON_MAIN} ${LSYSTEMS_SOURCES}
-  )
+  add_executable("${PROJECT_NAME}_json" "${LSYSTEMS_JSON_MAIN}")
   target_include_directories(
     "${PROJECT_NAME}_json"
-    PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
+    PUBLIC "${LSYSTEMS_INCLUDES}" "${RAYLIB_INCLUDES}"
   )
+
   target_link_libraries(
     "${PROJECT_NAME}_json"
     PUBLIC raylib
+    PUBLIC "${PROJECT_NAME}_lib"
   )
 endif()
 
 if(COMPILE_MENU_EXE)
-  add_executable("${PROJECT_NAME}_menu")
-  target_sources(
-    "${PROJECT_NAME}_menu"
-    PUBLIC ${LSYSTEMS_MENU_MAIN} ${LSYSTEMS_SOURCES}
-  )
+  add_executable("${PROJECT_NAME}_menu" "${LSYSTEMS_MENU_MAIN}")
   target_include_directories(
     "${PROJECT_NAME}_menu"
-    PUBLIC ${LSYSTEMS_INCLUDES} ${RAYLIB_INCLUDES}
+    PUBLIC "${LSYSTEMS_INCLUDES}" "${RAYLIB_INCLUDES}"
   )
+
   target_link_libraries(
     "${PROJECT_NAME}_menu"
     PUBLIC raylib
+    PUBLIC "${PROJECT_NAME}_lib"
   )
 endif()
 
